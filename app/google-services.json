@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "48662885455",
+    "project_id": "auth-tedits",
+    "storage_bucket": "auth-tedits.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48662885455:android:1d5d004e5f88a60491e63a",
+        "android_client_info": {
+          "package_name": "com.example.t_edits_app_tobias"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48662885455-5o55q6oiip8elt30i462pbi7u539cch3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTuoIBoDT1ovCkXwia95PSLozAmyo2DFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48662885455-5o55q6oiip8elt30i462pbi7u539cch3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
