@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class tedits_user extends AppCompatActivity {
+public class teditsUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

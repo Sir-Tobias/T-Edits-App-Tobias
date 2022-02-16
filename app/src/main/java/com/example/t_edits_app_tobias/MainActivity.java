@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Creating switch methods for all onclick listeners
         switch (v.getId()) {
             case R.id.registerScreen:
-                startActivity(new Intent(this, RegisterUser.class));
+                startActivity(new Intent(this, RegisterUser3.class));
                 break;
 
             case R.id.login:
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     //Redirect to profile
-                    startActivity(new Intent(MainActivity.this, tedits_user.class));
+                    startActivity(new Intent(MainActivity.this, teditsUser.class));
                     //Toast.makeText(MainActivity.this,"This user was succesfully logged in " +task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
                 }else{

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "48662885455",
+    "firebase_url": "https://auth-tedits-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "auth-tedits",
     "storage_bucket": "auth-tedits.appspot.com"
   },
