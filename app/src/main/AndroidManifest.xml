@@ -10,10 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TEditsAppTobias">
         <activity
+            android:name=".teditsCatalogue"
+            android:exported="true" />
+        <activity
+            android:name=".teditsContent"
+            android:exported="true" />
+        <activity
             android:name=".teditsUser"
             android:exported="true" />
         <activity
-            android:name=".RegisterUser3"
+            android:name=".RegisterUser"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

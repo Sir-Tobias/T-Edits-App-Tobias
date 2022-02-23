@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    tools:context=".teditsContent">
+
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="center"
+        android:text="T-Edits Content"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/contentupload"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/appName"
+        android:layout_marginLeft="110dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_image" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/categoryOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contentupload"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:hint="Enter the target audience">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/categoryOneText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contentupload"
+            android:backgroundTint="@color/light_teal"
+            android:drawableEnd="@drawable/ic_noteadd"
+            android:fontFamily="@font/poppinsmedium" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/categoryTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryOne"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:hint="Enter the theme of the post">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/categoryTwoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/categoryOne"
+            android:backgroundTint="@color/light_teal"
+            android:drawableEnd="@drawable/ic_noteadd"
+            android:fontFamily="@font/poppinsmedium" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/categoryThree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryTwo"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:hint="Enter the industry">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/categoryThreeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/categoryTwo"
+            android:backgroundTint="@color/light_teal"
+            android:drawableEnd="@drawable/ic_noteadd"
+            android:fontFamily="@font/poppinsmedium" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/categoryFour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryThree"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:hint="Enter the Colour">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/categoryFourText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/categoryThree"
+            android:backgroundTint="@color/light_teal"
+            android:drawableEnd="@drawable/ic_noteadd"
+            android:fontFamily="@font/poppinsmedium" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarn"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryFour"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"/>
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBarn"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:backgroundTint="@color/dark_blue"
+        android:text="Upload" />
+
+</RelativeLayout>
