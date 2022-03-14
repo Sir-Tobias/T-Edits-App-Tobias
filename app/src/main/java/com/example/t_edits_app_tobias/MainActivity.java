@@ -88,6 +88,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ePassword.requestFocus();
             return;
         }
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    //Redirect to profile
+                    startActivity(new Intent(MainActivity.this, teditsUser.class));
+                    //Toast.makeText(MainActivity.this,"This user was succesfully logged in " +task.getException().getMessage(), Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(MainActivity.this, "Failed to login! Please check your credentials" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+}
+
+        //FIRESTORE LOGIN
+        /*
         rFireStore.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
@@ -113,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-}
+         */
 
 
 
@@ -121,16 +139,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-//        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//                if(task.isSuccessful()){
-//                    //Redirect to profile
-//                    startActivity(new Intent(MainActivity.this, teditsUser.class));
-//                    //Toast.makeText(MainActivity.this,"This user was succesfully logged in " +task.getException().getMessage(), Toast.LENGTH_LONG).show();
-//
-//                }else{
-//                    Toast.makeText(MainActivity.this,"Failed to login! Please check your credentials" +task.getException().getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });

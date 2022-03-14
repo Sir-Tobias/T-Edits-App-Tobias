@@ -43,10 +43,24 @@
         android:backgroundTint="@color/light_blue"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
-        android:onClick="startMemoryActivity"
+        android:onClick="startContentActivity"
         android:text="Upload Content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/banner2"
+        tools:layout_editor_absoluteX="40dp" />
+
+    <Button
+        android:id="@+id/btnViewContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="240dp"
+        android:backgroundTint="@color/light_blue"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:onClick="viewContentActivity"
+        android:text="View Content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnStartMemory"
         tools:layout_editor_absoluteX="40dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

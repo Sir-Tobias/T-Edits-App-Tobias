@@ -48,14 +48,15 @@ public class viewContent extends AppCompatActivity {
 //        editText = findViewById(R.id.updateImageNameText);
 //        btnUpdate = findViewById(R.id.btnUpdate);
 
-        rFireStore.getInstance().collection("Users");
-        //ref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Memory");
+        //rFireStore.getInstance().collection("Users");
+        ref = FirebaseDatabase.getInstance().getReference().child("Users").child("Content");
+        //ref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Content");
 
-
-        //DataRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Memory");
+        DataRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Content");
+        //DataRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Content");
         String ContentID=getIntent().getStringExtra("ContentID");
 
-        //DataRef=FirebaseDatabase.getInstance().getReference().child("Memory").child(MemoryID);
+        //DataRef=FirebaseDatabase.getInstance().getReference().child("ContentBackedup").child(ContentID);
         StorageRef= FirebaseStorage.getInstance().getReference().child("ContentBackedup").child(ContentID+".jpg");
 
         ref.child(ContentID).addValueEventListener(new ValueEventListener() {

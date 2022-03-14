@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -142,7 +143,39 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             eEmail.requestFocus();
             return;
         }
+        //Passing the registration details into the database
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
 
+                        if (task.isSuccessful()) {
+                            User user = new User(fullname, phoneNo, email);
+
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(RegisterUser.this, "User has been registered successfully!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(RegisterUser.this, MainActivity.class));
+                                    } else {
+                                        Toast.makeText(RegisterUser.this, "Failed to register this user please try again 1" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            Toast.makeText(RegisterUser.this, "Failed to register this user please try again 2" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+}
+
+//FIRESTORE REGISTRATION
+/*
         Map<String, String> userMap = new HashMap<>();
         userMap.put("Full Name", fullname);
         userMap.put("Phone number", phoneNo);
@@ -182,6 +215,6 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                     }
                 });
     }
+*/
 
-}
 

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
-        android:text="T-Edits Cataloguer"
+        android:text="T-Edits Catalogue"
         android:textColor="@color/blackish"
         android:textSize="25dp" />
 

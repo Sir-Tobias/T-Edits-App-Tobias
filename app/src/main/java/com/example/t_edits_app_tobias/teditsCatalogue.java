@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,14 +30,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class teditsCatalogue extends AppCompatActivity {
 
@@ -44,9 +51,13 @@ public class teditsCatalogue extends AppCompatActivity {
     RecyclerView recyclerView;
     FloatingActionButton floatingActionButton;
     FirebaseRecyclerOptions<TContent> options;
-    FirebaseRecyclerAdapter<TContent, MyViewHolder>adapter;
+    FirebaseRecyclerAdapter<TContent, MyViewHolder> adapter;
     DatabaseReference DataRef;
     StorageReference StorageRef;
+
+    ImageAdapter mAdapter;
+    List<TContent> tContent;
+    Context mContext;
 
     private FirebaseAuth mAuth;
 
@@ -77,12 +88,16 @@ public class teditsCatalogue extends AppCompatActivity {
         setContentView(R.layout.activity_tedits_catalogue);
 
         //Initializing
-        DataRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Memory");
+        DataRef = FirebaseDatabase.getInstance().getReference().child("Content");
+
+        StorageRef = FirebaseStorage.getInstance().getReference("Content");
+        //DataRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Content");
 //        inputSearch=findViewById(R.id.inputSearch);
-        recyclerView=findViewById(R.id.recyclerView);
-        floatingActionButton=findViewById(R.id.floatingBtn);
+        recyclerView = findViewById(R.id.recyclerView);
+        floatingActionButton = findViewById(R.id.floatingBtn);
 
 
+        //recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setHasFixedSize(true);
 
@@ -94,20 +109,98 @@ public class teditsCatalogue extends AppCompatActivity {
             }
         });
 
+        //Creating a method to load the data into the recycler view
         LoadData();
 
     }
 
     private void LoadData() {
-        //Query query=DataRef.orderByChild("createdMemory").startAt(data).endAt(data+"\uf8ff");
 
+        tContent = new ArrayList<>();
+        DataRef = FirebaseDatabase.getInstance().getReference().child("Content");
+
+        DataRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    //TContent content = postSnapshot.getValue(TContent.class);
+                    TContent content = new TContent();
+
+                    //Retrieving the image from realtime database
+                    content.setImageUri(snapshot.child("ImageUri").getValue().toString());
+                    //Retrieving the the tag values from the realtime database
+                    content.setContentCreatedOne(snapshot.child("Category 1").getValue().toString());
+                    content.setContentCreatedOne(snapshot.child("Category 2").getValue().toString());
+                    content.setContentCreatedOne(snapshot.child("Category 3").getValue().toString());
+                    content.setContentCreatedOne(snapshot.child("Category 4").getValue().toString());
+
+
+//                    String ContentCreatedOne = content.getContentCreatedOne();
+//                    String ContentCreatedTwo = content.getContentCreatedTwo();
+//                    String ContentCreatedThree = content.getContentCreatedThree();
+//                    String ContentCreatedFour = content.getContentCreatedFour();
+
+
+//                    TContent contentNew = new TContent(ContentCreatedOne, ContentCreatedTwo, ContentCreatedThree, ContentCreatedFour, content.getImageUri());
+//                    contentNew.setContentCreatedOne(ContentCreatedOne);
+//                    contentNew.setContentCreatedTwo(ContentCreatedTwo);
+//                    contentNew.setContentCreatedThree(ContentCreatedThree);
+//                    contentNew.setContentCreatedFour(ContentCreatedFour);
+
+                    //Adding the retrieved content to the tContent Arraylist
+                    tContent.add(content);
+                }
+
+                mAdapter = new ImageAdapter(teditsCatalogue.this, tContent);
+                recyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(teditsCatalogue.this, error.getMessage(), Toast.LENGTH_LONG);
+
+            }
+        });
+
+
+        /*
         options=new FirebaseRecyclerOptions.Builder<TContent>().setQuery(DataRef,TContent.class).build();
-        adapter=new FirebaseRecyclerAdapter<TContent, MyViewHolder>(options) {
+        adapter= new FirebaseRecyclerAdapter<TContent, MyViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull TContent model) {
+                holder.viewOne.setText(model.getContentCreatedOne());
+                holder.viewTwo.setText(model.getContentCreatedTwo());
+                holder.viewThree.setText(model.getContentCreatedThree());
+                holder.viewFour.setText(model.getContentCreatedFour());
+                Picasso.get().load(model.getImageUri()).into(holder.imageView);
 
-                ImageView popupbutton = holder.itemView.findViewById(R.id.menupopbutton);
+            }
+            @NonNull
+            @Override
+            public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view, parent,false);
+                return new MyViewHolder(view);
+            }
+        };
+        //mAdapter.startListening();
+        //recyclerView.setAdapter(mAdapter);
 
+
+    }
+
+         */
+/*
+    private void LoadData() {
+        //Query query=DataRef.orderByChild("createdMemory").startAt(data).endAt(data+"\uf8ff");
+
+        options = new FirebaseRecyclerOptions.Builder<TContent>().setQuery(DataRef, TContent.class).build();
+        adapter = new FirebaseRecyclerAdapter<TContent, MyViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, TContent model) {
+
+                //ImageView popupbutton = holder.itemView.findViewById(R.id.menupopbutton);
+                //Toast.makeText(teditsCatalogue.this,model.getContentCreatedOne(), Toast.LENGTH_LONG).show();
                 holder.viewOne.setText(model.getContentCreatedOne());
                 holder.viewTwo.setText(model.getContentCreatedTwo());
                 holder.viewThree.setText(model.getContentCreatedThree());
@@ -117,7 +210,7 @@ public class teditsCatalogue extends AppCompatActivity {
 
                 //String docID = adapter.getSnapshots().getSnapshot(position).getKey();
                 String docID = adapter.getRef(position).getKey();
-                Toast.makeText(teditsCatalogue.this,"Click test", Toast.LENGTH_LONG).show();
+                Toast.makeText(teditsCatalogue.this,"Displaying T-Edits Content", Toast.LENGTH_LONG).show();
 
                 holder.view.setOnClickListener(new View.OnClickListener() {
 
@@ -125,29 +218,32 @@ public class teditsCatalogue extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        PopupMenu popupMenu=new PopupMenu(view.getContext(),view);
+                        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
                         //popupMenu.(Gravity.END);
                         popupMenu.setGravity(Gravity.END);
                         //popupMenu.inflate(R.menu.class);
                         //getMenuInflater().inflate(R.menu.menu, (Menu) popupMenu);
-                        Toast.makeText(teditsCatalogue.this,"Click works3", Toast.LENGTH_LONG).show();
+                        Toast.makeText(teditsCatalogue.this, "Click works3", Toast.LENGTH_LONG).show();
+                        /*
                         popupMenu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
-                                Intent intent=new Intent(view.getContext(), viewContent.class);
+                                Intent intent = new Intent(view.getContext(), viewContent.class);
                                 //Picasso.get().load(model.getImageUri()).into(holder.imageView);
                                 intent.putExtra("MemoryID", docID);
                                 startActivity(intent);
                                 return false;
                             }
                         });
+
+
                         popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 //Toast.makeText(v.getContext(),"This note is deleted",Toast.LENGTH_SHORT).show();
-                                DataRef=FirebaseDatabase.getInstance().getReference().child("Memory").child(docID);
-                                StorageRef= FirebaseStorage.getInstance().getReference().child("MemoriesBackedup").child(docID+".jpg");
+                                DataRef = FirebaseDatabase.getInstance().getReference().child("Memory").child(docID);
+                                StorageRef = FirebaseStorage.getInstance().getReference().child("MemoriesBackedup").child(docID + ".jpg");
                                 //DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(docId);
                                 DataRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -169,17 +265,20 @@ public class teditsCatalogue extends AppCompatActivity {
                                 return false;
                             }
                         });
+
                     }
                 });
             }
+
             @NonNull
             @Override
             public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view, parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view, parent, false);
                 return new MyViewHolder(view);
             }
         };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+    }*/
     }
 }

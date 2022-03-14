@@ -52,7 +52,7 @@ public class teditsContent extends AppCompatActivity {
 
         //Firebase Reference
         private CollectionReference rFireStore;
-        //DatabaseReference Dataref;
+        private DatabaseReference Dataref;
         private StorageReference Storageref;
         private FirebaseStorage storage;
 
@@ -80,14 +80,13 @@ public class teditsContent extends AppCompatActivity {
             progressBarm = findViewById(R.id.progressBarn);
             btnUpload = findViewById(R.id.btnUpload);
 
-            rFireStore = FirebaseFirestore.getInstance().collection("Users");
             storage = FirebaseStorage.getInstance();
             Storageref = storage.getReference().child("ContentBackedUp");
-
 
             progressBarm.setVisibility(View.GONE);
 
             //Initializing data reference
+            Dataref = FirebaseDatabase.getInstance().getReference().child("Content");
             //Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Memory");
             rFireStore = FirebaseFirestore.getInstance().collection("Users");
             //Added the date and time stamp
@@ -123,17 +122,17 @@ public class teditsContent extends AppCompatActivity {
 
             progressBarm.setVisibility(View.VISIBLE);
 
-            final String randomKey = UUID.randomUUID().toString();
+            //final String randomKey = UUID.randomUUID().toString();
 
             //Data reference key
-            //final String key = Dataref.push().getKey();
+            final String key = Dataref.push().getKey();
             //final String key1 = rFireStore.push().getKey();
             //final String key1 = Storageref.push().getKey();
 
-            Storageref.child(randomKey+ ".jpg").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            Storageref.child(key+ ".jpg").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Storageref.child(randomKey+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    Storageref.child(key+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             HashMap hashMap = new HashMap();
@@ -144,7 +143,7 @@ public class teditsContent extends AppCompatActivity {
                             hashMap.put("ImageUri", uri.toString());
 
                             //Push key
-                            rFireStore.document("Catalogue").set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(teditsContent.this,"Your T-Edits Content has successfully been uploaded", Toast.LENGTH_LONG).show();

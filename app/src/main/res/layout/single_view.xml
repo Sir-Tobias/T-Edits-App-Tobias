@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/image_single_view"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginStart="25dp"
+        android:layout_width="295dp"
+        android:layout_height="211dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
@@ -21,12 +21,12 @@
         android:id="@+id/contentOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="275dp"
+        android:layout_marginTop="240dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
         android:text="Content One"
         android:textColor="@color/white"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
     <TextView
         android:id="@+id/contentTwo"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         android:gravity="center"
         android:text="Content Two"
         android:textColor="@color/white"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
     <TextView
         android:id="@+id/contentThree"
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         android:gravity="center"
         android:text="Content Three"
         android:textColor="@color/white"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
     <TextView
         android:id="@+id/contentFour"
         android:layout_width="match_parent"
@@ -60,18 +60,7 @@
         android:gravity="center"
         android:text="Content Four"
         android:textColor="@color/white"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
-    <ImageView
-        android:id="@+id/menupopbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/image_single_view"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/light_blue"
-        android:src="@drawable/ic_add"></ImageView>
 
 </RelativeLayout>

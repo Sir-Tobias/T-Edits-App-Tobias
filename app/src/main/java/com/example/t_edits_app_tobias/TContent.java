@@ -15,7 +15,9 @@ public class TContent {
         ContentCreatedFour = contentCreatedFour;
         ImageUri = imageUri;
     }
+    public TContent(){
 
+    }
     public String getContentCreatedOne() {
         return ContentCreatedOne;
     }
@@ -48,9 +50,7 @@ public class TContent {
         ContentCreatedFour = contentCreatedFour;
     }
 
-    public TContent(){
 
-    }
 //    public String getContentCreated() {
 //        return ContentCreated;
 //    }
