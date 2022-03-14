@@ -75,8 +75,29 @@ public class teditsCatalogue extends AppCompatActivity {
             case R.id.nav_logout:
                 mAuth.signOut();
                 finish();
+                startActivity(new Intent(teditsCatalogue.this, RegisterUser.class));
+                break;
+
+            case R.id.nav_upload_content:
+                finish();
+                startActivity(new Intent(teditsCatalogue.this, teditsContent.class));
+                break;
+
+            case R.id.nav_content_catalogue:
+                finish();
+                startActivity(new Intent(teditsCatalogue.this, teditsCatalogue.class));
+                break;
+
+            case R.id.nav_user_catalogue:
+                finish();
+                startActivity(new Intent(teditsCatalogue.this, teditsUserCatalogue.class));
+                break;
+
+            case R.id.nav_home:
+                finish();
                 startActivity(new Intent(teditsCatalogue.this, MainActivity.class));
                 break;
+
 
         }
         return super.onOptionsItemSelected(item);

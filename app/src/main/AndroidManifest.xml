@@ -13,6 +13,9 @@
             android:name=".teditsCatalogue"
             android:exported="true" />
         <activity
+            android:name=".teditsUserCatalogue"
+            android:exported="true" />
+        <activity
             android:name=".teditsContent"
             android:exported="true" />
         <activity
