@@ -59,8 +59,9 @@ public class teditsCatalogue extends AppCompatActivity {
     List<TContent> tContent;
     Context mContext;
 
-    private FirebaseAuth mAuth;
 
+
+    private FirebaseAuth mAuth;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,7 +87,7 @@ public class teditsCatalogue extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tedits_catalogue);
-
+        recyclerView = findViewById(R.id.recyclerView);
         //Initializing
         DataRef = FirebaseDatabase.getInstance().getReference().child("Content");
 
@@ -123,17 +124,18 @@ public class teditsCatalogue extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    System.out.println("did not work "+ postSnapshot.child("Category2").getValue().toString());
                     //TContent content = postSnapshot.getValue(TContent.class);
                     TContent content = new TContent();
 
-                    //Retrieving the image from realtime database
-                    content.setImageUri(snapshot.child("ImageUri").getValue().toString());
                     //Retrieving the the tag values from the realtime database
-                    content.setContentCreatedOne(snapshot.child("Category 1").getValue().toString());
-                    content.setContentCreatedOne(snapshot.child("Category 2").getValue().toString());
-                    content.setContentCreatedOne(snapshot.child("Category 3").getValue().toString());
-                    content.setContentCreatedOne(snapshot.child("Category 4").getValue().toString());
+                    content.setContentCreatedOne(postSnapshot.child("Category1").getValue().toString());
+                    content.setContentCreatedTwo(postSnapshot.child("Category2").getValue().toString());
+                    content.setContentCreatedThree(postSnapshot.child("Category3").getValue().toString());
+                    content.setContentCreatedFour(postSnapshot.child("Category1").getValue().toString());
 
+                    //Retrieving the image from realtime database
+                    content.setImageUri(postSnapshot.child("ImageUri").getValue().toString());
 
 //                    String ContentCreatedOne = content.getContentCreatedOne();
 //                    String ContentCreatedTwo = content.getContentCreatedTwo();
@@ -151,7 +153,7 @@ public class teditsCatalogue extends AppCompatActivity {
                     tContent.add(content);
                 }
 
-                mAdapter = new ImageAdapter(teditsCatalogue.this, tContent);
+                mAdapter = new ImageAdapter(getApplicationContext(), tContent);
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
             }

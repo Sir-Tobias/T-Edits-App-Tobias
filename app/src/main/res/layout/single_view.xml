@@ -26,41 +26,43 @@
         android:gravity="center"
         android:text="Content One"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
+
     <TextView
         android:id="@+id/contentTwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/contentOne"
+        android:layout_marginTop="7dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
         android:text="Content Two"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
+
     <TextView
         android:id="@+id/contentThree"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/contentTwo"
+        android:layout_marginTop="7dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
         android:text="Content Three"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
     <TextView
         android:id="@+id/contentFour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:layout_marginBottom="10dp"
         android:layout_below="@id/contentThree"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
         android:text="Content Four"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
 
 
 </RelativeLayout>

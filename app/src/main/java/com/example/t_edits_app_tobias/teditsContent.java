@@ -136,10 +136,10 @@ public class teditsContent extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             HashMap hashMap = new HashMap();
-                            hashMap.put("Category 1", catOne);
-                            hashMap.put("Category 2", catTwo);
-                            hashMap.put("Category 3", catThree);
-                            hashMap.put("Category 4", catFour);
+                            hashMap.put("Category1", catOne);
+                            hashMap.put("Category2", catTwo);
+                            hashMap.put("Category3", catThree);
+                            hashMap.put("Category4", catFour);
                             hashMap.put("ImageUri", uri.toString());
 
                             //Push key
