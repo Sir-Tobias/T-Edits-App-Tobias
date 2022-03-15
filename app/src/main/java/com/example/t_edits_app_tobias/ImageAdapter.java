@@ -24,15 +24,37 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHol
     private List<TContent> uContent;
     //private ArrayList<TContent> tContent;
 
-    public ImageAdapter(Context context, ArrayList<TContent> content) {
-        mContext = context;
+    public ImageAdapter(Context context, List<TContent> content) {
         tContent = content;
+        mContext = context;
+        uContent = new ArrayList<>();
+        //tContent = content;
     }
 
 //    public ImageAdapter(Context context, List<TContent> content) {
 //        mContext = context;
 //        tContent = content;
 //    }
+    public class imageViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView;
+        public TextView viewOne;
+        public TextView viewTwo;
+        public TextView viewThree;
+        public TextView viewFour;
+
+        public imageViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.image_single_view);
+            viewOne = itemView.findViewById(R.id.contentOne);
+            viewTwo = itemView.findViewById(R.id.contentTwo);
+            viewThree = itemView.findViewById(R.id.contentThree);
+            viewFour = itemView.findViewById(R.id.contentFour);
+        }
+    }
+        ImageAdapter(List<TContent> tContent) {
+            this.tContent = tContent;
+            uContent = new ArrayList<>(tContent);
+        }
     @Override
     public Filter getFilter() {
         return examplefilter;
@@ -95,30 +117,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHol
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults results) {
             tContent.clear();
-            tContent.addAll((List)results.values);
+            if(results.values instanceof List){
+                for(TContent item : (List<TContent>)results.values){
+                    if(item instanceof TContent) {
+                        tContent.add((TContent) item);
+                    }
+                }
+            }
+            //tContent.addAll((List)results.values);
             notifyDataSetChanged();
 
         }
     };
 
-    public class imageViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView viewOne;
-        public TextView viewTwo;
-        public TextView viewThree;
-        public TextView viewFour;
-
-        public imageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.image_single_view);
-            viewOne = itemView.findViewById(R.id.contentOne);
-            viewTwo = itemView.findViewById(R.id.contentTwo);
-            viewThree = itemView.findViewById(R.id.contentThree);
-            viewFour = itemView.findViewById(R.id.contentFour);
-        }
-    }
-    ImageAdapter(List<TContent> tContent) {
-        this.tContent = tContent;
-        uContent = new ArrayList<>(tContent);
-    }
 }

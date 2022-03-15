@@ -16,6 +16,12 @@
             android:name=".teditsUserCatalogue"
             android:exported="true" />
         <activity
+            android:name=".teditsElementCatalogue"
+            android:exported="true" />
+        <activity
+            android:name=".teditsElementsContent"
+            android:exported="true" />
+        <activity
             android:name=".teditsContent"
             android:exported="true" />
         <activity

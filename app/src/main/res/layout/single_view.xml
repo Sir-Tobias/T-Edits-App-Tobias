@@ -8,20 +8,35 @@
 
     <ImageView
         android:id="@+id/image_single_view"
-        android:layout_width="295dp"
-        android:layout_height="211dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
+        android:layout_width="302dp"
+        android:layout_height="188dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="53dp"
+        android:layout_marginBottom="10dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_image" />
+
+    <TextView
+        android:id="@+id/contentDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_single_view"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/baloo"
+        android:gravity="center"
+        android:text="Content Tags"
+        android:textColor="@color/light_teal"
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/contentOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_below="@id/contentDescription"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
         android:text="Content One"
@@ -33,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/contentOne"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="7dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
@@ -47,6 +63,7 @@
         android:layout_below="@id/contentTwo"
         android:layout_marginTop="7dp"
         android:fontFamily="@font/poppinsbold"
+        android:layout_marginStart="1dp"
         android:gravity="center"
         android:text="Content Three"
         android:textColor="@color/white"
@@ -58,7 +75,9 @@
         android:layout_marginTop="7dp"
         android:layout_marginBottom="10dp"
         android:layout_below="@id/contentThree"
+
         android:fontFamily="@font/poppinsbold"
+        android:layout_marginStart="1dp"
         android:gravity="center"
         android:text="Content Four"
         android:textColor="@color/white"

@@ -78,6 +78,10 @@ public class teditsUserCatalogue extends AppCompatActivity {
                 finish();
                 startActivity(new Intent(teditsUserCatalogue.this, teditsCatalogue.class));
                 break;
+            case R.id.nav_elements_catalogue:
+                finish();
+                startActivity(new Intent(teditsUserCatalogue.this, teditsElementCatalogue.class));
+                break;
 
             case R.id.nav_home:
                 finish();
@@ -177,6 +181,11 @@ public class teditsUserCatalogue extends AppCompatActivity {
                     System.out.println("does work "+ postSnapshot.child("Category2").getValue().toString());
                     //TContent content = postSnapshot.getValue(TContent.class);
                     TContent content = new TContent();
+
+                    content.setContentCreatedOne(postSnapshot.child("Category1").getValue().toString());
+                    content.setContentCreatedTwo(postSnapshot.child("Category2").getValue().toString());
+                    content.setContentCreatedThree(postSnapshot.child("Category3").getValue().toString());
+                    content.setContentCreatedFour(postSnapshot.child("Category1").getValue().toString());
 
                     //Retrieving the image from realtime database
                     content.setImageUri(postSnapshot.child("ImageUri").getValue().toString());

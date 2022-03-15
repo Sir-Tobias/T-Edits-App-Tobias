@@ -99,6 +99,10 @@ public class teditsCatalogue extends AppCompatActivity {
                 finish();
                 startActivity(new Intent(teditsCatalogue.this, teditsUserCatalogue.class));
                 break;
+            case R.id.nav_elements_catalogue:
+                finish();
+                startActivity(new Intent(teditsCatalogue.this, teditsElementCatalogue.class));
+                break;
 
             case R.id.nav_home:
                 finish();

@@ -51,6 +51,10 @@ public class teditsUser extends AppCompatActivity {
                 finish();
                 startActivity(new Intent(teditsUser.this, teditsUserCatalogue.class));
                 break;
+            case R.id.nav_elements_catalogue:
+                finish();
+                startActivity(new Intent(teditsUser.this, teditsElementCatalogue.class));
+                break;
 
             case R.id.nav_home:
                 finish();
@@ -71,6 +75,12 @@ public class teditsUser extends AppCompatActivity {
     public void viewContentActivity(View view) {
         Toast.makeText(teditsUser.this,"View content", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(teditsUser.this,teditsCatalogue.class);
+        startActivity(intent);
+    }
+
+    public void startElementActivity(View view) {
+        Toast.makeText(teditsUser.this,"Upload Element", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(teditsUser.this,teditsElementsContent.class);
         startActivity(intent);
     }
 }

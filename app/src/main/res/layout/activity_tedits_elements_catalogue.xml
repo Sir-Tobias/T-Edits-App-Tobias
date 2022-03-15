@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
-    tools:context=".teditsCatalogue">
+    android:background="@color/darker_blue"
+    tools:context=".teditsElementCatalogue">
 
     <TextView
         android:id="@+id/textView_single_view"
@@ -13,28 +13,38 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
-        android:text="T-Edits Catalogue"
+        android:text="T-Edits Elements Catalogue"
         android:textColor="@color/light_teal"
         android:textSize="25dp" />
 
-    <androidx.appcompat.widget.SearchView
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchCatalogue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_single_view"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/light_teal" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Search the catalogue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchCatalogueText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_single_view"
+            android:backgroundTint="@color/light_teal"
+            android:drawableEnd="@drawable/ic_search"
+            android:fontFamily="@font/poppinsmedium" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerElementsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/searchCatalogue" />
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingBtn"
+        android:id="@+id/floatingBtnNew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -46,6 +56,7 @@
         android:background="@color/blue"
         android:backgroundTint="@color/light_teal"
         android:src="@drawable/ic_add" />
+
 
 
 </RelativeLayout>
