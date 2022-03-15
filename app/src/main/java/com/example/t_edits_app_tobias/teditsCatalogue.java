@@ -3,6 +3,7 @@ package com.example.t_edits_app_tobias;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,9 +56,13 @@ public class teditsCatalogue extends AppCompatActivity {
     DatabaseReference DataRef;
     StorageReference StorageRef;
 
+    EditText editText;
+
     ImageAdapter mAdapter;
-    List<TContent> tContent;
+    //List<TContent> mContent;
     Context mContext;
+    ArrayList<TContent> mContent;
+    SearchView searchView;
 
 
 
@@ -67,6 +72,8 @@ public class teditsCatalogue extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
+
+
     }
 
     @Override
@@ -123,6 +130,26 @@ public class teditsCatalogue extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setHasFixedSize(true);
 
+        //Edit text box to search the catalogue
+        searchView = findViewById(R.id.searchCatalogue);
+        //editText = (EditText) findViewById(R.id.searchCatalogueText);
+
+        if(searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    mAdapter.getFilter().filter(newText);
+                    //search(newText);
+                    return false;
+                }
+            });
+        };
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,10 +162,56 @@ public class teditsCatalogue extends AppCompatActivity {
         LoadData();
 
     }
+    //Method for searching the arraylist catalogue for the string that matches
+    private void search(String s) {
+        ArrayList<TContent> myList = new ArrayList<>();
+        for(TContent object : mContent) {
+            if (object.getContentCreatedOne().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
+
+            } else if (object.getContentCreatedTwo().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
+
+            } else if (object.getContentCreatedThree().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
+
+            } else if (object.getContentCreatedFour().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
+            }
+        }
+        mAdapter = new ImageAdapter(getApplicationContext(), mContent);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+
+    }
+//    private void search(String s) {
+//        Query query = DataRef.orderByChild("Content").startAt(s).endAt(s + "\uf8ff");
+//
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.hasChildren()) {
+//                    mContent.clear();
+//                    for(DataSnapshot ss: snapshot.getChildren()) {
+//                        final TContent tContent = ss.getValue(TContent.class);
+//                        mContent.add(tContent);
+//                    }
+//                    mAdapter = new ImageAdapter(getApplicationContext(), mContent);
+//                    recyclerView.setAdapter(mAdapter);
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     private void LoadData() {
 
-        tContent = new ArrayList<>();
+        mContent = new ArrayList<>();
         DataRef = FirebaseDatabase.getInstance().getReference().child("Content");
 
         DataRef.addValueEventListener(new ValueEventListener() {
@@ -171,10 +244,10 @@ public class teditsCatalogue extends AppCompatActivity {
 //                    contentNew.setContentCreatedFour(ContentCreatedFour);
 
                     //Adding the retrieved content to the tContent Arraylist
-                    tContent.add(content);
+                    mContent.add(content);
                 }
 
-                mAdapter = new ImageAdapter(getApplicationContext(), tContent);
+                mAdapter = new ImageAdapter(getApplicationContext(), mContent);
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
             }

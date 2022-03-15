@@ -17,11 +17,22 @@
         android:textColor="@color/light_teal"
         android:textSize="25dp" />
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchCatalogue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_single_view"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/light_teal" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/textView_single_view" />
+        android:layout_below="@id/searchCatalogue" />
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingBtn"

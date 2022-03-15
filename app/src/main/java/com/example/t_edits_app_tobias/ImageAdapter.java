@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,16 +14,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHolder>{
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHolder> implements Filterable {
 
     private Context mContext;
     private List<TContent> tContent;
+    private List<TContent> uContent;
+    //private ArrayList<TContent> tContent;
 
-    public ImageAdapter(Context context, List<TContent> content) {
+    public ImageAdapter(Context context, ArrayList<TContent> content) {
         mContext = context;
         tContent = content;
+    }
+
+//    public ImageAdapter(Context context, List<TContent> content) {
+//        mContext = context;
+//        tContent = content;
+//    }
+    @Override
+    public Filter getFilter() {
+        return examplefilter;
     }
 
     @NonNull
@@ -34,6 +48,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHol
     @Override
     public void onBindViewHolder(@NonNull imageViewHolder holder, int position) {
         //TContent currentTedits = tContent.get(position);
+
         holder.viewOne.setText(tContent.get(position).getContentCreatedOne());
         holder.viewTwo.setText(tContent.get(position).getContentCreatedTwo());
         holder.viewThree.setText(tContent.get(position).getContentCreatedThree());
@@ -46,8 +61,45 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHol
         return tContent.size();
     }
 
-//    public void startListening() {
-//    }
+    //Method for filtering the arraylist
+    private Filter examplefilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<TContent> tContents = new ArrayList<>();
+            if(charSequence==null|| charSequence.length()==0) {
+                tContents.addAll(uContent);
+            }
+            else {
+                String pattern = charSequence.toString().toLowerCase().trim();
+                for (TContent item : uContent) {
+                    if (item.getContentCreatedOne().toLowerCase().contains(pattern)) {
+                        tContents.add(item);
+
+                    } else if (item.getContentCreatedTwo().toLowerCase().contains(pattern)) {
+                        tContents.add(item);
+
+                    } else if (item.getContentCreatedTwo().toLowerCase().contains(pattern)) {
+                        tContents.add(item);
+
+                    } else if (item.getContentCreatedTwo().toLowerCase().contains(pattern)) {
+                        tContents.add(item);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values=tContents;
+            return filterResults;
+        };
+
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            tContent.clear();
+            tContent.addAll((List)results.values);
+            notifyDataSetChanged();
+
+        }
+    };
 
     public class imageViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
@@ -64,5 +116,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHol
             viewThree = itemView.findViewById(R.id.contentThree);
             viewFour = itemView.findViewById(R.id.contentFour);
         }
+    }
+    ImageAdapter(List<TContent> tContent) {
+        this.tContent = tContent;
+        uContent = new ArrayList<>(tContent);
     }
 }
