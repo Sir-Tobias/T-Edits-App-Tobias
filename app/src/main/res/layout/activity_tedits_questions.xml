@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_teal"
+    tools:context=".teditsQuestions">
+
+    <TextView
+        android:id="@+id/packageTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="center"
+        android:text="T-Edits Package Questions"
+        android:textColor="@color/dark_blue"
+        android:textSize="23dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/questionOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="What is the target audience of your brand?"
+        android:textColor="@color/dark_blue"
+        android:textSize="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/packageTitle"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionOne"
+        android:layout_marginStart="48dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_teenager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Teenager" />
+
+        <RadioButton
+            android:id="@+id/radio_adults"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Adults   " />
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionOne"
+        android:layout_marginLeft="180dp"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="130dp">
+
+        <RadioButton
+            android:id="@+id/radio_collegeTeenager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="College Teenagers" />
+
+        <RadioButton
+            android:id="@+id/radio_secondaryStudents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Secondary Students" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/questionTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="192dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="What is the theme of your brand?"
+        android:textColor="@color/dark_blue"
+        android:textSize="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/packageTitle"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionTwo"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_luxury"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Luxury" />
+
+        <RadioButton
+            android:id="@+id/radio_sporty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Sporty" />
+
+        <RadioButton
+            android:id="@+id/radio_techwear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Tech Wear" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/questionThree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="360dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="What is the Industry of your brand"
+        android:textColor="@color/dark_blue"
+        android:textSize="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/packageTitle"
+        tools:layout_editor_absoluteX="30dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionThree"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_Apparel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Apparel" />
+
+        <RadioButton
+            android:id="@+id/radio_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Media   " />
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionThree"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_cosmetics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Cosmetics" />
+
+        <RadioButton
+            android:id="@+id/radio_tech"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Technology" />
+    </RadioGroup>
+    <TextView
+        android:id="@+id/questionFour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="490dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="What is the Colour of your brand"
+        android:textColor="@color/dark_blue"
+        android:textSize="15dp"/>
+
+    <RadioGroup
+        android:id="@+id/groupFour"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionFour"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Green" />
+
+        <RadioButton
+            android:id="@+id/radio_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Blue" />
+
+        <RadioButton
+            android:id="@+id/radio_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Orange" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/groupFour"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:backgroundTint="@color/dark_blue"
+        android:text="Upload" />
+
+
+</RelativeLayout>

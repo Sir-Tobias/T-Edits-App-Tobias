@@ -83,4 +83,10 @@ public class teditsUser extends AppCompatActivity {
         Intent intent = new Intent(teditsUser.this,teditsElementsContent.class);
         startActivity(intent);
     }
+
+    public void startQuestionActivity(View view) {
+        Toast.makeText(teditsUser.this,"Start Questions", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(teditsUser.this,teditsQuestions.class);
+        startActivity(intent);
+    }
 }

@@ -44,7 +44,7 @@ public class teditsElementCatalogue extends AppCompatActivity {
 
     //ImageAdapter mAdapter;
     ImageElementAdapter eAdapter;
-    List<TElement> tElement;
+    ArrayList<TElement> tElement;
     Context uContext;
 
     EditText editText;
@@ -80,6 +80,15 @@ public class teditsElementCatalogue extends AppCompatActivity {
                 startActivity(new Intent(teditsElementCatalogue.this, teditsCatalogue.class));
                 break;
 
+            case R.id.nav_user_catalogue:
+                finish();
+                startActivity(new Intent(teditsElementCatalogue.this, teditsUserCatalogue.class));
+                break;
+            case R.id.nav_elements_catalogue:
+                finish();
+                startActivity(new Intent(teditsElementCatalogue.this, teditsElementCatalogue.class));
+                break;
+
             case R.id.nav_home:
                 finish();
                 startActivity(new Intent(teditsElementCatalogue.this, teditsUser.class));
@@ -106,6 +115,29 @@ public class teditsElementCatalogue extends AppCompatActivity {
         arrayList = new ArrayList<>();
 
         //Edit text box to search the catalogue
+        //Edit text box to search the catalogue
+        editText = (EditText) findViewById(R.id.searchCatalogueText);
+        //Create a listener for the edit text
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    search(s.toString());
+                } else {
+                    search("");
+                }
+            }
+        });
 
         //recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
@@ -121,6 +153,23 @@ public class teditsElementCatalogue extends AppCompatActivity {
         //Creating a method to load the data into the recycler view
         LoadData();
 
+    }
+
+    private void search(String s) {
+        ArrayList<TElement> myList = new ArrayList<>();
+        for (TElement object : tElement) {
+            if (object.getElementCreatedOne().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
+            }
+        }
+        if (myList.isEmpty()) {
+            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
+        } else {
+            eAdapter = new ImageElementAdapter(getApplicationContext(), tElement);
+            eAdapter.filterList(myList);
+            recyclerView.setAdapter(eAdapter);
+            eAdapter.notifyDataSetChanged();
+        }
     }
 
     private void LoadData() {

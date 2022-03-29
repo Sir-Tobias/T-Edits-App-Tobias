@@ -20,14 +20,23 @@ import java.util.List;
 public class ImageElementAdapter extends RecyclerView.Adapter<ImageElementAdapter.imageViewHolder> {
 
     private Context mContext;
-    private List<TElement> tElement;
+    private ArrayList<TElement> tElement;
 
     //private ArrayList<TContent> tContent;
 
-    public ImageElementAdapter(Context context, List<TElement> element) {
+    public ImageElementAdapter(Context context, ArrayList<TElement> element) {
         tElement = element;
         mContext = context;
 
+    }
+
+    public void filterList(ArrayList<TElement> oContent) {
+        // below line is to add our filtered
+        // list in our course array list.
+        tElement = oContent;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
     }
 
     public class imageViewHolder extends RecyclerView.ViewHolder {

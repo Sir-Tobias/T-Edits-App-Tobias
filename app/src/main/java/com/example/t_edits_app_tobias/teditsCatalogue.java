@@ -59,11 +59,11 @@ public class teditsCatalogue extends AppCompatActivity {
     EditText editText;
 
     ImageAdapter mAdapter;
-    //List<TContent> mContent;
+    ArrayList<TContent> tContent;
     Context mContext;
     ArrayList<TContent> mContent;
+    ArrayList<TContent> uContent;
     SearchView searchView;
-
 
 
     private FirebaseAuth mAuth;
@@ -72,7 +72,6 @@ public class teditsCatalogue extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
-
 
     }
 
@@ -134,25 +133,24 @@ public class teditsCatalogue extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setHasFixedSize(true);
 
+
+
         //Edit text box to search the catalogue
-        searchView = findViewById(R.id.searchCatalogue);
-        //editText = (EditText) findViewById(R.id.searchCatalogueText);
+        SearchView searchView = findViewById(R.id.searchCatalogue);
 
-        if(searchView != null) {
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                search(query);
+                return false;
+            }
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    mAdapter.getFilter().filter(newText);
-                    //search(newText);
-                    return false;
-                }
-            });
-        };
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                search(newText);
+                return false;
+            }
+        });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +164,8 @@ public class teditsCatalogue extends AppCompatActivity {
         LoadData();
 
     }
+
+
     //Method for searching the arraylist catalogue for the string that matches
     private void search(String s) {
         ArrayList<TContent> myList = new ArrayList<>();
@@ -183,35 +183,15 @@ public class teditsCatalogue extends AppCompatActivity {
                 myList.add(object);
             }
         }
-        mAdapter = new ImageAdapter(getApplicationContext(), mContent);
-        recyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-
+        if (myList.isEmpty()) {
+            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
+        } else {
+            mAdapter = new ImageAdapter(getApplicationContext(), mContent);
+            mAdapter.filterList(myList);
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        }
     }
-//    private void search(String s) {
-//        Query query = DataRef.orderByChild("Content").startAt(s).endAt(s + "\uf8ff");
-//
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if(snapshot.hasChildren()) {
-//                    mContent.clear();
-//                    for(DataSnapshot ss: snapshot.getChildren()) {
-//                        final TContent tContent = ss.getValue(TContent.class);
-//                        mContent.add(tContent);
-//                    }
-//                    mAdapter = new ImageAdapter(getApplicationContext(), mContent);
-//                    recyclerView.setAdapter(mAdapter);
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
 
     private void LoadData() {
 
@@ -235,18 +215,6 @@ public class teditsCatalogue extends AppCompatActivity {
                     //Retrieving the image from realtime database
                     content.setImageUri(postSnapshot.child("ImageUri").getValue().toString());
 
-//                    String ContentCreatedOne = content.getContentCreatedOne();
-//                    String ContentCreatedTwo = content.getContentCreatedTwo();
-//                    String ContentCreatedThree = content.getContentCreatedThree();
-//                    String ContentCreatedFour = content.getContentCreatedFour();
-
-
-//                    TContent contentNew = new TContent(ContentCreatedOne, ContentCreatedTwo, ContentCreatedThree, ContentCreatedFour, content.getImageUri());
-//                    contentNew.setContentCreatedOne(ContentCreatedOne);
-//                    contentNew.setContentCreatedTwo(ContentCreatedTwo);
-//                    contentNew.setContentCreatedThree(ContentCreatedThree);
-//                    contentNew.setContentCreatedFour(ContentCreatedFour);
-
                     //Adding the retrieved content to the tContent Arraylist
                     mContent.add(content);
                 }
@@ -262,34 +230,6 @@ public class teditsCatalogue extends AppCompatActivity {
 
             }
         });
-
-
-        /*
-        options=new FirebaseRecyclerOptions.Builder<TContent>().setQuery(DataRef,TContent.class).build();
-        adapter= new FirebaseRecyclerAdapter<TContent, MyViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull TContent model) {
-                holder.viewOne.setText(model.getContentCreatedOne());
-                holder.viewTwo.setText(model.getContentCreatedTwo());
-                holder.viewThree.setText(model.getContentCreatedThree());
-                holder.viewFour.setText(model.getContentCreatedFour());
-                Picasso.get().load(model.getImageUri()).into(holder.imageView);
-
-            }
-            @NonNull
-            @Override
-            public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view, parent,false);
-                return new MyViewHolder(view);
-            }
-        };
-        //mAdapter.startListening();
-        //recyclerView.setAdapter(mAdapter);
-
-
-    }
-
-         */
 /*
     private void LoadData() {
         //Query query=DataRef.orderByChild("createdMemory").startAt(data).endAt(data+"\uf8ff");

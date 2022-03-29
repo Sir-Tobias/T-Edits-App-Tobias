@@ -12,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImageUserAdapter extends RecyclerView.Adapter<ImageUserAdapter.imageViewHolder>{
 
     private Context uContext;
-    private List<TContent> tContent;
+    private ArrayList<TContent> tContent;
 
-    public ImageUserAdapter(Context context, List<TContent> content) {
+    public ImageUserAdapter(Context context, ArrayList<TContent> content) {
         uContext = context;
         tContent = content;
     }
@@ -44,6 +45,15 @@ public class ImageUserAdapter extends RecyclerView.Adapter<ImageUserAdapter.imag
     @Override
     public int getItemCount() {
         return tContent.size();
+    }
+
+    public void filterList(ArrayList<TContent> oContent) {
+        // below line is to add our filtered
+        // list in our course array list.
+        tContent = oContent;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
     }
 
 

@@ -35,7 +35,6 @@ public class teditsUserCatalogue extends AppCompatActivity {
 
     EditText inputSearch;
     RecyclerView recyclerView;
-    FloatingActionButton floatingActionButton;
     FirebaseRecyclerOptions<TContent> options;
     FirebaseRecyclerAdapter<TContent, MyViewHolder> adapter;
     DatabaseReference DataRef;
@@ -43,7 +42,7 @@ public class teditsUserCatalogue extends AppCompatActivity {
 
     //ImageAdapter mAdapter;
     ImageUserAdapter uAdapter;
-    List<TContent> tContent;
+    ArrayList<TContent> tContent;
     Context uContext;
 
     EditText editText;
@@ -114,7 +113,6 @@ public class teditsUserCatalogue extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-
             }
 
             @Override
@@ -145,28 +143,29 @@ public class teditsUserCatalogue extends AppCompatActivity {
 
     //Method for searching the arraylist catalogue for the string that matches
     private void search(String s) {
-        Query query = DataRef.orderByChild("Content").startAt(s).endAt(s + "\uf8ff");
+        ArrayList<TContent> myList = new ArrayList<>();
+        for(TContent object : tContent) {
+            if (object.getContentCreatedOne().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChildren()) {
-                    arrayList.clear();
-                    for(DataSnapshot ss: snapshot.getChildren()) {
-                        final TContent tContent = ss.getValue(TContent.class);
-                        arrayList.add(tContent);
-                    }
-                    uAdapter = new ImageUserAdapter(getApplicationContext(), tContent);
-                    recyclerView.setAdapter(uAdapter);
-                    uAdapter.notifyDataSetChanged();
-                }
+            } else if (object.getContentCreatedTwo().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
+
+            } else if (object.getContentCreatedThree().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
+
+            } else if (object.getContentCreatedFour().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        }
+        if (myList.isEmpty()) {
+            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
+        } else {
+            uAdapter = new ImageUserAdapter(getApplicationContext(), tContent);
+            uAdapter.filterList(myList);
+            recyclerView.setAdapter(uAdapter);
+            uAdapter.notifyDataSetChanged();
+        }
     }
 
     private void LoadData() {

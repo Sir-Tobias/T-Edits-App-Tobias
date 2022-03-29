@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TEditsAppTobias">
         <activity
+            android:name=".teditsQuestions"
+            android:exported="true" />
+        <activity
             android:name=".teditsCatalogue"
             android:exported="true" />
         <activity
@@ -17,6 +20,9 @@
             android:exported="true" />
         <activity
             android:name=".teditsElementCatalogue"
+            android:exported="true" />
+        <activity
+            android:name=".teditsQuestions"
             android:exported="true" />
         <activity
             android:name=".teditsElementsContent"

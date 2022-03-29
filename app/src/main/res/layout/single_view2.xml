@@ -71,16 +71,17 @@
         android:text="Content Three"
         android:textColor="@color/white"
         android:textSize="14dp" />
+
     <TextView
         android:id="@+id/contentFour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/contentThree"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="7dp"
         android:layout_marginBottom="10dp"
-        android:layout_below="@id/contentThree"
         android:layout_toRightOf="@id/image_single_view"
         android:fontFamily="@font/poppinsbold"
-        android:layout_marginStart="1dp"
         android:gravity="left"
         android:text="Content Four"
         android:textColor="@color/white"
