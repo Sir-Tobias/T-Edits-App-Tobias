@@ -22,9 +22,6 @@
             android:name=".teditsElementCatalogue"
             android:exported="true" />
         <activity
-            android:name=".teditsQuestions"
-            android:exported="true" />
-        <activity
             android:name=".teditsElementsContent"
             android:exported="true" />
         <activity

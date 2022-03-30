@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/drawable-v24/ic_add.xml" value="0.2722222222222222" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3375" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/drawable-v24/ic_search.xml" value="0.3138888888888889" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2722222222222222" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/drawable/ic_tedits_background.xml" value="0.2722222222222222" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/drawable/ic_tedits_logo1_background.xml" value="0.3375" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/drawable/ic_tedits_logo_background.xml" value="0.3375" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/font/baloo.xml" value="0.2317948717948718" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_register_user.xml" value="0.33" />
@@ -20,6 +26,9 @@
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/single_view2.xml" value="0.2753623188405797" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/single_view3.xml" value="0.2644927536231884" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/menu/menu.xml" value="0.32037037037037036" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3375" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/mipmap-anydpi-v26/ic_tedits_logo.xml" value="0.34791666666666665" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/mipmap-anydpi-v26/ic_tedits_logo_round.xml" value="0.34791666666666665" />
       </map>
     </option>
   </component>
