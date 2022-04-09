@@ -22,7 +22,7 @@
         android:id="@+id/questionThree"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="64dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="left"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/answer3"
+            android:id="@+id/brandIndustry"
             android:maxLength="50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,19 +53,33 @@
             android:fontFamily="@font/poppinsmedium" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/questionThreetwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/answerthree"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="3.1 What is age demographic for your brand?"
+        android:textColor="@color/dark_blue"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="0dp" />
+
     <RadioGroup
         android:id="@+id/optionthree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/answerthree"
-        android:layout_marginStart="48dp"
-        android:orientation="vertical">
+        android:layout_below="@id/questionThreetwo"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radio_apparel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:onClick="onRadioButtonClicked"
             android:text="Apparel" />
 
@@ -73,7 +87,7 @@
             android:id="@+id/radio_media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:onClick="onRadioButtonClicked"
             android:text="Media" />
 
@@ -81,17 +95,17 @@
             android:id="@+id/radio_cosmetics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:onClick="onRadioButtonClicked"
             android:text="Cosmetics" />
 
         <RadioButton
-            android:id="@+id/radio_food"
+            android:id="@+id/radio_tech"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:onClick="onRadioButtonClicked"
-            android:text="Food" />
+            android:text="Tech" />
     </RadioGroup>
 
     <Button

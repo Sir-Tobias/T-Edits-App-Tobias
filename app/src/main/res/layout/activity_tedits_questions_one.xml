@@ -114,7 +114,7 @@
         android:src="@drawable/ic_image" />
 
     <Button
-        android:id="@+id/btnUpload"
+        android:id="@+id/submitOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sketchupload"

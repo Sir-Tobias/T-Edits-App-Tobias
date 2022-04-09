@@ -22,7 +22,7 @@
         android:id="@+id/questionTwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="64dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="left"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/answer2"
+            android:id="@+id/targetAudience"
             android:maxLength="50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,21 +53,35 @@
             android:fontFamily="@font/poppinsmedium" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <RadioGroup
-        android:id="@+id/optiontwo"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/questionTwotwo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/answertwo"
-        android:layout_marginStart="48dp"
-        android:orientation="vertical">
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="2.2 What is the gender audience of your brand?"
+        android:textColor="@color/dark_blue"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <RadioGroup
+        android:id="@+id/optiontwotwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionTwotwo"
+        android:layout_marginStart="40dp"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radio_children"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:onClick="onRadioButtonClicked"
-            android:text="Children" />
+            android:text="Male" />
 
         <RadioButton
             android:id="@+id/radio_teenager"
@@ -75,22 +89,70 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:onClick="onRadioButtonClicked"
-            android:text="Teenager" />
+            android:text="Female" />
 
         <RadioButton
             android:id="@+id/radio_adults"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Gender Neutral" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/questionTwothree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optiontwotwo"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="2.3 What is age demographic for your brand?"
+        android:textColor="@color/dark_blue"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <RadioGroup
+        android:id="@+id/optiontwothree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionTwothree"
+        android:layout_marginStart="40dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/children"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="15 >" />
+
+        <RadioButton
+            android:id="@+id/teenagers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:onClick="onRadioButtonClicked"
-            android:text="Adults   " />
+            android:text="15 - 45" />
+
+        <RadioButton
+            android:id="@+id/adults"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="45 +" />
     </RadioGroup>
+
 
     <Button
         android:id="@+id/btnUpload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/optiontwo"
+        android:layout_below="@id/optiontwothree"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:backgroundTint="@color/dark_blue"
