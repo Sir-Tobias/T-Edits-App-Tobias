@@ -32,7 +32,11 @@ public class teditsQuestions extends AppCompatActivity {
     private EditText questionOne, questionTwo, questionThree;
     private RadioGroup radioGroupOne, radioGroupTwoTwo, radioGroupTwoThree, radioGroupThreeOne, radioGroupFour;
 
-    Button submit;
+    Button submitOne;
+    Button submitTwo;
+    Button submitThree;
+    Button submitFour;
+
     Uri imageUri;
 
     //Firebase Reference
@@ -44,7 +48,7 @@ public class teditsQuestions extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tedits_questions_two);
+        setContentView(R.layout.activity_tedits_questions_one);
 
         sketchViewAdd = findViewById(R.id.sketchupload);
 
@@ -58,7 +62,7 @@ public class teditsQuestions extends AppCompatActivity {
         radioGroupThreeOne = (RadioGroup) findViewById(R.id.optionthree);
         radioGroupFour = (RadioGroup) findViewById(R.id.optionfour);
 
-        submit = (Button) findViewById(R.id.submitOne);
+        submitOne = (Button) findViewById(R.id.submitOne);
 
         Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("LogoPackage");
 
@@ -81,9 +85,10 @@ public class teditsQuestions extends AppCompatActivity {
                     }
                 }
         );
-        submit.setOnClickListener(new View.OnClickListener() {
+        submitOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setContentView(R.layout.activity_tedits_questions_two);
 
                 int selectedId = radioGroupOne.getCheckedRadioButtonId();
                 if(selectedId == -1) {

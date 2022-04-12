@@ -79,7 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:onClick="onRadioButtonClicked"
-            android:text="Icon type" />
+            android:text="Icon type"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/radio_name"
