@@ -4,14 +4,12 @@ public class QuestionOne {
 
     private String AnswerOne;
     private String ImageUri;
-    private String IconType;
-    private String NameType;
+    private String LogoType;
 
-    public QuestionOne(String answerOne, String imageUri, String iconType, String nameType) {
+    public QuestionOne(String answerOne, String imageUri, String logoType) {
         AnswerOne = answerOne;
         ImageUri = imageUri;
-        IconType = iconType;
-        NameType = nameType;
+        LogoType = logoType;
     }
 
     public QuestionOne(){
@@ -33,19 +31,10 @@ public class QuestionOne {
         ImageUri = imageUri;
     }
 
-    public String getIconType() {
-        return IconType;
+    public String getLogoType() {
+        return LogoType;
     }
-
-    public void setIconType(String iconType) {
-        IconType = iconType;
-    }
-
-    public String getNameType() {
-        return NameType;
-    }
-
-    public void setNameType(String nameType) {
-        NameType = nameType;
+    public void setLogoType(String logoType) {
+        LogoType = logoType;
     }
 }

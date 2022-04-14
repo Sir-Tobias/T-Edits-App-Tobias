@@ -54,7 +54,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/questionTwotwo"
+        android:id="@+id/questionTwoone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/answertwo"
@@ -62,16 +62,16 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="left"
-        android:text="2.2 What is the gender audience of your brand?"
+        android:text="2.1 What is the gender audience of your brand?"
         android:textColor="@color/dark_blue"
         android:textSize="15dp"
         tools:layout_editor_absoluteX="0dp" />
 
     <RadioGroup
-        android:id="@+id/optiontwotwo"
+        android:id="@+id/optiontwoone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/questionTwotwo"
+        android:layout_below="@id/questionTwoone"
         android:layout_marginStart="40dp"
         android:orientation="horizontal">
 
@@ -101,24 +101,24 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/questionTwothree"
+        android:id="@+id/questionTwotwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/optiontwotwo"
+        android:layout_below="@id/optiontwoone"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="left"
-        android:text="2.3 What is age demographic for your brand?"
+        android:text="2.2 What is age demographic for your brand?"
         android:textColor="@color/dark_blue"
         android:textSize="15dp"
         tools:layout_editor_absoluteX="0dp" />
 
     <RadioGroup
-        android:id="@+id/optiontwothree"
+        android:id="@+id/optiontwotwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/questionTwothree"
+        android:layout_below="@id/questionTwotwo"
         android:layout_marginStart="40dp"
         android:orientation="horizontal">
 
@@ -149,10 +149,10 @@
 
 
     <Button
-        android:id="@+id/btnUpload"
+        android:id="@+id/submitTwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/optiontwothree"
+        android:layout_below="@id/optiontwotwo"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:backgroundTint="@color/dark_blue"
