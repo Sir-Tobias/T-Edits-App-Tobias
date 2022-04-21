@@ -56,8 +56,6 @@ public class teditsUser extends AppCompatActivity {
                     case R.id.nav_profile :
                         Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        finish();
-                        startActivity(new Intent(teditsUser.this, teditsUser.class));
                         break;
 
                     case R.id.nav_user_catalogue :

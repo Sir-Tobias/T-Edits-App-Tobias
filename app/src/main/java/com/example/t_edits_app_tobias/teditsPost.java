@@ -40,7 +40,7 @@ public class teditsPost extends AppCompatActivity {
 
     private static final int REQUEST_CODF_IMAGE = 101;
 
-    private ImageView imageViewAdd;
+    private ImageView postViewAdd;
 
     private EditText namePost;
     private EditText caption;
@@ -49,7 +49,7 @@ public class teditsPost extends AppCompatActivity {
     private Button btnUpload;
 
     Uri imageUri;
-    boolean isImageAdded=false;
+    boolean isPostAdded=false;
 
 
     //Firebase Reference
@@ -97,6 +97,8 @@ public class teditsPost extends AppCompatActivity {
                     case R.id.nav_home :
                         Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsPost.this, ExplorePage.class));
                         break;
 
                     case R.id.nav_profile :
@@ -138,7 +140,7 @@ public class teditsPost extends AppCompatActivity {
             }
         });
 
-        imageViewAdd = findViewById(R.id.contentupload);
+        postViewAdd = findViewById(R.id.tpostupload);
 
         namePost = findViewById(R.id.namePostText);
         caption = findViewById(R.id.captionPostText);
@@ -159,7 +161,7 @@ public class teditsPost extends AppCompatActivity {
         //storage = FirebaseStorage.getInstance().getReference());
 
         //Method to upload photo from phone gallery
-        imageViewAdd.setOnClickListener(new View.OnClickListener() {
+        postViewAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
@@ -174,7 +176,7 @@ public class teditsPost extends AppCompatActivity {
             public void onClick(View view) {
                 final String nameP = namePost.getText().toString();
                 final String cap = caption.getText().toString();
-                if (isImageAdded!=false && namePost!=null && caption!=null){
+                if (isPostAdded!=false && namePost!=null && caption!=null){
                     uploadImage(nameP, cap);
 
                 }
@@ -206,7 +208,7 @@ public class teditsPost extends AppCompatActivity {
                         Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(teditsPost.this,"Your T-Edits Content has successfully been uploaded", Toast.LENGTH_LONG).show();
+                                Toast.makeText(teditsPost.this,"Your T-Post has successfully been uploaded", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(teditsPost.this,teditsCatalogue.class);
                                 startActivity(intent);
 
@@ -226,7 +228,7 @@ public class teditsPost extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Error, Image not uploaded
-                Toast.makeText(teditsPost.this, "Failed to upload content " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(teditsPost.this, "Failed to upload post" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -238,8 +240,8 @@ public class teditsPost extends AppCompatActivity {
         if(requestCode==REQUEST_CODF_IMAGE && data!=null)
         {
             imageUri=data.getData();
-            isImageAdded=true;
-            imageViewAdd.setImageURI(imageUri);
+            isPostAdded=true;
+            postViewAdd.setImageURI(imageUri);
         }
     }
 }

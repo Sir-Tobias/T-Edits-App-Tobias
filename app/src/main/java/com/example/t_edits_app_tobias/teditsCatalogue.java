@@ -147,13 +147,15 @@ public class teditsCatalogue extends AppCompatActivity {
                     case R.id.nav_home :
                         Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsCatalogue.this, ExplorePage.class));
                         break;
 
                     case R.id.nav_profile :
                         Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(teditsCatalogue.this, teditsContent.class));
+                        startActivity(new Intent(teditsCatalogue.this, teditsUser.class));
                         break;
 
                     case R.id.nav_user_catalogue :

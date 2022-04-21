@@ -57,18 +57,14 @@ public class ImagePostAdapter extends RecyclerView.Adapter<ImagePostAdapter.imag
 
     public class imageViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
-        public TextView viewOne;
-        public TextView viewTwo;
-        public TextView viewThree;
-        public TextView viewFour;
+        public TextView postname;
+        public TextView postcaption;
 
         public imageViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.image_single_view);
-            viewOne = itemView.findViewById(R.id.contentOne);
-            viewTwo = itemView.findViewById(R.id.contentTwo);
-            viewThree = itemView.findViewById(R.id.contentThree);
-            viewFour = itemView.findViewById(R.id.contentFour);
+            imageView = itemView.findViewById(R.id.image_post_view);
+            postname = itemView.findViewById(R.id.nameText);
+            postcaption = itemView.findViewById(R.id.DescriptionText);
         }
     }
     public ImagePostAdapter(ArrayList<TPost> uPost) {
@@ -79,7 +75,7 @@ public class ImagePostAdapter extends RecyclerView.Adapter<ImagePostAdapter.imag
     @NonNull
     @Override
     public imageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.single_view, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.post_view, parent, false);
         return new imageViewHolder(v);
     }
 
@@ -87,8 +83,8 @@ public class ImagePostAdapter extends RecyclerView.Adapter<ImagePostAdapter.imag
     public void onBindViewHolder(@NonNull imageViewHolder holder, int position) {
         //TContent currentTedits = tContent.get(position);
 
-        holder.viewOne.setText(uPost.get(position).getNameOfPost());
-        holder.viewTwo.setText(uPost.get(position).getCaption());
+        holder.postname.setText(uPost.get(position).getNameOfPost());
+        holder.postcaption.setText(uPost.get(position).getCaption());
         Picasso.get().load(uPost.get(position).getImageUri()).fit().centerCrop().into(holder.imageView);
     }
 

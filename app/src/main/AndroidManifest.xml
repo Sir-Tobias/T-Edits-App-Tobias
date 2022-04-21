@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TEditsAppTobias">
         <activity
+            android:name=".PageFour"
+            android:exported="true" />
+        <activity
+            android:name=".PageThree"
+            android:exported="true" />
+        <activity
+            android:name=".PageTwo"
+            android:exported="true" />
+        <activity
             android:name=".teditsPost"
             android:exported="true" />
         <activity
@@ -26,8 +35,7 @@
             android:exported="true" />
         <activity
             android:name=".teditsUserCatalogue"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:exported="true" />
         <activity
             android:name=".teditsElementCatalogue"
             android:exported="true" />

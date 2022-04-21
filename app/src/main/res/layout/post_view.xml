@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/single_view3"
+    android:background="@color/darker_blue">
+
+    <ImageView
+        android:id="@+id/image_post_view"
+        android:layout_width="295dp"
+        android:layout_height="211dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_image" />
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="240dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="center"
+        android:text="Name of Post"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+    <TextView
+        android:id="@+id/DescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:layout_below="@id/nameText"
+        android:text="Caption of post"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+
+
+</RelativeLayout>

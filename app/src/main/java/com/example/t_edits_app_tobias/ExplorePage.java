@@ -13,10 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -56,6 +59,8 @@ public class ExplorePage extends AppCompatActivity {
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
+
+    private ImageView imagePostAdd;
 
 
     private FirebaseAuth mAuth;
@@ -135,14 +140,14 @@ public class ExplorePage extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ExplorePage.this, teditsContent.class));
+                        startActivity(new Intent(ExplorePage.this, teditsUser.class));
                         break;
 
                     case R.id.nav_user_catalogue :
                         Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ExplorePage.this, teditsCatalogue.class));
+                        startActivity(new Intent(ExplorePage.this, teditsUserCatalogue.class));
                         break;
 
                     case R.id.nav_control_panel:
@@ -169,13 +174,17 @@ public class ExplorePage extends AppCompatActivity {
                 return true;
             }
         });
+
+
+        imagePostAdd = findViewById(R.id.postUpload);
+
         recyclerView = findViewById(R.id.recyclerExploreView);
         //Initializing
         DataRef = FirebaseDatabase.getInstance().getReference().child("Content");
 
         StorageRef = FirebaseStorage.getInstance().getReference("Content");
         //DataRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Content");
-        recyclerView = findViewById(R.id.recyclerView);
+        //recyclerView = findViewById(R.id.recyclerExploreView);
         floatingActionButton = findViewById(R.id.floatingBtn);
 
 
@@ -183,29 +192,37 @@ public class ExplorePage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setHasFixedSize(true);
 
-
-        //Edit text box to search the catalogue
-        SearchView searchView = findViewById(R.id.searchCatalogue);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        //Edit text box to search the tedits explore page
+        editText = (EditText) findViewById(R.id.searchExploreText);
+        //Create a listener for the edit text
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                search(query);
-                return false;
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                search(newText);
-                return false;
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty())
+                {
+                    search(s.toString());
+                }
+                else {
+                    search("");
+                }
             }
         });
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        //Method to upload photo from phone gallery
+        imagePostAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), teditsContent.class));
-
+                startActivity(new Intent(getApplicationContext(), teditsPost.class));
             }
         });
 

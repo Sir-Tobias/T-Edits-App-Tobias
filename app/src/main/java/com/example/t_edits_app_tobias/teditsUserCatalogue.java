@@ -104,12 +104,13 @@ public class teditsUserCatalogue extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tedits_user_catalogue);
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         nav=(NavigationView)findViewById(R.id.navimenu);
-        drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+        drawerLayout=(DrawerLayout)findViewById(R.id.userCataloguedrawer);
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -136,7 +137,7 @@ public class teditsUserCatalogue extends AppCompatActivity {
                         break;
 
                     case R.id.nav_user_catalogue :
-                        Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Content catalogue is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
 
@@ -164,7 +165,6 @@ public class teditsUserCatalogue extends AppCompatActivity {
                 return true;
             }
         });
-        setContentView(R.layout.activity_tedits_user_catalogue);
         recyclerView = findViewById(R.id.recyclerUserView);
 
         //Initializing

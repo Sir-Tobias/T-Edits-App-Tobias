@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-
         <item
             android:id="@+id/nav_home"
             android:title="Home"
@@ -19,6 +18,10 @@
             android:id="@+id/nav_control_panel"
             android:title="Control Panel"
             android:icon="@drawable/adminpanel"/>
+        <item
+            android:id="@+id/nav_tedits_package"
+            android:title="T-Edits Package"
+            android:icon="@drawable/teditspackageb"/>
         <item
             android:id="@+id/tedits_chats"
             android:title="T-Chats"

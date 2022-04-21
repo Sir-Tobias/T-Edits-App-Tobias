@@ -49,27 +49,27 @@ public class ControlPanel extends AppCompatActivity {
                     case R.id.nav_home :
                         Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(ControlPanel.this, ExplorePage.class));
                         break;
 
                     case R.id.nav_profile :
                         Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ControlPanel.this, teditsContent.class));
+                        startActivity(new Intent(ControlPanel.this, teditsUser.class));
                         break;
 
                     case R.id.nav_user_catalogue :
                         Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ControlPanel.this, teditsCatalogue.class));
+                        startActivity(new Intent(ControlPanel.this, teditsUserCatalogue.class));
                         break;
 
                     case R.id.nav_control_panel:
-                        Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Control Panel is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        finish();
-                        startActivity(new Intent(ControlPanel.this, ControlPanel.class));
                         break;
 
                     case R.id.tedits_chats :
