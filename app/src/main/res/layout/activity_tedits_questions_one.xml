@@ -1,128 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_teal"
+    android:id="@+id/drawer"
+    android:background="@color/lighter_teal"
+    tools:openDrawer="start"
     tools:context=".teditsQuestions">
 
-    <TextView
-        android:id="@+id/packageTitle"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsbold"
-        android:gravity="center"
-        android:text="T-Edits Package Questions"
-        android:textColor="@color/dark_blue"
-        android:textSize="23dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="@color/light_teal"
+        tools:context=".teditsQuestions">
 
-    <TextView
-        android:id="@+id/questionOne"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="64dp"
-        android:fontFamily="@font/poppinsbold"
-        android:gravity="left"
-        android:text="1. Please enter the name of your brand"
-        android:textColor="@color/dark_blue"
-        android:textSize="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/packageTitle"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/logoname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/questionOne"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:hint="Eg. Adidas">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/logonameText"
-            android:maxLength="20"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/questionThree"
-            android:backgroundTint="@color/lighter_teal"
-            android:fontFamily="@font/poppinsmedium" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:background="@color/dark_blue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/light_blue" />
 
-    <TextView
-        android:id="@+id/threeOne"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/logoname"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/poppinsbold"
-        android:gravity="left"
-        android:text="1.1 Please select a logo type"
-        android:textColor="@color/dark_blue"
-        android:textSize="15dp" />
-
-    <RadioGroup
-        android:id="@+id/optionone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/threeOne"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radio_icon"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/packageTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:onClick="onRadioButtonClicked"
-            android:text="Icon type"
-            android:checked="true"/>
+            android:fontFamily="@font/poppinsbold"
+            android:gravity="center"
+            android:layout_below="@id/toolbar"
+            android:text="T-Edits Package Questions"
+            android:textColor="@color/dark_blue"
+            android:textSize="23dp"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/radio_name"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/questionOne"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/packageTitle"
             android:layout_marginLeft="30dp"
-            android:onClick="onRadioButtonClicked"
-            android:text="Name tyoe" />
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/poppinsbold"
+            android:gravity="left"
+            android:text="1. Please enter the name of your brand"
+            android:textColor="@color/dark_blue"
+            android:textSize="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/packageTitle"
+            tools:layout_editor_absoluteX="0dp" />
 
-    </RadioGroup>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/logoname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/questionOne"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:hint="Eg. Adidas">
 
-    <TextView
-        android:id="@+id/threeTwo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/optionone"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/poppinsbold"
-        android:gravity="left"
-        android:text="1.2 Upload a sketch of your logo (Optional)"
-        android:textColor="@color/dark_blue"
-        android:textSize="15dp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/logonameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/questionThree"
+                android:backgroundTint="@color/lighter_teal"
+                android:fontFamily="@font/poppinsmedium"
+                android:maxLength="20" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
-        android:id="@+id/sketchupload"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_below="@id/threeTwo"
-        android:layout_marginLeft="110dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_image" />
+        <TextView
+            android:id="@+id/threeOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logoname"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppinsbold"
+            android:gravity="left"
+            android:text="1.1 Please select a logo type"
+            android:textColor="@color/dark_blue"
+            android:textSize="15dp" />
 
-    <Button
-        android:id="@+id/submitOne"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sketchupload"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:backgroundTint="@color/dark_blue"
-        android:text="Submit" />
+        <RadioGroup
+            android:id="@+id/optionone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/threeOne"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+
+                android:text="Icon type"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/radio_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+
+                android:text="Name tyoe" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/threeTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/optionone"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppinsbold"
+            android:gravity="left"
+            android:text="1.2 Upload a sketch of your logo (Optional)"
+            android:textColor="@color/dark_blue"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/sketchupload"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@id/threeTwo"
+            android:layout_marginLeft="110dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_image" />
+
+        <Button
+            android:id="@+id/submitOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sketchupload"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:backgroundTint="@color/dark_blue"
+            android:text="Submit" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navimenu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/navheader"
+        app:menu="@menu/navmenu"
+        android:layout_gravity="start"/>
+</androidx.drawerlayout.widget.DrawerLayout>

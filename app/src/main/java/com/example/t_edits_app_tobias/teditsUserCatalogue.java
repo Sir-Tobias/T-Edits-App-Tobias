@@ -11,13 +11,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +54,9 @@ public class teditsUserCatalogue extends AppCompatActivity {
 
     ArrayList<TContent> arrayList;
 
+    NavigationView nav;
+    ActionBarDrawerToggle toggle;
+    DrawerLayout drawerLayout;
 
 
     private FirebaseAuth mAuth;
@@ -96,6 +104,66 @@ public class teditsUserCatalogue extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        nav=(NavigationView)findViewById(R.id.navimenu);
+        drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+
+        toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+            {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.nav_home :
+                        Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUserCatalogue.this, ExplorePage.class));
+                        break;
+
+                    case R.id.nav_profile :
+                        Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUserCatalogue.this, teditsUser.class));
+                        break;
+
+                    case R.id.nav_user_catalogue :
+                        Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                    case R.id.nav_control_panel:
+                        Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUserCatalogue.this, ControlPanel.class));
+                        break;
+
+                    case R.id.tedits_chats :
+                        Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                    case R.id.nav_logout :
+                        Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
+                        mAuth.signOut();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUserCatalogue.this, MainActivity.class));
+                        break;
+                }
+
+                return true;
+            }
+        });
         setContentView(R.layout.activity_tedits_user_catalogue);
         recyclerView = findViewById(R.id.recyclerUserView);
 

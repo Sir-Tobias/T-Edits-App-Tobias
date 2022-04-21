@@ -77,7 +77,6 @@ public class teditsQuestions extends AppCompatActivity {
         questionTwo = findViewById(R.id.targetAudience);
         questionThree = findViewById(R.id.brandIndustry);
 
-
         radioGroupOne = (RadioGroup) findViewById(R.id.optionone);
         radioGroupTwoOne = (RadioGroup) findViewById(R.id.optiontwoone);
         radioGroupTwoTwo = (RadioGroup) findViewById(R.id.optiontwotwo);
@@ -103,15 +102,15 @@ public class teditsQuestions extends AppCompatActivity {
 
             }
         });
-//        radioGroupOne.setOnCheckedChangeListener(
-//                new RadioGroup.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
-//                        // Get the selected Radio Button
-//                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(checkId);
-//                    }
-//                }
-//        );
+        radioGroupOne.setOnCheckedChangeListener(
+                new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
+                        // Get the selected Radio Button
+                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(checkId);
+                    }
+                }
+        );
 
 
         //SUBMIT ANSWER ONE
@@ -167,7 +166,7 @@ public class teditsQuestions extends AppCompatActivity {
                 Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
                 final String ageDemographic = radioButton2.getText().toString();
 
-                if(qTwo!=null && genderAudience!=null && ageDemographic!=null) {
+                if (qTwo != null && genderAudience != null && ageDemographic != null) {
                     submitTwo(qTwo, genderAudience, ageDemographic);
                 }
 
@@ -175,24 +174,76 @@ public class teditsQuestions extends AppCompatActivity {
         });
 
         //SUBMIT PAGE THREE
-        submitThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //3. Describe your brand industry
-                final String qThree = questionThree.getText().toString();
+//        submitThree.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //3. Describe your brand industry
+//                final String qThree = questionThree.getText().toString();
+//
+//                int selectedId = radioGroupThreeOne.getCheckedRadioButtonId();
+//
+//                RadioButton radioButton = (RadioButton) radioGroupThreeOne.findViewById(selectedId);
+//                //Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
+//                final String brandIndustry = radioButton.getText().toString();
+//
+//                if(qThree!=null && brandIndustry!=null) {
+//                    submitTwo(qThree, brandIndustry);
+//                }
+//            }
+//        });
 
-                int selectedId = radioGroupThreeOne.getCheckedRadioButtonId();
 
-                RadioButton radioButton = (RadioButton) radioGroupThreeOne.findViewById(selectedId);
-                //Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
-                final String brandIndustry = radioButton.getText().toString();
-
-                if(qThree!=null && brandIndustry!=null) {
-                    submitTwo(qThree, brandIndustry);
-                }
-            }
-        });
-    }
+   }
+//    public void onClickTwo(View view) {
+//
+//        submitOne = (Button) findViewById(R.id.submitOne);
+//        questionTwo = findViewById(R.id.targetAudience);
+//        radioGroupTwoOne = (RadioGroup) findViewById(R.id.optiontwoone);
+//        radioGroupTwoTwo = (RadioGroup) findViewById(R.id.optiontwotwo);
+//
+//        radioGroupTwoOne.setOnCheckedChangeListener(
+//                new RadioGroup.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
+//                        // Get the selected Radio Button
+//                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(checkId);
+//                    }
+//                }
+//        );
+//
+//        radioGroupTwoTwo.setOnCheckedChangeListener(
+//                new RadioGroup.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
+//                        // Get the selected Radio Button
+//                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(checkId);
+//                    }
+//                }
+//        );
+//
+//
+//        //2. Describe the target audience of your brand
+//        final String qTwo = questionTwo.getText().toString();
+//
+//        //2.1 What is the gender audience?
+//        int selectedId = radioGroupTwoOne.getCheckedRadioButtonId();
+//
+//        RadioButton radioButton = (RadioButton) radioGroupTwoOne.findViewById(selectedId);
+//        Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
+//        final String genderAudience = radioButton.getText().toString();
+//
+//        //2.2 What is the age demographic?
+//        int selectedtwoId = radioGroupTwoTwo.getCheckedRadioButtonId();
+//
+//        RadioButton radioButton2 = (RadioButton) radioGroupTwoTwo.findViewById(selectedId);
+//        Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
+//        final String ageDemographic = radioButton2.getText().toString();
+//
+//        if (qTwo != null && genderAudience != null && ageDemographic != null) {
+//            submitTwo(qTwo, genderAudience, ageDemographic);
+//        }
+//
+//    }
 
     //ANSWER PAGE ONE
     private void submitOne(final String qOne, final String logoType) {
@@ -207,16 +258,50 @@ public class teditsQuestions extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         HashMap hashMap = new HashMap();
-                        hashMap.put("1. Name of logo: ", qOne);
-                        hashMap.put("1.2 Type of logo: ", logoType);
-                        hashMap.put("1.3 ImageUri", uri.toString());
+                        hashMap.put("1 Name of logo: ", qOne);
+                        hashMap.put("1*2 Type of logo: ", logoType);
+                        hashMap.put("1*3 ImageUri", uri.toString());
 
                         //Push key
-                        Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        Dataref.child("Q1.1").setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(teditsQuestions.this,"Question one has been submitted", Toast.LENGTH_LONG).show();
+                                //LAUNCHES THE PAGE TWO
+//                                Intent intent = new Intent(this, teditsUser.class);
+//                                this.startActivity (intent);
                                 setContentView(R.layout.activity_tedits_questions_two);
+                                //SOLUTION ONE
+//                                submitTwo = (Button) findViewById(R.id.submitTwo);
+//
+//                                //SUBMIT PAGE TWO
+//                                submitTwo.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View view) {
+//
+//                                        //2. Describe the target audience of your brand
+//                                        final String qTwo = questionTwo.getText().toString();
+//
+//                                        //2.1 What is the gender audience?
+//                                        int selectedId = radioGroupTwoOne.getCheckedRadioButtonId();
+//
+//                                        RadioButton radioButton = (RadioButton) radioGroupTwoOne.findViewById(selectedId);
+//                                        Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
+//                                        final String genderAudience = radioButton.getText().toString();
+//
+//                                        //2.2 What is the age demographic?
+//                                        int selectedtwoId = radioGroupTwoTwo.getCheckedRadioButtonId();
+//
+//                                        RadioButton radioButton2 = (RadioButton) radioGroupTwoTwo.findViewById(selectedId);
+//                                        Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
+//                                        final String ageDemographic = radioButton2.getText().toString();
+//
+//                                        if (qTwo != null && genderAudience != null && ageDemographic != null) {
+//                                            submitTwo(qTwo, genderAudience, ageDemographic);
+//                                        }
+//
+//                                    }
+//                                });
                             }
                         });
 
@@ -235,46 +320,67 @@ public class teditsQuestions extends AppCompatActivity {
 
     //ANSWER PAGE TWO
     private void submitTwo(String qTwo, String genderAudience, String ageDemographic) {
-
-        //Data reference key
         final String key = Dataref.push().getKey();
 
-        Storageref.child(key+ ".jpg").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Storageref.child(key+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        HashMap hashMap = new HashMap();
-                        hashMap.put("2. Description of brand: ", qTwo);
-                        hashMap.put("2.1 Type of Gender audience: ", genderAudience);
-                        hashMap.put("2.2 Age demographic: ", ageDemographic);
+            HashMap hashMap = new HashMap();
+            hashMap.put("2* Description of brand: ", qTwo);
+            hashMap.put("2*1 Type of Gender audience: ", genderAudience);
+            hashMap.put("2*2 Age demographic: ", ageDemographic);
 
-                        //Push key
-                        Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(teditsQuestions.this,"Question two has been submitted", Toast.LENGTH_LONG).show();
-                                setContentView(R.layout.activity_tedits_questions_three);
-                            }
-                        });
+            Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
 
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                    Toast.makeText(teditsQuestions.this,"Question two has been submitted", Toast.LENGTH_LONG).show();
+                    setContentView(R.layout.activity_tedits_questions_three);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Error, Image not uploaded
+                    Toast.makeText(teditsQuestions.this, "Failed to submit answer " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Error, Image not uploaded
-                Toast.makeText(teditsQuestions.this, "Failed to submit answer " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        //Data reference key
+//        final String key = Dataref.push().getKey();
+//
+//        Storageref.child(key+ ".jpg").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                Storageref.child(key+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        HashMap hashMap = new HashMap();
+//                        hashMap.put("2. Description of brand: ", qTwo);
+//                        hashMap.put("2.1 Type of Gender audience: ", genderAudience);
+//                        hashMap.put("2.2 Age demographic: ", ageDemographic);
+//
+//                        //Push key
+//                        Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                Toast.makeText(teditsQuestions.this,"Question two has been submitted", Toast.LENGTH_LONG).show();
+//                                setContentView(R.layout.activity_tedits_questions_three);
+//                            }
+//                        });
+//
+//                    }
+//                });
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                // Error, Image not uploaded
+//                Toast.makeText(teditsQuestions.this, "Failed to submit answer " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     //ANSWER PAGE THREE
-    private void submitTwo(String qThree, String brandIndustry) {
-    }
+//    private void submitTwo(String qThree, String brandIndustry) {
+//    }
 
 
     @Override
@@ -336,5 +442,8 @@ public class teditsQuestions extends AppCompatActivity {
             isSketchAdded=true;
             sketchViewAdd.setImageURI(imageUri);
         }
+    }
+
+    public void onClickTwo(View view) {
     }
 }

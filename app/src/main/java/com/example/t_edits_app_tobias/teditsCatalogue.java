@@ -2,8 +2,12 @@ package com.example.t_edits_app_tobias;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +34,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +69,10 @@ public class teditsCatalogue extends AppCompatActivity {
     ArrayList<TContent> mContent;
     ArrayList<TContent> uContent;
     SearchView searchView;
+
+    NavigationView nav;
+    ActionBarDrawerToggle toggle;
+    DrawerLayout drawerLayout;
 
 
     private FirebaseAuth mAuth;
@@ -118,6 +127,67 @@ public class teditsCatalogue extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tedits_catalogue);
+
+        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        nav=(NavigationView)findViewById(R.id.navimenu);
+        drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+
+        toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+            {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.nav_home :
+                        Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                    case R.id.nav_profile :
+                        Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsCatalogue.this, teditsContent.class));
+                        break;
+
+                    case R.id.nav_user_catalogue :
+                        Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsCatalogue.this, teditsCatalogue.class));
+                        break;
+
+                    case R.id.nav_control_panel:
+                        Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsCatalogue.this, ControlPanel.class));
+                        break;
+
+                    case R.id.tedits_chats :
+                        Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                    case R.id.nav_logout :
+                        Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
+                        mAuth.signOut();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsCatalogue.this, MainActivity.class));
+                        break;
+                }
+
+                return true;
+            }
+        });
+
         recyclerView = findViewById(R.id.recyclerView);
         //Initializing
         DataRef = FirebaseDatabase.getInstance().getReference().child("Content");
@@ -162,9 +232,7 @@ public class teditsCatalogue extends AppCompatActivity {
 
         //Creating a method to load the data into the recycler view
         LoadData();
-
     }
-
 
     //Method for searching the arraylist catalogue for the string that matches
     private void search(String s) {
@@ -230,95 +298,6 @@ public class teditsCatalogue extends AppCompatActivity {
 
             }
         });
-/*
-    private void LoadData() {
-        //Query query=DataRef.orderByChild("createdMemory").startAt(data).endAt(data+"\uf8ff");
 
-        options = new FirebaseRecyclerOptions.Builder<TContent>().setQuery(DataRef, TContent.class).build();
-        adapter = new FirebaseRecyclerAdapter<TContent, MyViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, TContent model) {
-
-                //ImageView popupbutton = holder.itemView.findViewById(R.id.menupopbutton);
-                //Toast.makeText(teditsCatalogue.this,model.getContentCreatedOne(), Toast.LENGTH_LONG).show();
-                holder.viewOne.setText(model.getContentCreatedOne());
-                holder.viewTwo.setText(model.getContentCreatedTwo());
-                holder.viewThree.setText(model.getContentCreatedThree());
-                holder.viewFour.setText(model.getContentCreatedFour());
-                Picasso.get().load(model.getImageUri()).into(holder.imageView);
-                //Picasso.get().load(model.getImageUri()).into((Target) holder.imageView);
-
-                //String docID = adapter.getSnapshots().getSnapshot(position).getKey();
-                String docID = adapter.getRef(position).getKey();
-                Toast.makeText(teditsCatalogue.this,"Displaying T-Edits Content", Toast.LENGTH_LONG).show();
-
-                holder.view.setOnClickListener(new View.OnClickListener() {
-
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public void onClick(View view) {
-
-                        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-                        //popupMenu.(Gravity.END);
-                        popupMenu.setGravity(Gravity.END);
-                        //popupMenu.inflate(R.menu.class);
-                        //getMenuInflater().inflate(R.menu.menu, (Menu) popupMenu);
-                        Toast.makeText(teditsCatalogue.this, "Click works3", Toast.LENGTH_LONG).show();
-                        /*
-                        popupMenu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-                            @Override
-                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                Intent intent = new Intent(view.getContext(), viewContent.class);
-                                //Picasso.get().load(model.getImageUri()).into(holder.imageView);
-                                intent.putExtra("MemoryID", docID);
-                                startActivity(intent);
-                                return false;
-                            }
-                        });
-
-
-                        popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                //Toast.makeText(v.getContext(),"This note is deleted",Toast.LENGTH_SHORT).show();
-                                DataRef = FirebaseDatabase.getInstance().getReference().child("Memory").child(docID);
-                                StorageRef = FirebaseStorage.getInstance().getReference().child("MemoriesBackedup").child(docID + ".jpg");
-                                //DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(docId);
-                                DataRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        StorageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                startActivity(new Intent(getApplicationContext(), teditsUser.class));
-                                            }
-                                        });
-                                        Toast.makeText(view.getContext(), "This memory is deleted", Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(view.getContext(), "Failed To Delete", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                return false;
-                            }
-                        });
-
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view, parent, false);
-                return new MyViewHolder(view);
-            }
-        };
-        adapter.startListening();
-        recyclerView.setAdapter(adapter);
-    }*/
     }
 }

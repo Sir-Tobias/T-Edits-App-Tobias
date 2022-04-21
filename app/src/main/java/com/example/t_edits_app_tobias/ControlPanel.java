@@ -17,9 +17,9 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class teditsUser extends AppCompatActivity {
-
+public class ControlPanel extends AppCompatActivity {
     private FirebaseAuth mAuth;
+
 
     NavigationView nav;
     ActionBarDrawerToggle toggle;
@@ -28,7 +28,7 @@ public class teditsUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tedits_user);
+        setContentView(R.layout.activity_control_panel);
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,29 +49,27 @@ public class teditsUser extends AppCompatActivity {
                     case R.id.nav_home :
                         Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        finish();
-                        startActivity(new Intent(teditsUser.this, ExplorePage.class));
                         break;
 
                     case R.id.nav_profile :
                         Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(teditsUser.this, teditsUser.class));
+                        startActivity(new Intent(ControlPanel.this, teditsContent.class));
                         break;
 
                     case R.id.nav_user_catalogue :
                         Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(teditsUser.this, teditsUserCatalogue.class));
+                        startActivity(new Intent(ControlPanel.this, teditsCatalogue.class));
                         break;
 
                     case R.id.nav_control_panel:
                         Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(teditsUser.this, ControlPanel.class));
+                        startActivity(new Intent(ControlPanel.this, ControlPanel.class));
                         break;
 
                     case R.id.tedits_chats :
@@ -84,7 +82,7 @@ public class teditsUser extends AppCompatActivity {
                         mAuth.signOut();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(teditsUser.this, MainActivity.class));
+                        startActivity(new Intent(ControlPanel.this, MainActivity.class));
                         break;
                 }
 
@@ -92,72 +90,69 @@ public class teditsUser extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_logout:
                 mAuth.signOut();
                 finish();
-                startActivity(new Intent(teditsUser.this, MainActivity.class));
+                startActivity(new Intent(ControlPanel.this, MainActivity.class));
                 break;
 
             case R.id.nav_upload_content:
                 finish();
-                startActivity(new Intent(teditsUser.this, teditsContent.class));
+                startActivity(new Intent(ControlPanel.this, teditsContent.class));
                 break;
 
             case R.id.nav_content_catalogue:
                 finish();
-                startActivity(new Intent(teditsUser.this, teditsCatalogue.class));
+                startActivity(new Intent(ControlPanel.this, teditsCatalogue.class));
                 break;
 
             case R.id.nav_user_catalogue:
                 finish();
-                startActivity(new Intent(teditsUser.this, teditsUserCatalogue.class));
+                startActivity(new Intent(ControlPanel.this, teditsUserCatalogue.class));
                 break;
             case R.id.nav_elements_catalogue:
                 finish();
-                startActivity(new Intent(teditsUser.this, teditsElementCatalogue.class));
+                startActivity(new Intent(ControlPanel.this, teditsElementCatalogue.class));
                 break;
 
             case R.id.nav_home:
                 finish();
-                startActivity(new Intent(teditsUser.this, teditsUser.class));
+                startActivity(new Intent(ControlPanel.this, teditsUser.class));
                 break;
 
 
         }
         return super.onOptionsItemSelected(item);
     }
-
     public void startContentActivity(View view) {
-        Toast.makeText(teditsUser.this,"Upload content", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(teditsUser.this,teditsContent.class);
+        Toast.makeText(ControlPanel.this,"Upload content", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(ControlPanel.this,teditsContent.class);
         startActivity(intent);
     }
 
     public void viewContentActivity(View view) {
-        Toast.makeText(teditsUser.this,"View content", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(teditsUser.this,teditsCatalogue.class);
+        Toast.makeText(ControlPanel.this,"View content", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(ControlPanel.this,teditsCatalogue.class);
         startActivity(intent);
     }
 
     public void startElementActivity(View view) {
-        Toast.makeText(teditsUser.this,"Upload Element", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(teditsUser.this,teditsElementsContent.class);
+        Toast.makeText(ControlPanel.this,"Upload Element", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(ControlPanel.this,teditsElementsContent.class);
         startActivity(intent);
     }
 
     public void startQuestionActivity(View view) {
-        Toast.makeText(teditsUser.this,"Start Questions", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(teditsUser.this,teditsQuestions.class);
+        Toast.makeText(ControlPanel.this,"Start Questions", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(ControlPanel.this,teditsQuestions.class);
         startActivity(intent);
     }
 }

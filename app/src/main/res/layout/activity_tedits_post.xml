@@ -7,7 +7,7 @@
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
     tools:openDrawer="start"
-    tools:context=".teditsContent">
+    tools:context=".teditsPost">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,13 +29,13 @@
             android:id="@+id/appName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/poppinsbold"
             android:gravity="center"
-            android:text="T-Edits Content"
+            android:text="T-Post Uploads"
             android:textColor="@color/white"
-            android:textSize="30dp"
-            android:layout_below="@id/toolbar"
+            android:textSize="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,90 +51,51 @@
             android:src="@drawable/ic_image" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/categoryOne"
+            android:id="@+id/namePost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/contentupload"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:hint="Enter the target audience">
+            android:hint="Enter the name of your post">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/categoryOneText"
+                android:id="@+id/namePostText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/contentupload"
                 android:backgroundTint="@color/light_teal"
-                android:drawableEnd="@drawable/ic_noteadd"
+                android:drawableEnd="@drawable/edit_icon"
+                android:maxLength="25"
                 android:fontFamily="@font/poppinsmedium" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/categoryTwo"
+            android:id="@+id/captionPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/categoryOne"
+            android:layout_below="@id/namePost"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:hint="Enter the theme of the post">
+            android:hint="Enter the caption of your post">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/categoryTwoText"
+                android:id="@+id/captionPostText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/categoryOne"
                 android:backgroundTint="@color/light_teal"
-                android:drawableEnd="@drawable/ic_noteadd"
+                android:drawableEnd="@drawable/edit_icon"
+                android:maxLength="300"
                 android:fontFamily="@font/poppinsmedium" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/categoryThree"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/categoryTwo"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:hint="Enter the industry">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/categoryThreeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/categoryTwo"
-                android:backgroundTint="@color/light_teal"
-                android:drawableEnd="@drawable/ic_noteadd"
-                android:fontFamily="@font/poppinsmedium" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/categoryFour"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/categoryThree"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:hint="Enter the Colour">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/categoryFourText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/categoryThree"
-                android:backgroundTint="@color/light_teal"
-                android:drawableEnd="@drawable/ic_noteadd"
-                android:fontFamily="@font/poppinsmedium" />
-        </com.google.android.material.textfield.TextInputLayout>
-
         <ProgressBar
             android:id="@+id/progressBarn"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/categoryFour"
+            android:layout_below="@id/captionPost"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"/>
 

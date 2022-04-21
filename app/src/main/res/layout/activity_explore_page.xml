@@ -7,7 +7,7 @@
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
     tools:openDrawer="end"
-    tools:context=".teditsCatalogue">
+    tools:context=".ExplorePage">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,12 +29,12 @@
             android:id="@+id/textView_single_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
             android:fontFamily="@font/poppinsbold"
             android:gravity="center"
-            android:layout_below="@id/toolbar"
-            android:text="T-Edits User Catalogue"
+            android:text="T-Explore page"
             android:textColor="@color/light_teal"
-            android:textSize="25dp" />
+            android:textSize="20dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchCatalogue"
@@ -57,7 +57,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerUserView"
+            android:id="@+id/recyclerExploreView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/searchCatalogue" />

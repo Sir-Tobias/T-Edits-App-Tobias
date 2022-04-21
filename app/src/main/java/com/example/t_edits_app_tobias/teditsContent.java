@@ -2,12 +2,17 @@ package com.example.t_edits_app_tobias;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -56,7 +62,14 @@ public class teditsContent extends AppCompatActivity {
         private StorageReference Storageref;
         private FirebaseStorage storage;
 
-        //Linking the posts being uploaded to user
+        private FirebaseAuth mAuth;
+
+        NavigationView nav;
+        ActionBarDrawerToggle toggle;
+        DrawerLayout drawerLayout;
+
+
+    //Linking the posts being uploaded to user
         FirebaseUser firebaseUser;
 
         @Override
@@ -69,6 +82,66 @@ public class teditsContent extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_tedits_content);
+
+            Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            nav=(NavigationView)findViewById(R.id.navimenu);
+            drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+
+            toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+            drawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
+
+            nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+                {
+                    switch (menuItem.getItemId())
+                    {
+                        case R.id.nav_home :
+                            Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            break;
+
+                        case R.id.nav_profile :
+                            Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            finish();
+                            startActivity(new Intent(teditsContent.this, teditsContent.class));
+                            break;
+
+                        case R.id.nav_user_catalogue :
+                            Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            finish();
+                            startActivity(new Intent(teditsContent.this, teditsCatalogue.class));
+                            break;
+
+                        case R.id.nav_control_panel:
+                            Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            finish();
+                            startActivity(new Intent(teditsContent.this, ControlPanel.class));
+                            break;
+
+                        case R.id.tedits_chats :
+                            Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            break;
+
+                        case R.id.nav_logout :
+                            Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
+                            mAuth.signOut();
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            finish();
+                            startActivity(new Intent(teditsContent.this, MainActivity.class));
+                            break;
+                    }
+
+                    return true;
+                }
+            });
 
             imageViewAdd = findViewById(R.id.contentupload);
 

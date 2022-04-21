@@ -7,7 +7,7 @@
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
     tools:openDrawer="start"
-    tools:context=".teditsUser">
+    tools:context=".ControlPanel">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -57,6 +57,65 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_image"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp" />
+
+        <Button
+            android:id="@+id/btnStartMemory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="240dp"
+            android:backgroundTint="@color/light_blue"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:onClick="startContentActivity"
+            android:text="Upload Content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/banner2"
+            tools:layout_editor_absoluteX="40dp" />
+
+        <Button
+            android:id="@+id/btnViewContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="240dp"
+            android:backgroundTint="@color/light_blue"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:onClick="viewContentActivity"
+            android:text="View Content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnStartMemory"
+            tools:layout_editor_absoluteX="40dp" />
+
+        <Button
+            android:id="@+id/btnStartElements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/light_blue"
+            android:onClick="startElementActivity"
+            android:text="Upload Elements"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnViewContent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Button
+            android:id="@+id/btnStartQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/light_blue"
+            android:onClick="startQuestionActivity"
+            android:text="Package Questions"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnStartElements"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
