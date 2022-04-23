@@ -72,6 +72,13 @@ public class teditsUser extends AppCompatActivity {
                         startActivity(new Intent(teditsUser.this, ControlPanel.class));
                         break;
 
+                    case R.id.nav_tedits_package:
+                        Toast.makeText(getApplicationContext(),"T-Edits Package",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUser.this, PageOne.class));
+                        break;
+
                     case R.id.tedits_chats :
                         Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);

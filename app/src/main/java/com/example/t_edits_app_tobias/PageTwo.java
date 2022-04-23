@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -62,6 +64,9 @@ public class PageTwo extends AppCompatActivity {
     private StorageReference Storageref;
     private FirebaseStorage storage;
 
+    //SHARED PREFERENCES
+    SharedPreferences sp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,9 @@ public class PageTwo extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
 
         Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("LogoPackage");
+
+        //INSTANTIATING MY SHARED PREFERENCE
+        sp = getSharedPreferences("AnswerTwo", Context.MODE_PRIVATE);
 
         //rFireStore = FirebaseFirestore.getInstance().collection("Users").document().collection("LogoPackage");
         sketchViewAdd.setOnClickListener(new View.OnClickListener() {
@@ -126,9 +134,18 @@ public class PageTwo extends AppCompatActivity {
                 //2.2 What is the age demographic?
                 int selectedtwoId = radioGroupTwoTwo.getCheckedRadioButtonId();
 
-                RadioButton radioButton2 = (RadioButton) radioGroupTwoTwo.findViewById(selectedId);
+                RadioButton radioButton2 = (RadioButton) radioGroupTwoTwo.findViewById(selectedtwoId);
                 Toast.makeText(PageTwo.this, radioButton.getText(), Toast.LENGTH_LONG).show();
                 final String ageDemographic = radioButton2.getText().toString();
+
+                //Creating my shared preference editor
+                SharedPreferences.Editor editor = sp.edit();
+
+                editor.putString("targetAudience", qTwo);
+                editor.putString("genderAudience", genderAudience);
+                editor.putString("ageDemographic", ageDemographic);
+                editor.commit();
+                Toast.makeText(PageTwo.this,"Successfully saved question two to preferences", Toast.LENGTH_LONG).show();
 
                 if (qTwo != null && genderAudience != null && ageDemographic != null) {
                     submitTwo(qTwo, genderAudience, ageDemographic);

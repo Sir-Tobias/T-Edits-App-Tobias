@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -37,7 +39,7 @@ public class PageThree extends AppCompatActivity {
     private ImageView sketchViewAdd;
 
     private EditText questionThree;
-    private RadioGroup radioGroupOne, radioGroupTwoOne, radioGroupTwoTwo, radioGroupThreeOne, radioGroupFour;
+    private RadioGroup radioGroupThreeOne;
     //private RadioButton logoType;
 
     //Question one String values
@@ -62,6 +64,9 @@ public class PageThree extends AppCompatActivity {
     private StorageReference Storageref;
     private FirebaseStorage storage;
 
+    //SHARED PREFERENCES
+    SharedPreferences sp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +86,10 @@ public class PageThree extends AppCompatActivity {
 
         Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("LogoPackage");
 
+
+        //INSTANTIATING MY SHARED PREFERENCE
+        sp = getSharedPreferences("AnswerThree", Context.MODE_PRIVATE);
+
         //rFireStore = FirebaseFirestore.getInstance().collection("Users").document().collection("LogoPackage");
         sketchViewAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +101,7 @@ public class PageThree extends AppCompatActivity {
 
             }
         });
-        radioGroupOne.setOnCheckedChangeListener(
+        radioGroupThreeOne.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
@@ -114,6 +123,14 @@ public class PageThree extends AppCompatActivity {
                 RadioButton radioButton = (RadioButton) radioGroupThreeOne.findViewById(selectedId);
                 //Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
                 final String brandIndustry = radioButton.getText().toString();
+
+                //Creating my shared preference editor
+                SharedPreferences.Editor editor = sp.edit();
+
+                editor.putString("industryDescription", qThree);
+                editor.putString("industryType", brandIndustry);
+                editor.commit();
+                Toast.makeText(PageThree.this,"Successfully saved question three to preferences", Toast.LENGTH_LONG).show();
 
                 if(qThree!=null && brandIndustry!=null) {
                     submitThree(qThree, brandIndustry);

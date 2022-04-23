@@ -9,9 +9,7 @@
     tools:openDrawer="end"
     tools:context=".PageFour">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/light_teal"
@@ -106,88 +104,90 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/poppinsbold"
             android:gravity="left"
-            android:text="4.1 Select two secondary colors"
+            android:text="4.1 Select a secondary colors"
             android:textColor="@color/dark_blue"
             android:textSize="15dp"
             tools:layout_editor_absoluteX="0dp" />
 
-        <CheckBox
-            android:id="@+id/Orange"
+        <RadioGroup
+            android:id="@+id/optionfourone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/questionFourone"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="20dp"
-            android:text="Orange" />
+            android:layout_marginStart="20dp"
+            android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/questionFourone"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="7dp"
-            android:layout_toEndOf="@+id/Orange"
-            android:text="Green" />
+            <RadioButton
+                android:id="@+id/orange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:text="Orange" />
 
-        <CheckBox
-            android:id="@+id/Purple"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/questionFourone"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="7dp"
-            android:layout_toEndOf="@+id/Green"
-            android:text="Purple" />
+            <RadioButton
+                android:id="@+id/green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Green" />
+
+            <RadioButton
+                android:id="@+id/purple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Purple" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/questionFourtwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Purple"
+            android:layout_below="@id/optionfourone"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/poppinsbold"
             android:gravity="left"
-            android:text="4.3 Select neutral colors"
+            android:text="4.2 Select neutral colors"
             android:textColor="@color/dark_blue"
             android:textSize="15dp"
             tools:layout_editor_absoluteX="0dp" />
 
-        <CheckBox
-            android:id="@+id/Brown"
+        <RadioGroup
+            android:id="@+id/optionfourtwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/questionFourtwo"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="20dp"
-            android:text="Brown" />
+            android:layout_marginStart="20dp"
+            android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/Grey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/questionFourtwo"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="7dp"
-            android:layout_toEndOf="@+id/Orange"
-            android:text="Grey" />
+            <RadioButton
+                android:id="@+id/brown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:text="Brown" />
 
-        <CheckBox
-            android:id="@+id/Beige"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/questionFourtwo"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="7dp"
-            android:layout_toEndOf="@+id/Green"
-            android:text="Beige" />
+            <RadioButton
+                android:id="@+id/beige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Beige" />
+
+            <RadioButton
+                android:id="@+id/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Grey" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/submitFour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Brown"
+            android:layout_below="@id/optionfourtwo"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="21dp"
             android:layout_marginRight="40dp"
