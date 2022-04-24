@@ -25,7 +25,7 @@
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
         android:text="T-Element"
-        android:textColor="@color/white"
+        android:textColor="@color/darker_blue"
         android:textSize="15dp" />
 
 

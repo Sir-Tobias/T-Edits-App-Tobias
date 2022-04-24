@@ -72,7 +72,7 @@ public class PageFour extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tedits_questions_one);
+        setContentView(R.layout.activity_page_four);
 
         radioGroupFour = (RadioGroup) findViewById(R.id.optionfour);
         radioGroupFourOne = (RadioGroup) findViewById(R.id.optionfourone);
@@ -258,7 +258,7 @@ public class PageFour extends AppCompatActivity {
         sColours.put("Green", "DG,");
         sColours.put("Purple", "DH,");
 
-        answerSix = answerFive + pColours.get(secondaryColour);
+        answerSix = answerFive + sColours.get(secondaryColour);
 
         //ANSWER 4.3 ENTER YOUR NEUTRAL COLOUR?
         HashMap<String, String>nColours = new HashMap<>();
@@ -277,7 +277,7 @@ public class PageFour extends AppCompatActivity {
         oEditor.commit();
         Toast.makeText(PageFour.this,"Successfully saved packageAnswer", Toast.LENGTH_LONG).show();
 
-        submitFour(nameLogo, typeLogo, imageUri, targetAudience, genderAudience , ageDemographic, industryDescription, industryType, primaryColour, secondaryColour, neutralColour);
+        submitFour(nameLogo, typeLogo, imageUri, targetAudience, genderAudience , ageDemographic, industryDescription, industryType, primaryColour, secondaryColour, neutralColour, packageAnswer);
 
 
 //        if (nameLogo.isEmpty()) {
@@ -357,24 +357,26 @@ public class PageFour extends AppCompatActivity {
     }
 
     //ANSWER PAGE THREE
-    private void submitFour(String nameLogo, String typeLogo, String imageUri, String targetAudience, String genderAudience, String ageDemographic, String industryDescription, String industryType, String primaryColour, String secondaryColour, String neutralColour) {
+    private void submitFour(String nameLogo, String typeLogo, String imageUri, String targetAudience, String genderAudience, String ageDemographic, String industryDescription, String industryType, String primaryColour, String secondaryColour, String neutralColour, String packageAnswer) {
         final String key = Dataref.push().getKey();
 
         HashMap hashMap = new HashMap();
-        hashMap.put("1 Name of logo: ", nameLogo);
-        hashMap.put("1*2 Type of logo: ", typeLogo);
-        hashMap.put("1*3 Sketch of logo: ", imageUri);
+        hashMap.put("1 Name of logo ", nameLogo);
+        hashMap.put("1*2 Type of logo ", typeLogo);
+        hashMap.put("1*3 Sketch of logo ", imageUri);
 
-        hashMap.put("2* Description of brand: ", targetAudience);
-        hashMap.put("2*1 Type of Gender audience: ", genderAudience);
-        hashMap.put("2*2 Age demographic: ", ageDemographic);
+        hashMap.put("2* Description of brand ", targetAudience);
+        hashMap.put("2*1 Type of Gender audience ", genderAudience);
+        hashMap.put("2*2 Age demographic ", ageDemographic);
 
-        hashMap.put("3* Description of brand industry: ", industryDescription);
-        hashMap.put("3*1 Type of Gender audience: ", industryType);
+        hashMap.put("3* Description of brand industry ", industryDescription);
+        hashMap.put("3*1 Type of Gender audience ", industryType);
 
-        hashMap.put("4* Select a primary colour: ", primaryColour);
-        hashMap.put("4*1 Select a secondary colour: ", secondaryColour);
-        hashMap.put("4*2 Select a neutral colour: ", neutralColour);
+        hashMap.put("4* Select a primary colour ", primaryColour);
+        hashMap.put("4*1 Select a secondary colour ", secondaryColour);
+        hashMap.put("4*2 Select a neutral colour ", neutralColour);
+
+        hashMap.put("Package answer code Value ", packageAnswer);
 
         Dataref.child("Package Answers").setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

@@ -71,7 +71,7 @@ public class PageThree extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tedits_questions_one);
+        setContentView(R.layout.activity_page_three);
 
         sketchViewAdd = findViewById(R.id.sketchupload);
 
@@ -92,15 +92,15 @@ public class PageThree extends AppCompatActivity {
 
         //rFireStore = FirebaseFirestore.getInstance().collection("Users").document().collection("LogoPackage");
 
-        radioGroupThreeOne.setOnCheckedChangeListener(
-                new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
-                        // Get the selected Radio Button
-                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(checkId);
-                    }
-                }
-        );
+//        radioGroupThreeOne.setOnCheckedChangeListener(
+//                new RadioGroup.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
+//                        // Get the selected Radio Button
+//                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(checkId);
+//                    }
+//                }
+//        );
 
         //SUBMIT PAGE THREE
         submitThree.setOnClickListener(new View.OnClickListener() {

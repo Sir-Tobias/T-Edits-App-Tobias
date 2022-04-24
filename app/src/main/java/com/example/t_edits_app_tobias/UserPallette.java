@@ -142,10 +142,11 @@ public class UserPallette extends AppCompatActivity {
                 return true;
             }
         });
+        //Creating a method to load the data into the recycler view
+        LoadData();
 
-        generatePallette();
 
-        recyclerView = findViewById(R.id.recyclerElementsView);
+        recyclerView = findViewById(R.id.recyclerPalletteView);
         checkoutButton = findViewById(R.id.checkoutB);
 
         //Initializing
@@ -191,13 +192,11 @@ public class UserPallette extends AppCompatActivity {
             }
         });
 
-        //Creating a method to load the data into the recycler view
-        LoadData();
 
     }
 
     private void generatePallette() {
-        ArrayList<TPallette> myList = new ArrayList<>();
+        //ArrayList<TPallette> myList = new ArrayList<>();
 
         //LOADING THE SHARED PREFERENCES PACKAGE ANSWER FROM PAGE FOUR
         SharedPreferences sa = getApplicationContext().getSharedPreferences("PackageAnswer", Context.MODE_PRIVATE);
@@ -211,13 +210,18 @@ public class UserPallette extends AppCompatActivity {
         //THIRDLY I WILL PUT THE FIXED VALUE LIST INTO AN ARRAYLIST
         ArrayList<String> listOfValues = new ArrayList<String>(fixedValue);
 
+        System.out.println(pElement);
+
         //I ASSUME THAT THERE WILL BE SEVEN SEPERATED VALUES BECAUSE OF THE COMMA PLACEMENTS
+        ArrayList<TPallette> myList = new ArrayList<>();
         for (TPallette object : pElement) {
+
             //ITERATE THROUGH THE INDEX STRING VALUES IN MY ARRAYLIST
             for (int i = 0; i < listOfValues.size(); i++) {
                 //IF MY HASHMAP ELEMENT DATABASE IN FIREBASE CONTAINS THE STRING VALUE ADD IT TO THE NEW LIST
-                object.getPalletteValue().toLowerCase().contains(listOfValues.get(i));
-                myList.add(object);
+                if (object.getPalletteValue().contains(listOfValues.get(i))) {
+                    myList.add(object);
+                }
             }
             if (myList.isEmpty()) {
                 Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
@@ -271,6 +275,7 @@ public class UserPallette extends AppCompatActivity {
                 pAdapter = new ImagePalletteAdapter(getApplicationContext(), pElement);
                 recyclerView.setAdapter(pAdapter);
                 pAdapter.notifyDataSetChanged();
+                generatePallette();
             }
 
             @Override
