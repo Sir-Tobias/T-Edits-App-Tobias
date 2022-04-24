@@ -91,16 +91,7 @@ public class PageThree extends AppCompatActivity {
         sp = getSharedPreferences("AnswerThree", Context.MODE_PRIVATE);
 
         //rFireStore = FirebaseFirestore.getInstance().collection("Users").document().collection("LogoPackage");
-        sketchViewAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,REQUEST_CODF_IMAGE);
 
-            }
-        });
         radioGroupThreeOne.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
@@ -145,15 +136,15 @@ public class PageThree extends AppCompatActivity {
         final String key = Dataref.push().getKey();
 
         HashMap hashMap = new HashMap();
-        hashMap.put("3* Description of brand industry: ", qThree);
-        hashMap.put("3*1 Type of Gender audience: ", brandIndustry);
+        hashMap.put("3* Description of brand industry ", qThree);
+        hashMap.put("3*1 Type of Gender audience ", brandIndustry);
 
-        Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Dataref.child("Q3").setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
 
                 Toast.makeText(PageThree.this,"Question three has been submitted", Toast.LENGTH_LONG).show();
-                setContentView(R.layout.activity_page_three);
+                startActivity(new Intent(PageThree.this, PageFour.class));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -22,6 +22,9 @@
             android:name=".PageTwo"
             android:exported="true" />
         <activity
+            android:name=".PageOne"
+            android:exported="true" />
+        <activity
             android:name=".teditsPost"
             android:exported="true" />
         <activity

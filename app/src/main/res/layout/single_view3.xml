@@ -24,7 +24,7 @@
         android:layout_marginTop="240dp"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
-        android:text="Content One"
+        android:text="T-Element"
         android:textColor="@color/white"
         android:textSize="15dp" />
 

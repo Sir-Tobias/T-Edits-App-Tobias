@@ -83,42 +83,16 @@ public class PageFour extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         Storageref = storage.getReference().child("SketchBackedUp");
 
-        //LOADING THE SHARED PREFERENCES FROM PAGE ONE
-        SharedPreferences sa = getApplicationContext().getSharedPreferences("AnswerOne", Context.MODE_PRIVATE);
-        String nameLogo = sa.getString("nameLogo", "");
-        String typeLogo = sa.getString("typeLogo", "");
+        //INSTANTIATING MY SHARED PREFERENCE
+        sp = getSharedPreferences("AnswerFour", Context.MODE_PRIVATE);
 
-        //LOADING THE SHARED PREFERENCES FROM PAGE TWO
-        SharedPreferences sb = getApplicationContext().getSharedPreferences("AnswerTwo", Context.MODE_PRIVATE);
-        String targetAudience = sb.getString("targetAudience", "");
-        String genderAudience = sb.getString("genderAudience", "");
-        String ageDemographic = sb.getString("ageDemographic", "");
-
-        //LOADING THE SHARED PREFERENCES FROM PAGE THREE
-        SharedPreferences sc = getApplicationContext().getSharedPreferences("AnswerThree", Context.MODE_PRIVATE);
-        String industryDescription = sc.getString("industryDescription", "");
-        String industryType = sc.getString("industryType", "");
-
-        //LOADING THE SHARED PREFERENCES FROM PAGE FOUR
-        SharedPreferences sd = getApplicationContext().getSharedPreferences("AnswerFour", Context.MODE_PRIVATE);
-        String primaryColour = sd.getString("primaryColour", "");
-        String secondaryColour = sd.getString("secondaryColour", "");
-        String neutralColour = sd.getString("neutralColour", "");
-
+        //INSTANTIATING MY SHARED PREFERENCE for my package answer
+        op = getSharedPreferences("PackageAnswer", Context.MODE_PRIVATE);
 
         Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("LogoPackage");
 
         //rFireStore = FirebaseFirestore.getInstance().collection("Users").document().collection("LogoPackage");
-        sketchViewAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,REQUEST_CODF_IMAGE);
 
-            }
-        });
         radioGroupFour.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
@@ -402,11 +376,12 @@ public class PageFour extends AppCompatActivity {
         hashMap.put("4*1 Select a secondary colour: ", secondaryColour);
         hashMap.put("4*2 Select a neutral colour: ", neutralColour);
 
-        Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Dataref.child("Package Answers").setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
 
                 Toast.makeText(PageFour.this,"All answers have been submitted has been submitted", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(PageFour.this, UserPallette.class));
                 //setContentView(R.layout.activity_page_four);
             }
         }).addOnFailureListener(new OnFailureListener() {
