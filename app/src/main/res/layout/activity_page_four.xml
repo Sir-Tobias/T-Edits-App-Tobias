@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
-    tools:openDrawer="end"
+    tools:openDrawer="start"
     tools:context=".PageFour">
 
     <RelativeLayout
@@ -36,7 +36,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
         <TextView
             android:id="@+id/questionFour"
             android:layout_width="match_parent"
@@ -64,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
+                android:checked="true"
                 android:text="White" />
 
             <RadioButton
@@ -129,6 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:checked="true"
                 android:text="Green" />
 
             <RadioButton
@@ -166,6 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
+                android:checked="true"
                 android:text="Brown" />
 
             <RadioButton

@@ -7,15 +7,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class teditsUser extends AppCompatActivity {
 
@@ -24,6 +32,9 @@ public class teditsUser extends AppCompatActivity {
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
+
+    private DatabaseReference Dataref;
+    TextView viewNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,7 @@ public class teditsUser extends AppCompatActivity {
 
         nav=(NavigationView)findViewById(R.id.navimenu);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+        viewNew=(TextView)findViewById(R.id.banner2);
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -94,6 +106,37 @@ public class teditsUser extends AppCompatActivity {
                 }
 
                 return true;
+            }
+        });
+        loadInformation();
+    }
+
+    private void loadInformation() {
+        Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+
+        Dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User post = snapshot.getValue(User.class);
+                System.out.println("This is working Tobias"+ post);
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    //System.out.println("does work "+ postSnapshot.child("fullname").getValue().toString());
+                    System.out.println("Hello "+postSnapshot.child("fullname").getValue());
+                    //RETRIEVING THE FULL NAME OF THE USER FROM THE FIREBASE DATABASE
+                    //viewNew.setText("Hello "+postSnapshot.child("fullname").getValue().toString());
+
+
+                    //LOADING THE SHARED PREFERENCES FROM PAGE ONE TO GET THE LOGO NAME
+                    SharedPreferences sa = getApplicationContext().getSharedPreferences("AnswerOne", Context.MODE_PRIVATE);
+                    String nameLogo = sa.getString("nameLogo", "");
+                    //viewTwo.setText("We are delighted that you have made it this far. We look forward to bringing your " + nameLogo + " logo to life.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(teditsUser.this, error.getMessage(), Toast.LENGTH_LONG);
+
             }
         });
     }

@@ -209,7 +209,7 @@ public class teditsPost extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(teditsPost.this,"Your T-Post has successfully been uploaded", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(teditsPost.this,teditsCatalogue.class);
+                                Intent intent = new Intent(teditsPost.this,ExplorePage.class);
                                 startActivity(intent);
 
                             }

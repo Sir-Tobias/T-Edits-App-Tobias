@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
-    tools:openDrawer="start"
+    tools:openDrawer="end"
     tools:context=".PageThree">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -101,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:checked="true"
                 android:text="Apparel" />
 
             <RadioButton

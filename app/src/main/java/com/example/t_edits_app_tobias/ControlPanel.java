@@ -162,4 +162,10 @@ public class ControlPanel extends AppCompatActivity {
         Intent intent = new Intent(ControlPanel.this,teditsQuestions.class);
         startActivity(intent);
     }
+
+    public void startCheckoutActivity(View view) {
+        Toast.makeText(ControlPanel.this,"Start Checkout", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(ControlPanel.this,UserCheckout.class);
+        startActivity(intent);
+    }
 }

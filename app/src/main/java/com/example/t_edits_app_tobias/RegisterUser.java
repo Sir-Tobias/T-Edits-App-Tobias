@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     private EditText eFullname, ePhoneNo, eEmail, ePassword;
     private EditText fullnameUpdate, phonenoUpdate;
 
+    private RadioGroup userOption;
+
     private FirebaseFirestore rFireStore;
     private FirebaseAuth mAuth;
 
@@ -56,6 +59,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
         registerUser = (Button) findViewById(R.id.registerUser);
         registerUser.setOnClickListener(this);
+
+        userOption = (RadioGroup) findViewById(R.id.userOption);
 
         //Initializing the user registration details
         eFullname = (EditText) findViewById(R.id.fullname);
@@ -143,6 +148,14 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             eEmail.requestFocus();
             return;
         }
+
+
+        //2.1 What is the gender audience?
+        int selectedId = userOption.getCheckedRadioButtonId();
+
+        RadioButton radioButton = (RadioButton) userOption.findViewById(selectedId);
+        Toast.makeText(RegisterUser.this, radioButton.getText(), Toast.LENGTH_LONG).show();
+        final String userType = radioButton.getText().toString();
         //Passing the registration details into the database
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -150,16 +163,16 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
-                            User user = new User(fullname, phoneNo, email);
+                            User user = new User(fullname, phoneNo, email, userType);
 
                             FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails")
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(RegisterUser.this, "User has been registered successfully!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegisterUser.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(RegisterUser.this, MainActivity.class));
                                     } else {
                                         Toast.makeText(RegisterUser.this, "Failed to register this user please try again 1" + task.getException().getMessage(), Toast.LENGTH_LONG).show();

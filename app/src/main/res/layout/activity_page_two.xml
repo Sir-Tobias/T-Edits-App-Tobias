@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
-    tools:openDrawer="start"
+    tools:openDrawer="end"
     tools:context=".PageTwo">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-
+                android:checked="true"
                 android:text="Male" />
 
             <RadioButton
@@ -151,7 +151,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-
                 android:text="15 >" />
 
             <RadioButton
@@ -159,7 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-
+                android:checked="true"
                 android:text="15 - 45" />
 
             <RadioButton
