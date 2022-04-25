@@ -45,6 +45,7 @@ public class teditsUser extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         nav=(NavigationView)findViewById(R.id.navimenu);
+
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
         viewNew=(TextView)findViewById(R.id.banner2);
 
@@ -108,29 +109,38 @@ public class teditsUser extends AppCompatActivity {
                 return true;
             }
         });
+
+        //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
         loadInformation();
     }
 
     private void loadInformation() {
-        Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
 
         Dataref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User post = snapshot.getValue(User.class);
-                System.out.println("This is working Tobias"+ post);
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    //System.out.println("does work "+ postSnapshot.child("fullname").getValue().toString());
-                    System.out.println("Hello "+postSnapshot.child("fullname").getValue());
-                    //RETRIEVING THE FULL NAME OF THE USER FROM THE FIREBASE DATABASE
-                    //viewNew.setText("Hello "+postSnapshot.child("fullname").getValue().toString());
+                //User post = snapshot.getValue(User.class);
+                //DataSnapshot post = snapshot.child("userType");
+                String post = snapshot.child("fullname").getValue().toString();
+                viewNew.setText("Hello "+ post);
+                System.out.println("This is working hello "+ post);
 
+                //CHECKING THE USER TYPE THAT IS LOGGED IN
+                String uType = snapshot.child("userType").getValue().toString();
+                if (uType.equalsIgnoreCase("Designer")) {
 
-                    //LOADING THE SHARED PREFERENCES FROM PAGE ONE TO GET THE LOGO NAME
-                    SharedPreferences sa = getApplicationContext().getSharedPreferences("AnswerOne", Context.MODE_PRIVATE);
-                    String nameLogo = sa.getString("nameLogo", "");
-                    //viewTwo.setText("We are delighted that you have made it this far. We look forward to bringing your " + nameLogo + " logo to life.");
+                    //IF THE USER IS A DESIGNER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND TEDITS PACKAGE GENERATOR
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    System.out.println("Updating the menu works");
+
+                } else if(uType.equalsIgnoreCase("Customer")) {
+                    //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
                 }
+
             }
 
             @Override

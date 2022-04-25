@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
-    tools:openDrawer="start"
+    tools:openDrawer="end"
     tools:context=".ExplorePage">
 
     <RelativeLayout
@@ -69,7 +69,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="30dp"
             android:scaleType="fitXY"
-            android:src="@drawable/uploadpostb" />
+            android:src="@drawable/uploadpostb"
+            android:visibility="visible"/>
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

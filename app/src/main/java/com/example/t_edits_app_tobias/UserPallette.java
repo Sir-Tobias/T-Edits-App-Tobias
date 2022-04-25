@@ -196,7 +196,6 @@ public class UserPallette extends AppCompatActivity {
     }
 
     private void generatePallette() {
-        //ArrayList<TPallette> myList = new ArrayList<>();
 
         //LOADING THE SHARED PREFERENCES PACKAGE ANSWER FROM PAGE FOUR
         SharedPreferences sa = getApplicationContext().getSharedPreferences("PackageAnswer", Context.MODE_PRIVATE);

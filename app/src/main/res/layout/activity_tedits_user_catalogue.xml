@@ -29,10 +29,10 @@
             android:id="@+id/textView_single_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
             android:fontFamily="@font/poppinsbold"
             android:gravity="center"
-            android:layout_below="@id/toolbar"
-            android:text="T-Edits User Catalogue"
+            android:text="T-Edits Catalogue"
             android:textColor="@color/light_teal"
             android:textSize="25dp" />
 

@@ -65,6 +65,8 @@ public class ExplorePage extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    private DatabaseReference Dataref;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -183,6 +185,8 @@ public class ExplorePage extends AppCompatActivity {
         });
 
 
+
+
         imagePostAdd = findViewById(R.id.postUpload);
 
         recyclerView = findViewById(R.id.recyclerExploreView);
@@ -235,6 +239,9 @@ public class ExplorePage extends AppCompatActivity {
 
         //Creating a method to load the data into the recycler view
         LoadData();
+
+        //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
+        loadInformation();
     }
 
     private void LoadData() {
@@ -264,6 +271,46 @@ public class ExplorePage extends AppCompatActivity {
                 pAdapter = new ImagePostAdapter(getApplicationContext(), pContent);
                 recyclerView.setAdapter(pAdapter);
                 pAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ExplorePage.this, error.getMessage(), Toast.LENGTH_LONG);
+
+            }
+        });
+    }
+
+    private void loadInformation() {
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+
+        Dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //User post = snapshot.getValue(User.class);
+                //DataSnapshot post = snapshot.child("userType");
+                String post = snapshot.child("fullname").getValue().toString();
+                System.out.println("This is working hello "+ post);
+
+                //CHECKING THE USER TYPE THAT IS LOGGED IN
+                String uType = snapshot.child("userType").getValue().toString();
+                if (uType.equalsIgnoreCase("Designer")) {
+
+                    //IF THE USER IS A DESIGNER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND TEDITS PACKAGE GENERATOR
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    System.out.println("Updating the menu works");
+
+                } else if(uType.equalsIgnoreCase("Customer")) {
+                    //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+
+                    //IF THE USER IS A CUSTOMER THEY CANNOT UPLOAD CONTENT ONTO THE T-EDITS EXPLORE PAGE
+                    //THEY WILL NOT HAVE THE OPTION TO PRESS THE UPLOAD BUTTON
+                    imagePostAdd.setVisibility(View.GONE);
+                }
+
             }
 
             @Override

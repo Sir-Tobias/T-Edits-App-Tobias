@@ -195,8 +195,7 @@ public class teditsCatalogue extends AppCompatActivity {
         DataRef = FirebaseDatabase.getInstance().getReference().child("Content");
 
         StorageRef = FirebaseStorage.getInstance().getReference("Content");
-        //DataRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Content");
-//        inputSearch=findViewById(R.id.inputSearch);
+
         recyclerView = findViewById(R.id.recyclerView);
         floatingActionButton = findViewById(R.id.floatingBtn);
 
@@ -234,6 +233,7 @@ public class teditsCatalogue extends AppCompatActivity {
 
         //Creating a method to load the data into the recycler view
         LoadData();
+
     }
 
     //Method for searching the arraylist catalogue for the string that matches

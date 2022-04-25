@@ -54,6 +54,7 @@ public class UserCheckout extends AppCompatActivity {
     String customerID;
     String EphericalKey;
     String ClientSecret;
+    String userEmail;
 
     ImageView gpayButton, spayButton;
 
@@ -142,25 +143,24 @@ public class UserCheckout extends AppCompatActivity {
     //Query q = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(mAuth.getCurrentUser().getEmail());
 
     private void loadInformation() {
-        Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
 
         Dataref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User post = snapshot.getValue(User.class);
-                System.out.println("This is working Tobias"+ post);
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    //System.out.println("does work "+ postSnapshot.child("fullname").getValue().toString());
-                    System.out.println("Hello "+postSnapshot.child("fullname").getValue().toString());
-                    //RETRIEVING THE FULL NAME OF THE USER FROM THE FIREBASE DATABASE
-                    viewOne.setText("Hello "+postSnapshot.child("fullname").getValue().toString());
+                //User post = snapshot.getValue(User.class);
+                //DataSnapshot post = snapshot.child("userType");
+                String post = snapshot.child("fullname").getValue().toString();
+                viewOne.setText("Hello "+ post);
 
+                String userEmail = snapshot.child("email").getValue().toString();
 
-                    //LOADING THE SHARED PREFERENCES FROM PAGE ONE TO GET THE LOGO NAME
-                    SharedPreferences sa = getApplicationContext().getSharedPreferences("AnswerOne", Context.MODE_PRIVATE);
-                    String nameLogo = sa.getString("nameLogo", "");
-                    viewTwo.setText("We are delighted that you have made it this far. We look forward to bringing your " + nameLogo + " logo to life.");
-                }
+                System.out.println("This is working hello "+ post);
+                //LOADING THE SHARED PREFERENCES FROM PAGE ONE TO GET THE LOGO NAME
+                SharedPreferences sa = getApplicationContext().getSharedPreferences("AnswerOne", Context.MODE_PRIVATE);
+                String nameLogo = sa.getString("nameLogo", "");
+                viewTwo.setText("We are delighted that you have made it this far. We look forward to bringing your " + nameLogo + " logo to life.");
             }
 
             @Override
@@ -293,6 +293,7 @@ public class UserCheckout extends AppCompatActivity {
                 ClientSecret, new PaymentSheet.Configuration("T-EDITS AI", new PaymentSheet.CustomerConfiguration(
                         customerID, EphericalKey
                 ))
+                // new PaymentSheet.Configuration(userEmail).getDefaultBillingDetails().getEmail()
         );
     }
 
