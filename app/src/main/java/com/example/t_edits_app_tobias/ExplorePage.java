@@ -246,6 +246,7 @@ public class ExplorePage extends AppCompatActivity {
 
     private void LoadData() {
         pContent = new ArrayList<>();
+        //Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost").child(FirebaseAuth.getInstance().getUid());
         DataRef = FirebaseDatabase.getInstance().getReference().child("TeditsPost");
 
         DataRef.addValueEventListener(new ValueEventListener() {
@@ -259,7 +260,7 @@ public class ExplorePage extends AppCompatActivity {
                     //Retrieving the the tag values from the realtime database
                     post.setNameOfPost(postSnapshot.child("NameOfPost").getValue().toString());
                     post.setCaption(postSnapshot.child("Caption").getValue().toString());
-
+                    post.setNameOfDesigner(postSnapshot.child("NameofDesigner").getValue().toString());
 
                     //Retrieving the image from realtime database
                     post.setImageUri(postSnapshot.child("ImageUri").getValue().toString());

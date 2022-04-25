@@ -59,12 +59,14 @@ public class ImagePostAdapter extends RecyclerView.Adapter<ImagePostAdapter.imag
         public ImageView imageView;
         public TextView postname;
         public TextView postcaption;
+        public TextView desName;
 
         public imageViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_post_view);
             postname = itemView.findViewById(R.id.nameText);
             postcaption = itemView.findViewById(R.id.DescriptionText);
+            desName = itemView.findViewById(R.id.designerText);
         }
     }
     public ImagePostAdapter(ArrayList<TPost> uPost) {
@@ -83,6 +85,7 @@ public class ImagePostAdapter extends RecyclerView.Adapter<ImagePostAdapter.imag
     public void onBindViewHolder(@NonNull imageViewHolder holder, int position) {
         //TContent currentTedits = tContent.get(position);
 
+        holder.desName.setText("Designer ~ "+uPost.get(position).getNameOfDesigner());
         holder.postname.setText(uPost.get(position).getNameOfPost());
         holder.postcaption.setText(uPost.get(position).getCaption());
         Picasso.get().load(uPost.get(position).getImageUri()).fit().centerCrop().into(holder.imageView);

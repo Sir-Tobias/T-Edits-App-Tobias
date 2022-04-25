@@ -33,9 +33,11 @@ public class teditsUser extends AppCompatActivity {
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
 
-    private DatabaseReference Dataref;
+    private DatabaseReference Dataref, Uref;
     TextView viewNew;
 
+    //SHARED PREFERENCES
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,9 @@ public class teditsUser extends AppCompatActivity {
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        //INSTANTIATING MY SHARED PREFERENCE
+        sp = getSharedPreferences("newAnswer", Context.MODE_PRIVATE);
 
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -118,6 +123,11 @@ public class teditsUser extends AppCompatActivity {
         Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
         //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
 
+        //TESTING
+        Uref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        System.out.println("THIS IS THE USER ID VALUE BELOW");
+        System.out.println(Uref.getKey());
+
         Dataref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -127,6 +137,7 @@ public class teditsUser extends AppCompatActivity {
                 viewNew.setText("Hello "+ post);
                 System.out.println("This is working hello "+ post);
 
+
                 //CHECKING THE USER TYPE THAT IS LOGGED IN
                 String uType = snapshot.child("userType").getValue().toString();
                 if (uType.equalsIgnoreCase("Designer")) {
@@ -135,6 +146,11 @@ public class teditsUser extends AppCompatActivity {
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
                     System.out.println("Updating the menu works");
+
+                    //ADDING THE USERNAME TO MY SHARED PREFERENCE
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("username", post);
+                    editor.commit();
 
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE

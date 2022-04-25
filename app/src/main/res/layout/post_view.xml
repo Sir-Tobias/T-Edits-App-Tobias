@@ -6,14 +6,27 @@
     android:id="@+id/single_view3"
     android:background="@color/darker_blue">
 
+    <TextView
+        android:id="@+id/designerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="Name of Designer"
+        android:textColor="@color/light_blue"
+        android:textSize="15dp" />
+
     <ImageView
         android:id="@+id/image_post_view"
         android:layout_width="295dp"
         android:layout_height="211dp"
+        android:layout_below="@+id/designerText"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="10dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_image" />
 
@@ -21,20 +34,21 @@
         android:id="@+id/nameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_below="@+id/image_post_view"
         android:fontFamily="@font/poppinsbold"
         android:gravity="center"
         android:text="Name of Post"
         android:textColor="@color/white"
         android:textSize="15dp" />
+
     <TextView
         android:id="@+id/DescriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/nameText"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:layout_below="@id/nameText"
         android:text="Caption of post"
         android:textColor="@color/white"
         android:textSize="15dp" />

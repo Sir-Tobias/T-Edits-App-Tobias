@@ -8,7 +8,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,8 +27,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -54,13 +59,16 @@ public class teditsPost extends AppCompatActivity {
 
     //Firebase Reference
     private CollectionReference rFireStore;
-    private DatabaseReference Dataref;
+    private DatabaseReference Dataref, Uref;
     private StorageReference Storageref;
     private FirebaseStorage storage;
 
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
+
+    //SHARED PREFERENCES
+    SharedPreferences sp;
 
     //Linking the posts being uploaded to user
     FirebaseUser firebaseUser;
@@ -157,8 +165,10 @@ public class teditsPost extends AppCompatActivity {
         Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost");
 
         rFireStore = FirebaseFirestore.getInstance().collection("Users");
-        //Added the date and time stamp
-        //storage = FirebaseStorage.getInstance().getReference());
+
+
+        //INSTANTIATING MY SHARED PREFERENCE
+        sp = getSharedPreferences("DesignerName", Context.MODE_PRIVATE);
 
         //Method to upload photo from phone gallery
         postViewAdd.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +192,49 @@ public class teditsPost extends AppCompatActivity {
                 }
             }
         });
+
+        //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
+        loadInformation();
+    }
+
+    private void loadInformation() {
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+
+        Dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //User post = snapshot.getValue(User.class);
+                //DataSnapshot post = snapshot.child("userType");
+                String designerName = snapshot.child("fullname").getValue().toString();
+                System.out.println("This is working hello "+ designerName);
+
+                //STORING THE DESIGNER NAME IN A SHARED PREFERENCE SO I CAN ADD IT TO THE T-EDITS POST
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("desName", designerName);
+
+                //CHECKING THE USER TYPE THAT IS LOGGED IN
+                String uType = snapshot.child("userType").getValue().toString();
+                if (uType.equalsIgnoreCase("Designer")) {
+
+                    //IF THE USER IS A DESIGNER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND TEDITS PACKAGE GENERATOR
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    System.out.println("Updating the menu works");
+
+                } else if(uType.equalsIgnoreCase("Customer")) {
+                    //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(teditsPost.this, error.getMessage(), Toast.LENGTH_LONG);
+
+            }
+        });
     }
 
     private void uploadImage(final String nameP, final String cap) {
@@ -189,6 +242,16 @@ public class teditsPost extends AppCompatActivity {
         progressBarm.setVisibility(View.VISIBLE);
 
         //final String randomKey = UUID.randomUUID().toString();
+
+        //Initializing data reference
+        //Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost");
+
+        //RETRIEVING THE USER ID VALUE AND SETTING IT TO A STRING TO BE PASSED INTO THE DATABASE
+        Uref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        System.out.println("THIS IS THE USER ID VALUE BELOW");
+        System.out.println(Uref.getKey());
+        String userId = Uref.getKey();
 
         //Data reference key
         final String key = Dataref.push().getKey();
@@ -202,7 +265,19 @@ public class teditsPost extends AppCompatActivity {
                         HashMap hashMap = new HashMap();
                         hashMap.put("NameOfPost", nameP);
                         hashMap.put("Caption", cap);
+
+                        //RETRIVING THE DESIGNER NAME FROM MY SHAREDPREFERENCES IN THE LOADINFORMATIONMETHOD() TO ADD IT TO THE POST
+                        SharedPreferences sa = getApplicationContext().getSharedPreferences("newAnswer", Context.MODE_PRIVATE);
+                        String dName = sa.getString("username", "");
+                        System.out.println("Successfully retrieved the designer name " + dName);
+                        //PUTTING THE DESIGNER NAME INTO THE HASHMAP FOR FIREBASE
+                        hashMap.put("NameofDesigner", dName);
+
                         hashMap.put("ImageUri", uri.toString());
+
+                        //USER ID LINKED TO POST
+                        hashMap.put("UserID", userId);
+
 
                         //Push key
                         Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {

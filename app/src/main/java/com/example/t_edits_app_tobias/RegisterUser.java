@@ -31,12 +31,6 @@ import java.util.Map;
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
     private Button btnRegister;
 
-//    private EditText edtxtEmail;
-//    private EditText edtxtTpnumber;
-//    private EditText edtxtDepartment;
-//    private EditText edtxtPassword;
-//    private EditText edtxtConfirmpassword;
-
     private TextView AppName, registerUser;
     private EditText eFullname, ePhoneNo, eEmail, ePassword;
     private EditText fullnameUpdate, phonenoUpdate;
