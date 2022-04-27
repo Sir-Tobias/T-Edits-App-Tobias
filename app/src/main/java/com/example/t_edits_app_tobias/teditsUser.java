@@ -1,40 +1,80 @@
 package com.example.t_edits_app_tobias;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.WithHint;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+
 
 public class teditsUser extends AppCompatActivity {
 
+    private static final int REQUEST_CODF_IMAGE = 101;
+
     private FirebaseAuth mAuth;
+    private Uri localFileUri, serverFileUri;
+    private FirebaseAuth firebaseAuth;
+
+    private FirebaseUser firebaseUser;
 
     NavigationView nav;
+    View header;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
 
+    Uri imageUri;
+
+    //ConstraintSet.Layout InfoLayout;
+    Layout InfoLayout;
+
     private DatabaseReference Dataref, Uref;
-    TextView viewNew;
+
+    private StorageReference Storageref;
+    private FirebaseStorage storage;
+
+    EditText fullnameUpdate, phonenoUpdate;
+
+    //MENU VALUE REFERENCES
+    TextView viewNew, mName, mDescription, aDescription;
+    ImageView mImage, cImage, aImage, profileImage, menuProfileImage;
+
+    boolean isProfileAdded = false;
 
     //SHARED PREFERENCES
     SharedPreferences sp;
@@ -46,7 +86,32 @@ public class teditsUser extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //InfoLayout=(Layout) findViewById(R.layout.navheader);
         nav=(NavigationView)findViewById(R.id.navimenu);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
+
+        //EDITTEXTVIEW OF UPDATING USER
+        fullnameUpdate=(EditText)findViewById(R.id.uFullname);
+        phonenoUpdate=(EditText)findViewById(R.id.uPhoneNo);
+
+        //GETTING THE TEXT VALUES OF THE NAV MENU
+        mName=(TextView)header.findViewById(R.id.userNameMenu);
+        mDescription=(TextView)header.findViewById(R.id.userDescription);
+        aDescription=(TextView)header.findViewById(R.id.adminDescription);
+
+        mImage=(ImageView)header.findViewById(R.id.designerImage);
+        cImage=(ImageView)header.findViewById(R.id.customerImage);
+        aImage=(ImageView)header.findViewById(R.id.adminImage);
+
+        storage = FirebaseStorage.getInstance();
+        Storageref = storage.getReference().child("TeditsPost");
+
+
+        profileImage=(ImageView)findViewById(R.id.profile_image);
+        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
 
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
         viewNew=(TextView)findViewById(R.id.banner2);
@@ -58,10 +123,14 @@ public class teditsUser extends AppCompatActivity {
         //INSTANTIATING MY SHARED PREFERENCE
         sp = getSharedPreferences("newAnswer", Context.MODE_PRIVATE);
 
+
+
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
             {
+                //loadInformation();
+
                 switch (menuItem.getItemId())
                 {
                     case R.id.nav_home :
@@ -105,13 +174,24 @@ public class teditsUser extends AppCompatActivity {
                     case R.id.nav_logout :
                         Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
                         mAuth.signOut();
-                        drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         startActivity(new Intent(teditsUser.this, MainActivity.class));
                         break;
                 }
 
                 return true;
+            }
+        });
+
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,REQUEST_CODF_IMAGE);
+
             }
         });
 
@@ -123,11 +203,6 @@ public class teditsUser extends AppCompatActivity {
         Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
         //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
 
-        //TESTING
-        Uref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        System.out.println("THIS IS THE USER ID VALUE BELOW");
-        System.out.println(Uref.getKey());
-
         Dataref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -136,6 +211,33 @@ public class teditsUser extends AppCompatActivity {
                 String post = snapshot.child("fullname").getValue().toString();
                 viewNew.setText("Hello "+ post);
                 System.out.println("This is working hello "+ post);
+
+                //SETTING THE NAME OF THE USER IN THE MENU
+                mName.setText(post);
+
+                //SETTIING THE TEXTVIEW OF THE UPDATING PROFILE TO FULLNAME
+                fullnameUpdate.setHint(post);
+
+                //SETTIING THE TEXTVIEW OF THE UPDATING PROFILE TO PHONENO
+                String phoneDetails = snapshot.child("phoneNo").getValue().toString();
+                phonenoUpdate.setHint(phoneDetails);
+
+                //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                //String link = snapshot.getValue(String.class);
+                //String link = snapshot.child("profilePic").getValue().toString();
+                //snapshot.child("profilePic").getValue().toString().isEmpty()
+
+                //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
+                if(snapshot.hasChild("profilePic")) {
+                    //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                    //String link = snapshot.getValue(String.class);
+                    System.out.println("THERE IS NO PROFILE");
+                    String link = snapshot.child("profilePic").getValue().toString();
+                    Picasso.get().load(link).into(profileImage);
+                    Picasso.get().load(link).into(menuProfileImage);
+                }
+
+
 
 
                 //CHECKING THE USER TYPE THAT IS LOGGED IN
@@ -147,6 +249,15 @@ public class teditsUser extends AppCompatActivity {
                     nav.getMenu().getItem(4).setVisible(false);
                     System.out.println("Updating the menu works");
 
+                    //SETTING ICON AS DESIGNER IF USER TYPE IS DESIGNER
+                    mImage.setVisibility(View.VISIBLE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO DESIGNER
+                    mDescription.setText(uType);
+
+
                     //ADDING THE USERNAME TO MY SHARED PREFERENCE
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("username", post);
@@ -155,6 +266,24 @@ public class teditsUser extends AppCompatActivity {
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                } else if(uType.equalsIgnoreCase("Admin")) {
+
+                    //SETTING ICON AS ADMIN IF USER TYPE IS ADMIN
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.VISIBLE);
+
+                    //SETTING THE DESCRIPTION TO ADMIN
+                    aDescription.setText(uType);
                 }
 
             }
@@ -233,5 +362,154 @@ public class teditsUser extends AppCompatActivity {
         Toast.makeText(teditsUser.this,"Start Questions", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(teditsUser.this,teditsQuestions.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODF_IMAGE && data!=null)
+        {
+            imageUri=data.getData();
+            isProfileAdded=true;
+            profileImage.setImageURI(imageUri);
+        }
+    }
+
+    public void submitUpdate(View view) {
+        String fullname = fullnameUpdate.getText().toString();
+        String phoneno = phonenoUpdate.getText().toString();
+
+
+        //IF THE TEXTBOX ARE NOT EMPTY START THE DETAILS ONLY METHOD
+        if(!fullname.isEmpty() && !phoneno.isEmpty() && isProfileAdded!=true) {
+            updateDetailsOnly(fullname, phoneno);
+        }
+        //IF THE IMAGE IS SECTION IS POPULATED AND THE OTHER FIELDS ARE EMPTY WHEN SUBMIT IS PRESSED
+        else if(isProfileAdded!=false && fullname.isEmpty() && phoneno.isEmpty()) {
+            updateImageOnly();
+            return;
+        }
+        //IF TEXTB0X AND IMAGE ARE NOT EMPTY START UPDATEDETAILSANDPHOTO METHOD
+        else if(isProfileAdded!=false  && !fullname.isEmpty() && !phoneno.isEmpty()) {
+            updateDetailsAndPhoto(fullname, phoneno);
+        }
+
+        else if(fullname.isEmpty()) {
+            fullnameUpdate.setError("Enter name");
+            fullnameUpdate.requestFocus();
+            return;
+        }
+        else if(fullname.length()<8){
+            fullnameUpdate.setError("Full name must contain at least 8 letters");
+            fullnameUpdate.requestFocus();
+        }
+        else if(phoneno.isEmpty()) {
+            phonenoUpdate.setError("Enter your phone Number");
+            phonenoUpdate.requestFocus();
+            return;
+        }
+        else if(phoneno.length()<8) {
+            phonenoUpdate.setError("Phone number must contain at least 8 numbers");
+        }
+        else {
+            Toast.makeText(teditsUser.this, "Nothing to update", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateImageOnly() {
+
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        //Data reference key
+        final String key = Dataref.push().getKey();
+
+        //UPDATING THE USER IMAGE DETAIL
+        Storageref.child(key+ ".jpg").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Storageref.child(key+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        //HashMap hashMap = new HashMap();
+
+                        //PASSING THE PROFILE PICTURE INTO THE USER DETAILS
+                        Dataref.child("UserDetails").child("profilePic").setValue(uri.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                //HashMap hashMap = new HashMap();
+                                //hashMap.put("ProfilerImageUri", uri.toString());
+
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+    }
+
+    private void updateDetailsOnly(String fullname, String phoneno) {
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+        Dataref.child("UserDetails").child("fullname").setValue(fullname).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(teditsUser.this,"Details successfully updated", Toast.LENGTH_LONG).show();
+            }
+        });
+        Dataref.child("UserDetails").child("phoneNo").setValue(phoneno).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(teditsUser.this,"Details successfully updated Here", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(teditsUser.this, teditsUser.class));
+            }
+        });
+    }
+
+    private void updateDetailsAndPhoto(String fullname, String phoneno) {
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        //Data reference key
+        final String key = Dataref.push().getKey();
+
+        //UPDATING THE USER DETAIL VALUES
+        Dataref.child("UserDetails").child("fullname").setValue(fullname).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(teditsUser.this,"Details successfully updated", Toast.LENGTH_LONG).show();
+            }
+        });
+        Dataref.child("UserDetails").child("phoneNo").setValue(phoneno).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(teditsUser.this,"Details successfully updated Here", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(teditsUser.this, teditsUser.class));
+            }
+        });
+
+        //UPDATING THE USER IMAGE DETAIL
+        Storageref.child(key+ ".jpg").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Storageref.child(key+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        //HashMap hashMap = new HashMap();
+
+                        //PASSING THE PROFILE PICTURE INTO THE USER DETAILS
+                        Dataref.child("UserDetails").child("profilePic").setValue(uri.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                //HashMap hashMap = new HashMap();
+                                //hashMap.put("ProfilerImageUri", uri.toString());
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
     }
 }

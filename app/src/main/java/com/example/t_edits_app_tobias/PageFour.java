@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,8 +35,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+
+
 
 public class PageFour extends AppCompatActivity {
 
@@ -48,10 +52,14 @@ public class PageFour extends AppCompatActivity {
     private RadioGroup radioGroupFour, radioGroupFourOne, radioGroupFourTwo;
 
     NavigationView nav;
+    View header;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
 
     Button submitFour;
+
+    TextView mName, mDescription, aDescription;
+    ImageView mImage, cImage, aImage, profileImage, menuProfileImage;
 
     boolean isSketchAdded=false;
 
@@ -94,6 +102,23 @@ public class PageFour extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         nav=(NavigationView)findViewById(R.id.navimenu);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
+
+        profileImage=(ImageView)findViewById(R.id.profile_image);
+        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
+
+        //GETTING THE TEXT VALUES OF THE NAV MENU
+        mName=(TextView)header.findViewById(R.id.userNameMenu);
+        mDescription=(TextView)header.findViewById(R.id.userDescription);
+        aDescription=(TextView)header.findViewById(R.id.adminDescription);
+
+        mImage=(ImageView)header.findViewById(R.id.designerImage);
+        cImage=(ImageView)header.findViewById(R.id.customerImage);
+        aImage=(ImageView)header.findViewById(R.id.adminImage);
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -146,8 +171,8 @@ public class PageFour extends AppCompatActivity {
                     case R.id.nav_logout :
                         Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
                         mAuth.signOut();
-                        drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         startActivity(new Intent(PageFour.this, MainActivity.class));
                         break;
                 }
@@ -214,7 +239,7 @@ public class PageFour extends AppCompatActivity {
                 editor.putString("secondaryColour", secondaryColour);
                 editor.putString("neutralColour", neutralColour);
                 editor.commit();
-                Toast.makeText(PageFour.this,"Successfully saved question four to preferences", Toast.LENGTH_LONG).show();
+                //Toast.makeText(PageFour.this,"Successfully saved question four to preferences", Toast.LENGTH_LONG).show();
                 
                 retrieveAnswers();
             }
@@ -237,6 +262,22 @@ public class PageFour extends AppCompatActivity {
                 String post = snapshot.child("fullname").getValue().toString();
                 System.out.println("This is working hello "+ post);
 
+
+                //SETTING THE NAME OF THE USER IN THE MENU
+                mName.setText(post);
+
+                //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
+                if(snapshot.hasChild("profilePic")) {
+                    //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                    //String link = snapshot.getValue(String.class);
+                    System.out.println("THERE IS NO PROFILE");
+                    String link = snapshot.child("profilePic").getValue().toString();
+                    Picasso.get().load(link).into(profileImage);
+                    Picasso.get().load(link).into(menuProfileImage);
+                }
+
+
+
                 //CHECKING THE USER TYPE THAT IS LOGGED IN
                 String uType = snapshot.child("userType").getValue().toString();
                 if (uType.equalsIgnoreCase("Designer")) {
@@ -246,10 +287,38 @@ public class PageFour extends AppCompatActivity {
                     nav.getMenu().getItem(4).setVisible(false);
                     System.out.println("Updating the menu works");
 
+                    //SETTING ICON AS DESIGNER IF USER TYPE IS DESIGNER
+                    mImage.setVisibility(View.VISIBLE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO DESIGNER
+                    mDescription.setText(uType);
+
+
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                } else if(uType.equalsIgnoreCase("Admin")) {
+
+                    //SETTING ICON AS ADMIN IF USER TYPE IS ADMIN
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.VISIBLE);
+
+                    //SETTING THE DESCRIPTION TO ADMIN
+                    aDescription.setText(uType);
                 }
+
 
             }
 
@@ -397,60 +466,6 @@ public class PageFour extends AppCompatActivity {
 //        else if (genderAudience.equalsIgnoreCase("Gender Neutral")) {
 //        }
 
-
-
-        //ANSWER 2.2 WHAT IS THE AGE DEMOGRAPHIC FOR YOUR BRAND?
-//        if (ageDemographic.equalsIgnoreCase("15 >")) {
-//        }
-//        else if (ageDemographic.equalsIgnoreCase("15 - 45")) {
-//        }
-//        else if (ageDemographic.equalsIgnoreCase("45 +")) {
-//        }
-
-
-
-        //ANSWER 3.1 WHAT IS THE INDUSTRY OF YOUR BRAND?
-//        if (industryType.equalsIgnoreCase("Apparel")) {
-//        }
-//        else if (industryType.equalsIgnoreCase("Media")) {
-//        }
-//        else if (industryType.equalsIgnoreCase("Cosmetics")) {
-//        }
-//        else if (industryType.equalsIgnoreCase("Tech")) {
-//        }
-
-
-
-
-//        //ANSWER 4.0 ENTER YOUR PRIMARY COLOUR?
-//        if (primaryColour.equalsIgnoreCase("White")) {
-//        }
-//        else if (primaryColour.equalsIgnoreCase("Yellow")) {
-//        }
-//        else if (primaryColour.equalsIgnoreCase("Red")) {
-//        }
-//        else if (primaryColour.equalsIgnoreCase("Blue")) {
-//        }
-//        else if (primaryColour.equalsIgnoreCase("Black")) {
-//        }
-
-
-//        if (primaryColour.equalsIgnoreCase("Orange")) {
-//        }
-//        else if (secondaryColour.equalsIgnoreCase("Green")) {
-//        }
-//        else if (secondaryColour.equalsIgnoreCase("Purple")) {
-//        }
-
-
-        //ANSWER 4.3 ENTER YOUR NEUTRAL COLOUR?
-//        if (primaryColour.equalsIgnoreCase("Brown")) {
-//        }
-//        else if (secondaryColour.equalsIgnoreCase("Beige")) {
-//        }
-//        else if (secondaryColour.equalsIgnoreCase("Grey")) {
-//        }
-//
     }
 
     //ANSWER PAGE THREE

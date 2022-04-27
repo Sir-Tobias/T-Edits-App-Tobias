@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class ControlPanel extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
@@ -29,6 +32,9 @@ public class ControlPanel extends AppCompatActivity {
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
+
+    TextView  mName, mDescription, aDescription;
+    ImageView mImage, cImage, aImage;
 
     private DatabaseReference Dataref;
 
@@ -129,9 +135,36 @@ public class ControlPanel extends AppCompatActivity {
                     nav.getMenu().getItem(4).setVisible(false);
                     System.out.println("Updating the menu works");
 
+                    //SETTING ICON AS DESIGNER IF USER TYPE IS DESIGNER
+                    mImage.setVisibility(View.VISIBLE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO DESIGNER
+                    mDescription.setText(uType);
+
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                } else if(uType.equalsIgnoreCase("Admin")) {
+
+                    //SETTING ICON AS ADMIN IF USER TYPE IS ADMIN
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.VISIBLE);
+
+                    //SETTING THE DESCRIPTION TO ADMIN
+                    aDescription.setText(uType);
                 }
 
             }

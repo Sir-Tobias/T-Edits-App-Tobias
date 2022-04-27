@@ -59,6 +59,8 @@ public class teditsQuestions extends AppCompatActivity {
 
     Uri imageUri;
 
+    ImageView mImage, cImage, aImage;
+
     //Firebase Reference
     private CollectionReference rFireStore;
     private DatabaseReference Dataref;
@@ -69,7 +71,8 @@ public class teditsQuestions extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tedits_questions_one);
+        setContentView(R.layout.activity_tedits_questions);
+
 
         sketchViewAdd = findViewById(R.id.sketchupload);
 
@@ -173,77 +176,9 @@ public class teditsQuestions extends AppCompatActivity {
             }
         });
 
-        //SUBMIT PAGE THREE
-//        submitThree.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //3. Describe your brand industry
-//                final String qThree = questionThree.getText().toString();
-//
-//                int selectedId = radioGroupThreeOne.getCheckedRadioButtonId();
-//
-//                RadioButton radioButton = (RadioButton) radioGroupThreeOne.findViewById(selectedId);
-//                //Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
-//                final String brandIndustry = radioButton.getText().toString();
-//
-//                if(qThree!=null && brandIndustry!=null) {
-//                    submitTwo(qThree, brandIndustry);
-//                }
-//            }
-//        });
 
 
    }
-//    public void onClickTwo(View view) {
-//
-//        submitOne = (Button) findViewById(R.id.submitOne);
-//        questionTwo = findViewById(R.id.targetAudience);
-//        radioGroupTwoOne = (RadioGroup) findViewById(R.id.optiontwoone);
-//        radioGroupTwoTwo = (RadioGroup) findViewById(R.id.optiontwotwo);
-//
-//        radioGroupTwoOne.setOnCheckedChangeListener(
-//                new RadioGroup.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
-//                        // Get the selected Radio Button
-//                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(checkId);
-//                    }
-//                }
-//        );
-//
-//        radioGroupTwoTwo.setOnCheckedChangeListener(
-//                new RadioGroup.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
-//                        // Get the selected Radio Button
-//                        RadioButton radioButton = (RadioButton)radioGroup.findViewById(checkId);
-//                    }
-//                }
-//        );
-//
-//
-//        //2. Describe the target audience of your brand
-//        final String qTwo = questionTwo.getText().toString();
-//
-//        //2.1 What is the gender audience?
-//        int selectedId = radioGroupTwoOne.getCheckedRadioButtonId();
-//
-//        RadioButton radioButton = (RadioButton) radioGroupTwoOne.findViewById(selectedId);
-//        Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
-//        final String genderAudience = radioButton.getText().toString();
-//
-//        //2.2 What is the age demographic?
-//        int selectedtwoId = radioGroupTwoTwo.getCheckedRadioButtonId();
-//
-//        RadioButton radioButton2 = (RadioButton) radioGroupTwoTwo.findViewById(selectedId);
-//        Toast.makeText(teditsQuestions.this, radioButton.getText(), Toast.LENGTH_LONG).show();
-//        final String ageDemographic = radioButton2.getText().toString();
-//
-//        if (qTwo != null && genderAudience != null && ageDemographic != null) {
-//            submitTwo(qTwo, genderAudience, ageDemographic);
-//        }
-//
-//    }
 
     //ANSWER PAGE ONE
     private void submitOne(final String qOne, final String logoType) {
@@ -270,7 +205,7 @@ public class teditsQuestions extends AppCompatActivity {
                                 //LAUNCHES THE PAGE TWO
 //                                Intent intent = new Intent(this, teditsUser.class);
 //                                this.startActivity (intent);
-                                setContentView(R.layout.activity_tedits_questions_two);
+                                setContentView(R.layout.activity_tedits_questions);
                                 //SOLUTION ONE
 //                                submitTwo = (Button) findViewById(R.id.submitTwo);
 //
@@ -332,7 +267,7 @@ public class teditsQuestions extends AppCompatActivity {
                 public void onSuccess(Void unused) {
 
                     Toast.makeText(teditsQuestions.this,"Question two has been submitted", Toast.LENGTH_LONG).show();
-                    setContentView(R.layout.activity_tedits_questions_three);
+                    setContentView(R.layout.activity_tedits_questions);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

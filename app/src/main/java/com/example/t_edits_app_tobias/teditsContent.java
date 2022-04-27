@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,14 +26,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -68,8 +73,13 @@ public class teditsContent extends AppCompatActivity {
         ActionBarDrawerToggle toggle;
         DrawerLayout drawerLayout;
 
+        View header;
 
-    //Linking the posts being uploaded to user
+        TextView mName, mDescription, aDescription;
+        ImageView mImage, cImage, aImage, profileImage, menuProfileImage;
+
+
+        //Linking the posts being uploaded to user
         FirebaseUser firebaseUser;
 
         @Override
@@ -86,12 +96,23 @@ public class teditsContent extends AppCompatActivity {
             Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
+            mName=(TextView)findViewById(R.id.userNameMenu);
+            mDescription=(TextView)findViewById(R.id.userDescription);
+
             nav=(NavigationView)findViewById(R.id.navimenu);
             drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+
+            profileImage=(ImageView)findViewById(R.id.profile_image);
+            menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
 
             toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
             drawerLayout.addDrawerListener(toggle);
             toggle.syncState();
+
+            //GETTING THE MENU VIEWS
+            mImage=(ImageView)findViewById(R.id.designerImage);
+            cImage=(ImageView)findViewById(R.id.customerImage);
 
             nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -189,9 +210,96 @@ public class teditsContent extends AppCompatActivity {
                     }
                 }
             });
+
+            //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
+            loadInformation();
+
+            //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
+            loadInformation();
         }
 
-        private void uploadImage(final String catOne, final String catTwo, final String catThree, final String catFour) {
+    private void loadInformation() {
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+
+        Dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //User post = snapshot.getValue(User.class);
+                //DataSnapshot post = snapshot.child("userType");
+                String post = snapshot.child("fullname").getValue().toString();
+                System.out.println("This is working hello "+ post);
+
+
+                //SETTING THE NAME OF THE USER IN THE MENU
+                mName.setText(post);
+
+                //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
+                if(snapshot.hasChild("profilePic")) {
+                    //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                    //String link = snapshot.getValue(String.class);
+                    System.out.println("THERE IS NO PROFILE");
+                    String link = snapshot.child("profilePic").getValue().toString();
+                    Picasso.get().load(link).into(profileImage);
+                    Picasso.get().load(link).into(menuProfileImage);
+                }
+
+
+
+                //CHECKING THE USER TYPE THAT IS LOGGED IN
+                String uType = snapshot.child("userType").getValue().toString();
+                if (uType.equalsIgnoreCase("Designer")) {
+
+                    //IF THE USER IS A DESIGNER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND TEDITS PACKAGE GENERATOR
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    System.out.println("Updating the menu works");
+
+                    //SETTING ICON AS DESIGNER IF USER TYPE IS DESIGNER
+                    mImage.setVisibility(View.VISIBLE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO DESIGNER
+                    mDescription.setText(uType);
+
+
+                } else if(uType.equalsIgnoreCase("Customer")) {
+                    //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                } else if(uType.equalsIgnoreCase("Admin")) {
+
+                    //SETTING ICON AS ADMIN IF USER TYPE IS ADMIN
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.VISIBLE);
+
+                    //SETTING THE DESCRIPTION TO ADMIN
+                    aDescription.setText(uType);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(teditsContent.this, error.getMessage(), Toast.LENGTH_LONG);
+
+            }
+        });
+    }
+
+
+    private void uploadImage(final String catOne, final String catTwo, final String catThree, final String catFour) {
 
             progressBarm.setVisibility(View.VISIBLE);
 

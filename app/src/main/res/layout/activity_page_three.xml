@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/lighter_teal"
                 android:fontFamily="@font/poppinsmedium"
-                android:maxLength="200" />
+                android:maxLength="75" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView

@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,8 +36,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+
+
 
 public class PageTwo extends AppCompatActivity {
 
@@ -63,6 +67,7 @@ public class PageTwo extends AppCompatActivity {
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
+    View header;
 
     boolean isSketchAdded=false;
 
@@ -76,6 +81,9 @@ public class PageTwo extends AppCompatActivity {
 
     //SHARED PREFERENCES
     SharedPreferences sp;
+
+    TextView mName, mDescription, aDescription;
+    ImageView mImage, cImage, aImage, profileImage, menuProfileImage;
 
 
     @Override
@@ -98,6 +106,9 @@ public class PageTwo extends AppCompatActivity {
         submitOne = (Button) findViewById(R.id.submitOne);
         submitTwo = (Button) findViewById(R.id.submitTwo);
 
+        profileImage=(ImageView)findViewById(R.id.profile_image);
+        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
         storage = FirebaseStorage.getInstance();
 
         Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("LogoPackage");
@@ -109,6 +120,21 @@ public class PageTwo extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         nav=(NavigationView)findViewById(R.id.navimenu);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
+
+
+        //GETTING THE TEXT VALUES OF THE NAV MENU
+        mName=(TextView)header.findViewById(R.id.userNameMenu);
+        mDescription=(TextView)header.findViewById(R.id.userDescription);
+        aDescription=(TextView)header.findViewById(R.id.adminDescription);
+
+        //GETTING THE IMAGE VALUES FOR THE NAV MENU
+        mImage=(ImageView)header.findViewById(R.id.designerImage);
+        cImage=(ImageView)header.findViewById(R.id.customerImage);
+        aImage=(ImageView)header.findViewById(R.id.adminImage);
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -161,8 +187,8 @@ public class PageTwo extends AppCompatActivity {
                     case R.id.nav_logout :
                         Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
                         mAuth.signOut();
-                        drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         startActivity(new Intent(PageTwo.this, MainActivity.class));
                         break;
                 }
@@ -212,7 +238,7 @@ public class PageTwo extends AppCompatActivity {
                 int selectedtwoId = radioGroupTwoTwo.getCheckedRadioButtonId();
 
                 RadioButton radioButton2 = (RadioButton) radioGroupTwoTwo.findViewById(selectedtwoId);
-                Toast.makeText(PageTwo.this, radioButton.getText(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(PageTwo.this, radioButton.getText(), Toast.LENGTH_LONG).show();
                 final String ageDemographic = radioButton2.getText().toString();
 
                 //Creating my shared preference editor
@@ -222,7 +248,7 @@ public class PageTwo extends AppCompatActivity {
                 editor.putString("genderAudience", genderAudience);
                 editor.putString("ageDemographic", ageDemographic);
                 editor.commit();
-                Toast.makeText(PageTwo.this,"Successfully saved question two to preferences", Toast.LENGTH_LONG).show();
+                //Toast.makeText(PageTwo.this,"Successfully saved question two to preferences", Toast.LENGTH_LONG).show();
 
                 if (qTwo != null && genderAudience != null && ageDemographic != null) {
                     submitTwo(qTwo, genderAudience, ageDemographic);
@@ -248,6 +274,17 @@ public class PageTwo extends AppCompatActivity {
                 String post = snapshot.child("fullname").getValue().toString();
                 System.out.println("This is working hello "+ post);
 
+
+                //SETTING THE NAME OF THE USER IN THE MENU
+                mName.setText(post);
+
+                //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                //String link = snapshot.getValue(String.class);
+                String link = snapshot.child("profilePic").getValue().toString();
+                Picasso.get().load(link).into(profileImage);
+                Picasso.get().load(link).into(menuProfileImage);
+
+
                 //CHECKING THE USER TYPE THAT IS LOGGED IN
                 String uType = snapshot.child("userType").getValue().toString();
                 if (uType.equalsIgnoreCase("Designer")) {
@@ -257,9 +294,34 @@ public class PageTwo extends AppCompatActivity {
                     nav.getMenu().getItem(4).setVisible(false);
                     System.out.println("Updating the menu works");
 
+                    //SETTING ICON AS DESIGNER IF USER TYPE IS DESIGNER
+                    mImage.setVisibility(View.VISIBLE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO DESIGNER
+                    mDescription.setText(uType);
+
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+                } else if(uType.equalsIgnoreCase("Admin")) {
+
+                    //SETTING ICON AS ADMIN IF USER TYPE IS ADMIN
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.VISIBLE);
+
+                    //SETTING THE DESCRIPTION TO ADMIN
+                    aDescription.setText(uType);
                 }
 
             }

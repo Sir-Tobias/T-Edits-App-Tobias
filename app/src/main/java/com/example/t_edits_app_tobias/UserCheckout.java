@@ -9,8 +9,11 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,7 +61,9 @@ public class UserCheckout extends AppCompatActivity {
 
     ImageView gpayButton, spayButton;
 
-    TextView viewOne, viewTwo;
+    TextView viewOne, viewTwo ,mName, mDescription, aDescription;
+
+    ImageView mImage, cImage, aImage;
 
     private DatabaseReference Dataref;
     private FirebaseAuth mAuth;
@@ -67,6 +72,9 @@ public class UserCheckout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_checkout);
+
+        mName=(TextView)findViewById(R.id.userNameMenu);
+        mDescription=(TextView)findViewById(R.id.userDescription);
 
         gpayButton = (ImageView) findViewById(R.id.googlepay);
         spayButton = (ImageView) findViewById(R.id.stripepay);
@@ -92,15 +100,6 @@ public class UserCheckout extends AppCompatActivity {
 
         loadInformation();
 
-
-        //THE PAYMENT BUTTON WILL START THE PAYMENT FLOW
-//        paymentButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                PaymentFlow();
-//            }
-//        });
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "https://api.stripe.com/v1/customers",
                 new Response.Listener<String>() {
@@ -110,7 +109,7 @@ public class UserCheckout extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             customerID = object.getString("id");
-                            Toast.makeText(UserCheckout.this, customerID, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(UserCheckout.this, customerID, Toast.LENGTH_LONG).show();
                             System.out.println("CustomerID: "+customerID);
 
 
@@ -157,6 +156,17 @@ public class UserCheckout extends AppCompatActivity {
                 String userEmail = snapshot.child("email").getValue().toString();
 
                 System.out.println("This is working hello "+ post);
+
+                //String post = snapshot.child("fullname").getValue().toString();
+                mName.setText(post);
+
+                String upost = snapshot.child("userType").getValue().toString();
+                mDescription.setText(upost);
+
+                //GETTING ADMIN USER DESCRIPTION
+                String apost = snapshot.child("userType").getValue().toString();
+                aDescription.setText(apost);
+
                 //LOADING THE SHARED PREFERENCES FROM PAGE ONE TO GET THE LOGO NAME
                 SharedPreferences sa = getApplicationContext().getSharedPreferences("AnswerOne", Context.MODE_PRIVATE);
                 String nameLogo = sa.getString("nameLogo", "");
@@ -175,6 +185,8 @@ public class UserCheckout extends AppCompatActivity {
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
         
         if(paymentSheetResult instanceof PaymentSheetResult.Completed){
+            //REDIRECTS USER TO THE THANK YOU PAGE AFTER THE PAYMENT IS SUCCESSFUL
+            startActivity(new Intent(UserCheckout.this, ThankYou.class));
             Toast.makeText(this, "your payment was successful thank you for using T-Edits ", Toast.LENGTH_SHORT).show();
         }
         else {
@@ -194,7 +206,7 @@ public class UserCheckout extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             EphericalKey = object.getString("id");
-                            Toast.makeText(UserCheckout.this, EphericalKey, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(UserCheckout.this, EphericalKey, Toast.LENGTH_LONG).show();
                             System.out.println("EphericalKey: "+EphericalKey);
 
 
@@ -289,12 +301,22 @@ public class UserCheckout extends AppCompatActivity {
 
     private void PaymentFlow() {
 
+//        paymentSheet.presentWithPaymentIntent(paymentSheet.presentWithPaymentIntent(
+//                ClientSecret, new PaymentSheet.Configuration("T-EDITS AI", new PaymentSheet.CustomerConfiguration(customerID, EphericalKey)){};
+        PaymentSheet.Configuration configuration = new PaymentSheet.Configuration("T-EDITS AI");
+        configuration.setPrimaryButtonColor(ColorStateList.valueOf(Color.RED));
         paymentSheet.presentWithPaymentIntent(
                 ClientSecret, new PaymentSheet.Configuration("T-EDITS AI", new PaymentSheet.CustomerConfiguration(
                         customerID, EphericalKey
                 ))
                 // new PaymentSheet.Configuration(userEmail).getDefaultBillingDetails().getEmail()
         );
+        //, new PaymentSheet.Configuration().setPrimaryButtonColor(ColorStateList.valueOf(Color.BLUE))
+        //startActivity(new Intent(UserCheckout.this, ThankYou.class));
     }
 
+    //EXIT BUTTON IF USER ABANDONS BEFORE CHECKING OUT
+    public void exitClick(View view) {
+        startActivity(new Intent(UserCheckout.this, teditsUser.class));
+    }
 }

@@ -48,8 +48,6 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         rFireStore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        AppName = (TextView) findViewById(R.id.appName);
-        AppName.setOnClickListener(this);
 
         registerUser = (Button) findViewById(R.id.registerUser);
         registerUser.setOnClickListener(this);
@@ -102,43 +100,46 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         String password = ePassword.getText().toString().trim();
 
         if (fullname.isEmpty()) {
-            Toast.makeText(RegisterUser.this, "Full name is required", Toast.LENGTH_LONG).show();
+            //Toast.makeText(RegisterUser.this, "Full name is required", Toast.LENGTH_LONG).show();
             eFullname.requestFocus();
+            eFullname.setError("Full name is required");
             return;
         }
         if (phoneNo.isEmpty()) {
-            Toast.makeText(RegisterUser.this, "Phone Number is empty", Toast.LENGTH_LONG).show();
+            //Toast.makeText(RegisterUser.this, "Phone Number is empty", Toast.LENGTH_LONG).show();
             ePhoneNo.setError("Phone number field is empty");
             ePhoneNo.requestFocus();
             return;
         }
         if (phoneNo.length() < 8) {
-            Toast.makeText(RegisterUser.this, "Phone number length must be atleast 8 numbers", Toast.LENGTH_LONG).show();
+            //Toast.makeText(RegisterUser.this, "Phone number length must be atleast 8 numbers", Toast.LENGTH_LONG).show();
             ePhoneNo.setError("Phone number length must be atleast 8 numbers");
             ePhoneNo.requestFocus();
             return;
         }
         if (email.isEmpty()) {
-            Toast.makeText(RegisterUser.this, "Email id empty", Toast.LENGTH_LONG).show();
+            //Toast.makeText(RegisterUser.this, "Email id empty", Toast.LENGTH_LONG).show();
+            eEmail.setError("Email id empty");
             eEmail.requestFocus();
             return;
         }
         if (password.isEmpty()) {
-            Toast.makeText(RegisterUser.this, "Password is required", Toast.LENGTH_LONG).show();
+            //Toast.makeText(RegisterUser.this, "Password is required", Toast.LENGTH_LONG).show();
             ePassword.setError("Password is required in this field");
             ePassword.requestFocus();
             return;
         }
         //Checks the length of the password
         if (password.length() < 6) {
-            Toast.makeText(RegisterUser.this, "The minimum password length should be 6 characters", Toast.LENGTH_LONG).show();
+            //Toast.makeText(RegisterUser.this, "The minimum password length should be 6 characters", Toast.LENGTH_LONG).show();
             ePassword.setError("The minimum password length is 6 characters");
             ePassword.requestFocus();
             return;
         }
         //Checks if email has been repeated in the database
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(RegisterUser.this, "Please provide a valid email", Toast.LENGTH_LONG).show();
+            //Toast.makeText(RegisterUser.this, "Please provide a valid email", Toast.LENGTH_LONG).show();
+            eEmail.setError("Please provide a valid email");
             eEmail.requestFocus();
             return;
         }

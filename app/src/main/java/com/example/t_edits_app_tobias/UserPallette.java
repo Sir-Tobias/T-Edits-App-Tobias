@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -34,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,8 +64,14 @@ public class UserPallette extends AppCompatActivity {
     ArrayList<TPallette> arrayList;
 
     NavigationView nav;
+    View header;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
+
+    private DatabaseReference Dataref;
+
+    TextView mName, mDescription, aDescription;
+    ImageView mImage, cImage, aImage, profileImage, menuProfileImage;
 
 
 
@@ -84,8 +92,29 @@ public class UserPallette extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mName=(TextView)findViewById(R.id.userNameMenu);
+        mDescription=(TextView)findViewById(R.id.userDescription);
+
         nav=(NavigationView)findViewById(R.id.navimenu);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
+
+        profileImage=(ImageView)findViewById(R.id.profile_image);
+        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
+
+        //GETTING THE TEXT VALUES OF THE NAV MENU
+        mName=(TextView)header.findViewById(R.id.userNameMenu);
+        mDescription=(TextView)header.findViewById(R.id.userDescription);
+        aDescription=(TextView)header.findViewById(R.id.adminDescription);
+
+        mImage=(ImageView)header.findViewById(R.id.designerImage);
+        cImage=(ImageView)header.findViewById(R.id.customerImage);
+        aImage=(ImageView)header.findViewById(R.id.adminImage);
+
+
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -145,6 +174,9 @@ public class UserPallette extends AppCompatActivity {
         //Creating a method to load the data into the recycler view
         LoadData();
 
+        //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
+        loadInformation();
+
 
         recyclerView = findViewById(R.id.recyclerPalletteView);
         checkoutButton = findViewById(R.id.checkoutB);
@@ -155,31 +187,6 @@ public class UserPallette extends AppCompatActivity {
         StorageRef = FirebaseStorage.getInstance().getReference("Elements");
 
         arrayList = new ArrayList<>();
-
-        //Edit text box to search the catalogue
-        //Edit text box to search the catalogue
-//        editText = (EditText) findViewById(R.id.searchCatalogueText);
-//        //Create a listener for the edit text
-//        editText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (!s.toString().isEmpty()) {
-//                    search(s.toString());
-//                } else {
-//                    search("");
-//                }
-//            }
-//        });
 
         //recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
@@ -193,6 +200,89 @@ public class UserPallette extends AppCompatActivity {
         });
 
 
+    }
+
+    private void loadInformation() {
+        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+
+        Dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //User post = snapshot.getValue(User.class);
+                //DataSnapshot post = snapshot.child("userType");
+                String designerName = snapshot.child("fullname").getValue().toString();
+                System.out.println("This is working hello "+ designerName);
+
+                String post = snapshot.child("fullname").getValue().toString();
+                mName.setText(post);
+
+                String upost = snapshot.child("userType").getValue().toString();
+                mDescription.setText(upost);
+
+                //GETTING ADMIN USER DESCRIPTION
+                String apost = snapshot.child("userType").getValue().toString();
+                aDescription.setText(apost);
+
+                //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
+                if(snapshot.hasChild("profilePic")) {
+                    //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                    //String link = snapshot.getValue(String.class);
+                    System.out.println("THERE IS NO PROFILE");
+                    String link = snapshot.child("profilePic").getValue().toString();
+                    Picasso.get().load(link).into(profileImage);
+                    Picasso.get().load(link).into(menuProfileImage);
+                }
+
+
+                //CHECKING THE USER TYPE THAT IS LOGGED IN
+                String uType = snapshot.child("userType").getValue().toString();
+                if (uType.equalsIgnoreCase("Designer")) {
+
+                    //IF THE USER IS A DESIGNER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND TEDITS PACKAGE GENERATOR
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    System.out.println("Updating the menu works");
+
+                    //SETTING ICON AS DESIGNER IF USER TYPE IS DESIGNER
+                    mImage.setVisibility(View.VISIBLE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO DESIGNER
+                    mDescription.setText(uType);
+
+                } else if(uType.equalsIgnoreCase("Customer")) {
+                    //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                } else if(uType.equalsIgnoreCase("Admin")) {
+
+                    //SETTING ICON AS ADMIN IF USER TYPE IS ADMIN
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.GONE);
+                    aImage.setVisibility(View.VISIBLE);
+
+                    //SETTING THE DESCRIPTION TO ADMIN
+                    aDescription.setText(uType);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(UserPallette.this, error.getMessage(), Toast.LENGTH_LONG);
+
+            }
+        });
     }
 
     private void generatePallette() {
@@ -223,7 +313,7 @@ public class UserPallette extends AppCompatActivity {
                 }
             }
             if (myList.isEmpty()) {
-                Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
             } else {
                 pAdapter = new ImagePalletteAdapter(getApplicationContext(), pElement);
                 pAdapter.filterList(myList);

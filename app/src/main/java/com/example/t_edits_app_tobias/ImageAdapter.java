@@ -57,10 +57,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHol
         return false;
     }
 
-    //    public ImageAdapter(Context context, List<TContent> content) {
-//        mContext = context;
-//        tContent = content;
-//    }
     public class imageViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView viewOne;
