@@ -6,23 +6,37 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
-    tools:openDrawer="end"
+    tools:openDrawer="start"
     tools:context=".ControlPanel">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lighter_teal">
+        android:background="@color/darker_blue">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_profiler"
+            app:civ_border_color="@color/light_yellow"
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.026" />
 
         <TextView
             android:id="@+id/banner2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:fontFamily="@font/poppinsbold"
             android:gravity="center"
-            android:text="You are logged in as Admin"
-            android:textColor="@color/blue"
+            android:text="Admin Control Panel"
+            android:textColor="@color/light_yellow"
             android:textSize="20dp"
             app:layout_constraintTop_toBottomOf="@+id/profile_image"
             tools:ignore="MissingConstraints"
@@ -40,13 +54,13 @@
 
 
         <Button
-            android:id="@+id/btnStartMemory"
+            android:id="@+id/uploadContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:backgroundTint="@color/light_blue"
+            android:backgroundTint="@color/blue"
             android:onClick="startContentActivity"
-            android:text="Upload Content"
+            android:text="Upload Content to catalogue"
             android:layout_marginRight="40dp"
             android:layout_marginLeft="40dp"
             app:layout_constraintBaseline_toBottomOf="@drawable/checkoutbutton"
@@ -58,40 +72,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="240dp"
-            android:backgroundTint="@color/light_blue"
+            android:backgroundTint="@color/lighter_blue"
             android:onClick="viewContentActivity"
-            android:text="View Content"
+            android:text="View Content in catalogue"
             android:layout_marginRight="40dp"
             android:layout_marginLeft="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnStartMemory"
+            app:layout_constraintTop_toBottomOf="@+id/uploadContent"
             app:layout_constraintVertical_bias="0.128"
-            tools:layout_editor_absoluteX="0dp" />
-
-        <Button
-            android:id="@+id/btnCheckout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/light_blue"
-            android:onClick="startCheckoutActivity"
-            android:text="Checkout"
-            android:layout_marginRight="40dp"
-            android:layout_marginLeft="40dp"
-            app:layout_constraintTop_toBottomOf="@+id/btnViewContent"
             tools:layout_editor_absoluteX="0dp" />
 
         <Button
             android:id="@+id/btnStartElements"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/light_blue"
+            android:backgroundTint="@color/orange"
             android:onClick="startElementActivity"
-            android:text="Upload Elements"
+            android:text="Upload to Elements catalogue"
             android:layout_marginRight="40dp"
             android:layout_marginLeft="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnCheckout"
+            app:layout_constraintTop_toBottomOf="@+id/btnViewContent"
+            app:layout_constraintVertical_bias="0.073"
+            tools:layout_editor_absoluteX="0dp" />
+
+
+        <Button
+            android:id="@+id/viewElements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_orange"
+            android:onClick="viewElementActivity"
+            android:text="View Elements catalogue"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnStartElements"
             app:layout_constraintVertical_bias="0.073"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -100,31 +116,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/light_blue"
+                android:backgroundTint="@color/purple_200"
                 android:onClick="startQuestionActivity"
                 android:text="Package Questions"
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="40dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnStartElements"
+                app:layout_constraintTop_toBottomOf="@+id/viewElements"
                 app:layout_constraintVertical_bias="0.0"
                 tools:layout_editor_absoluteX="0dp" />
 
-
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_profiler"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="0.026" />
+        <Button
+            android:id="@+id/btnCheckout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/light_purple"
+            android:onClick="startCheckoutActivity"
+            android:text="View Checkout"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnStartQuestions"
+            tools:layout_editor_absoluteX="0dp" />
 
 
 

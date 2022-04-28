@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TEditsAppTobias"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
         <activity
             android:name=".NavMenu"
             android:exported="true" />

@@ -230,7 +230,6 @@ public class UserPallette extends AppCompatActivity {
                     //String link = snapshot.getValue(String.class);
                     System.out.println("THERE IS NO PROFILE");
                     String link = snapshot.child("profilePic").getValue().toString();
-                    Picasso.get().load(link).into(profileImage);
                     Picasso.get().load(link).into(menuProfileImage);
                 }
 

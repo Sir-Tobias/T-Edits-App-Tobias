@@ -165,6 +165,8 @@ public class PageOne extends AppCompatActivity {
                     case R.id.nav_control_panel:
                         Toast.makeText(getApplicationContext(),"Control Panel is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(PageOne.this, ControlPanel.class));
                         break;
 
                     case R.id.nav_tedits_package:
@@ -266,11 +268,17 @@ public class PageOne extends AppCompatActivity {
                 String post = snapshot.child("fullname").getValue().toString();
                 System.out.println("This is working hello "+ post);
 
-                //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
-                //String link = snapshot.getValue(String.class);
-                String link = snapshot.child("profilePic").getValue().toString();
-                Picasso.get().load(link).into(profileImage);
-                Picasso.get().load(link).into(menuProfileImage);
+
+                //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
+                if(snapshot.hasChild("profilePic")) {
+                    //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                    //String link = snapshot.getValue(String.class);
+                    System.out.println("THERE IS NO PROFILE");
+                    String link = snapshot.child("profilePic").getValue().toString();
+                    //Picasso.get().load(link).into(profileImage);
+                    Picasso.get().load(link).into(menuProfileImage);
+                }
+
 
                 //SETTING THE NAME OF THE USER IN THE MENU
                 mName.setText(post);

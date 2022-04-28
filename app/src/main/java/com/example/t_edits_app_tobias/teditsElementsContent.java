@@ -95,19 +95,29 @@ public class teditsElementsContent extends AppCompatActivity {
         mName=(TextView)findViewById(R.id.userNameMenu);
         mDescription=(TextView)findViewById(R.id.userDescription);
 
-        nav = (NavigationView) findViewById(R.id.navimenu);
+        nav=(NavigationView)findViewById(R.id.navimenu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        //GETTING THE TEXT VALUES OF THE NAV MENU
+        mName=(TextView)header.findViewById(R.id.userNameMenu);
+        mDescription=(TextView)header.findViewById(R.id.userDescription);
+        aDescription=(TextView)header.findViewById(R.id.adminDescription);
+
+
         profileImage=(ImageView)findViewById(R.id.profile_image);
         menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
 
         //GETTING THE MENU VIEWS
-        mImage=(ImageView)findViewById(R.id.designerImage);
-        cImage=(ImageView)findViewById(R.id.customerImage);
+        mImage=(ImageView)header.findViewById(R.id.designerImage);
+        cImage=(ImageView)header.findViewById(R.id.customerImage);
+        aImage=(ImageView)header.findViewById(R.id.adminImage);
 
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -217,8 +227,8 @@ public class teditsElementsContent extends AppCompatActivity {
                 System.out.println("This is working hello "+ post);
 
 
-                //SETTING THE NAME OF THE USER IN THE MENU
-                mName.setText(post);
+//                //SETTING THE NAME OF THE USER IN THE MENU
+//                mName.setText(post);
 
                 //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
                 if(snapshot.hasChild("profilePic")) {
@@ -226,7 +236,6 @@ public class teditsElementsContent extends AppCompatActivity {
                     //String link = snapshot.getValue(String.class);
                     System.out.println("THERE IS NO PROFILE");
                     String link = snapshot.child("profilePic").getValue().toString();
-                    Picasso.get().load(link).into(profileImage);
                     Picasso.get().load(link).into(menuProfileImage);
                 }
 

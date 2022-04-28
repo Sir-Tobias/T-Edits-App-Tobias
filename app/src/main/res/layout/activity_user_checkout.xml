@@ -122,27 +122,21 @@
             android:layout_marginLeft="110dp"
             android:layout_marginTop="143dp"
             android:scaleType="fitXY"
-            android:src="@drawable/gpayone" />
+            android:src="@drawable/gpayone"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/stripepay"
             android:layout_width="124dp"
             android:layout_height="59dp"
             android:layout_below="@+id/paragraphFour"
-            android:layout_marginStart="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="135dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="143dp"
-            android:layout_toEndOf="@+id/googlepay"
             android:scaleType="fitXY"
             android:src="@drawable/stripeone" />
 
     </RelativeLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navimenu"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:headerLayout="@layout/navheader"
-        app:menu="@menu/navmenu"
-        android:layout_gravity="start"/>
 </androidx.drawerlayout.widget.DrawerLayout>

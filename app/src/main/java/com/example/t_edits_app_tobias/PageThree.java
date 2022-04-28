@@ -103,8 +103,7 @@ public class PageThree extends AppCompatActivity {
 
         Dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("LogoPackage");
 
-        profileImage=(ImageView)findViewById(R.id.profile_image);
-        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
 
 
         //INSTANTIATING MY SHARED PREFERENCE
@@ -119,6 +118,8 @@ public class PageThree extends AppCompatActivity {
         //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
         header = nav.getHeaderView(0);
 
+        profileImage=(ImageView)findViewById(R.id.profile_image);
+        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
 
         //GETTING THE TEXT VALUES OF THE NAV MENU
         mName=(TextView)header.findViewById(R.id.userNameMenu);
@@ -163,6 +164,8 @@ public class PageThree extends AppCompatActivity {
                     case R.id.nav_control_panel:
                         Toast.makeText(getApplicationContext(),"Control Panel is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(PageThree.this, ControlPanel.class));
                         break;
 
                     case R.id.nav_tedits_package:
@@ -244,7 +247,6 @@ public class PageThree extends AppCompatActivity {
                     //String link = snapshot.getValue(String.class);
                     System.out.println("THERE IS NO PROFILE");
                     String link = snapshot.child("profilePic").getValue().toString();
-                    Picasso.get().load(link).into(profileImage);
                     Picasso.get().load(link).into(menuProfileImage);
                 }
 

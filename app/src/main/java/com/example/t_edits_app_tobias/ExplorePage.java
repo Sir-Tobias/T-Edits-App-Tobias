@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -65,7 +66,7 @@ public class ExplorePage extends AppCompatActivity {
     View header;
 
     TextView mName, mDescription, aDescription;
-    ImageView mImage, cImage, aImage;
+    ImageView mImage, cImage, aImage, menuProfileImage;
 
     private ImageView imagePostAdd;
 
@@ -132,6 +133,8 @@ public class ExplorePage extends AppCompatActivity {
 
         //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
         header = nav.getHeaderView(0);
+
+        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
 
 
         //GETTING THE TEXT VALUES OF THE NAV MENU
@@ -318,6 +321,17 @@ public class ExplorePage extends AppCompatActivity {
 
                 //SETTING THE NAME OF THE USER IN THE MENU
                 mName.setText(post);
+
+                //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
+                if(snapshot.hasChild("profilePic")) {
+                    //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                    //String link = snapshot.getValue(String.class);
+                    System.out.println("THERE IS NO PROFILE");
+                    String link = snapshot.child("profilePic").getValue().toString();
+                    //Picasso.get().load(link).into(profileImage);
+                    Picasso.get().load(link).into(menuProfileImage);
+                }
+
 
 
                 //CHECKING THE USER TYPE THAT IS LOGGED IN

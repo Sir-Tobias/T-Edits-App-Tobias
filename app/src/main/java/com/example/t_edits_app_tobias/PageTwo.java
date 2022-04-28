@@ -106,6 +106,13 @@ public class PageTwo extends AppCompatActivity {
         submitOne = (Button) findViewById(R.id.submitOne);
         submitTwo = (Button) findViewById(R.id.submitTwo);
 
+        nav=(NavigationView)findViewById(R.id.navimenu);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
+
+
         profileImage=(ImageView)findViewById(R.id.profile_image);
         menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
 
@@ -170,6 +177,8 @@ public class PageTwo extends AppCompatActivity {
                     case R.id.nav_control_panel:
                         Toast.makeText(getApplicationContext(),"Control Panel is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(PageTwo.this, ControlPanel.class));
                         break;
 
                     case R.id.nav_tedits_package:
@@ -278,11 +287,15 @@ public class PageTwo extends AppCompatActivity {
                 //SETTING THE NAME OF THE USER IN THE MENU
                 mName.setText(post);
 
-                //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
-                //String link = snapshot.getValue(String.class);
-                String link = snapshot.child("profilePic").getValue().toString();
-                Picasso.get().load(link).into(profileImage);
-                Picasso.get().load(link).into(menuProfileImage);
+                //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
+                if(snapshot.hasChild("profilePic")) {
+                    //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                    //String link = snapshot.getValue(String.class);
+                    System.out.println("THERE IS NO PROFILE");
+                    String link = snapshot.child("profilePic").getValue().toString();
+                    //Picasso.get().load(link).into(profileImage);
+                    Picasso.get().load(link).into(menuProfileImage);
+                }
 
 
                 //CHECKING THE USER TYPE THAT IS LOGGED IN
@@ -339,7 +352,7 @@ public class PageTwo extends AppCompatActivity {
         final String key = Dataref.push().getKey();
 
         HashMap hashMap = new HashMap();
-        hashMap.put("2* Description of brand ", qTwo);
+        hashMap.put("2* Description of target audience ", qTwo);
         hashMap.put("2*1 Type of Gender audience ", genderAudience);
         hashMap.put("2*2 Age demographic ", ageDemographic);
 

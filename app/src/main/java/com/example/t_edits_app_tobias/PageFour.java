@@ -154,6 +154,8 @@ public class PageFour extends AppCompatActivity {
                     case R.id.nav_control_panel:
                         Toast.makeText(getApplicationContext(),"Control Panel is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(PageFour.this, ControlPanel.class));
                         break;
 
                     case R.id.nav_tedits_package:
@@ -272,7 +274,6 @@ public class PageFour extends AppCompatActivity {
                     //String link = snapshot.getValue(String.class);
                     System.out.println("THERE IS NO PROFILE");
                     String link = snapshot.child("profilePic").getValue().toString();
-                    Picasso.get().load(link).into(profileImage);
                     Picasso.get().load(link).into(menuProfileImage);
                 }
 

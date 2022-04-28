@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 public class ControlPanel extends AppCompatActivity {
@@ -33,8 +35,10 @@ public class ControlPanel extends AppCompatActivity {
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
 
+    View header;
+
     TextView  mName, mDescription, aDescription;
-    ImageView mImage, cImage, aImage;
+    ImageView mImage, cImage, aImage, profileImage, menuProfileImage;
 
     private DatabaseReference Dataref;
 
@@ -48,6 +52,23 @@ public class ControlPanel extends AppCompatActivity {
 
         nav=(NavigationView)findViewById(R.id.navimenu);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
+
+        mImage=(ImageView)header.findViewById(R.id.designerImage);
+        cImage=(ImageView)header.findViewById(R.id.customerImage);
+        aImage=(ImageView)header.findViewById(R.id.adminImage);
+
+        //GETTING THE TEXT VALUES OF THE NAV MENU
+        mName=(TextView)header.findViewById(R.id.userNameMenu);
+        mDescription=(TextView)header.findViewById(R.id.userDescription);
+        aDescription=(TextView)header.findViewById(R.id.adminDescription);
+
+
+        profileImage=(ImageView)findViewById(R.id.profile_image);
+        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -124,7 +145,30 @@ public class ControlPanel extends AppCompatActivity {
                 //User post = snapshot.getValue(User.class);
                 //DataSnapshot post = snapshot.child("userType");
                 String post = snapshot.child("fullname").getValue().toString();
+
                 System.out.println("This is working hello "+ post);
+
+                //SETTING THE NAME OF THE USER IN THE MENU
+                mName.setText(post);
+
+
+                //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                //String link = snapshot.getValue(String.class);
+                //String link = snapshot.child("profilePic").getValue().toString();
+                //snapshot.child("profilePic").getValue().toString().isEmpty()
+
+                //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
+                if(snapshot.hasChild("profilePic")) {
+                    //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
+                    //String link = snapshot.getValue(String.class);
+                    System.out.println("THERE IS NO PROFILE");
+                    String link = snapshot.child("profilePic").getValue().toString();
+                    Picasso.get().load(link).into(profileImage);
+                    Picasso.get().load(link).into(menuProfileImage);
+                }
+
+
+
 
                 //CHECKING THE USER TYPE THAT IS LOGGED IN
                 String uType = snapshot.child("userType").getValue().toString();
@@ -143,10 +187,10 @@ public class ControlPanel extends AppCompatActivity {
                     //SETTING THE DESCRIPTION TO DESIGNER
                     mDescription.setText(uType);
 
+
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
-
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
@@ -232,14 +276,20 @@ public class ControlPanel extends AppCompatActivity {
     }
 
     public void startElementActivity(View view) {
-        Toast.makeText(ControlPanel.this,"Upload Element", Toast.LENGTH_LONG).show();
+        Toast.makeText(ControlPanel.this,"Upload Elements", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(ControlPanel.this,teditsElementsContent.class);
+        startActivity(intent);
+    }
+
+    public void viewElementActivity(View view) {
+        Toast.makeText(ControlPanel.this,"View Elements", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(ControlPanel.this,teditsElementCatalogue.class);
         startActivity(intent);
     }
 
     public void startQuestionActivity(View view) {
         Toast.makeText(ControlPanel.this,"Start Questions", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(ControlPanel.this,teditsQuestions.class);
+        Intent intent = new Intent(ControlPanel.this,PageOne.class);
         startActivity(intent);
     }
 
@@ -248,4 +298,8 @@ public class ControlPanel extends AppCompatActivity {
         Intent intent = new Intent(ControlPanel.this,UserCheckout.class);
         startActivity(intent);
     }
+
+
+
+
 }

@@ -69,11 +69,4 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navimenu"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:headerLayout="@layout/navheader"
-        app:menu="@menu/navmenu"
-        android:layout_gravity="start"/>
 </androidx.drawerlayout.widget.DrawerLayout>

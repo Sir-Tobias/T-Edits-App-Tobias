@@ -76,7 +76,7 @@ public class UserCheckout extends AppCompatActivity {
         mName=(TextView)findViewById(R.id.userNameMenu);
         mDescription=(TextView)findViewById(R.id.userDescription);
 
-        gpayButton = (ImageView) findViewById(R.id.googlepay);
+        //gpayButton = (ImageView) findViewById(R.id.googlepay);
         spayButton = (ImageView) findViewById(R.id.stripepay);
 
         viewOne = (TextView) findViewById(R.id.paragraphOne);
@@ -114,7 +114,7 @@ public class UserCheckout extends AppCompatActivity {
 
 
                             getEphericalKey(customerID);
-                            
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -139,7 +139,6 @@ public class UserCheckout extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    //Query q = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(mAuth.getCurrentUser().getEmail());
 
     private void loadInformation() {
         Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
@@ -157,15 +156,15 @@ public class UserCheckout extends AppCompatActivity {
 
                 System.out.println("This is working hello "+ post);
 
-                //String post = snapshot.child("fullname").getValue().toString();
-                mName.setText(post);
-
-                String upost = snapshot.child("userType").getValue().toString();
-                mDescription.setText(upost);
-
-                //GETTING ADMIN USER DESCRIPTION
-                String apost = snapshot.child("userType").getValue().toString();
-                aDescription.setText(apost);
+//                //String post = snapshot.child("fullname").getValue().toString();
+//                mName.setText(post);
+//
+//                String upost = snapshot.child("userType").getValue().toString();
+//                mDescription.setText(upost);
+//
+//                //GETTING ADMIN USER DESCRIPTION
+//                String apost = snapshot.child("userType").getValue().toString();
+//                aDescription.setText(apost);
 
                 //LOADING THE SHARED PREFERENCES FROM PAGE ONE TO GET THE LOGO NAME
                 SharedPreferences sa = getApplicationContext().getSharedPreferences("AnswerOne", Context.MODE_PRIVATE);
@@ -183,7 +182,7 @@ public class UserCheckout extends AppCompatActivity {
 
 
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
-        
+
         if(paymentSheetResult instanceof PaymentSheetResult.Completed){
             //REDIRECTS USER TO THE THANK YOU PAGE AFTER THE PAYMENT IS SUCCESSFUL
             startActivity(new Intent(UserCheckout.this, ThankYou.class));
@@ -303,8 +302,8 @@ public class UserCheckout extends AppCompatActivity {
 
 //        paymentSheet.presentWithPaymentIntent(paymentSheet.presentWithPaymentIntent(
 //                ClientSecret, new PaymentSheet.Configuration("T-EDITS AI", new PaymentSheet.CustomerConfiguration(customerID, EphericalKey)){};
-        PaymentSheet.Configuration configuration = new PaymentSheet.Configuration("T-EDITS AI");
-        configuration.setPrimaryButtonColor(ColorStateList.valueOf(Color.RED));
+        //PaymentSheet.Configuration configuration = new PaymentSheet.Configuration("T-EDITS AI");
+        //configuration.setPrimaryButtonColor(ColorStateList.valueOf(Color.RED));
         paymentSheet.presentWithPaymentIntent(
                 ClientSecret, new PaymentSheet.Configuration("T-EDITS AI", new PaymentSheet.CustomerConfiguration(
                         customerID, EphericalKey

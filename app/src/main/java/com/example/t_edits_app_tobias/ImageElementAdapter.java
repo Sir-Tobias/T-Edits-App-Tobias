@@ -54,7 +54,7 @@ public class ImageElementAdapter extends RecyclerView.Adapter<ImageElementAdapte
     @NonNull
     @Override
     public imageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.single_view3, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.single_view4, parent, false);
         return new imageViewHolder(v);
     }
 

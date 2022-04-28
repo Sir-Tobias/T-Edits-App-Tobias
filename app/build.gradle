@@ -73,5 +73,12 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.0'
     // ...
 
+    //ADDING THE STRIPE DEPENDENCY THAT ALLOWS GOOGLE PAY
+    implementation 'com.stripe:stripe-android:20.1.0'
+
+    //GOOGLE PAY DEPENDENCY
+    implementation 'com.google.android.gms:play-services-wallet:19.1.0'
+    implementation "com.google.android.gms:play-services-wallet:16.0.0"
+
 
 }

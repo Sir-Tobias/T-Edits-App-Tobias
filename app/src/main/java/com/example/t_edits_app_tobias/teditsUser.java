@@ -209,7 +209,7 @@ public class teditsUser extends AppCompatActivity {
                 //User post = snapshot.getValue(User.class);
                 //DataSnapshot post = snapshot.child("userType");
                 String post = snapshot.child("fullname").getValue().toString();
-                viewNew.setText("Hello "+ post);
+                viewNew.setText("Welcome back "+ post);
                 System.out.println("This is working hello "+ post);
 
                 //SETTING THE NAME OF THE USER IN THE MENU
@@ -221,11 +221,6 @@ public class teditsUser extends AppCompatActivity {
                 //SETTIING THE TEXTVIEW OF THE UPDATING PROFILE TO PHONENO
                 String phoneDetails = snapshot.child("phoneNo").getValue().toString();
                 phonenoUpdate.setHint(phoneDetails);
-
-                //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
-                //String link = snapshot.getValue(String.class);
-                //String link = snapshot.child("profilePic").getValue().toString();
-                //snapshot.child("profilePic").getValue().toString().isEmpty()
 
                 //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
                 if(snapshot.hasChild("profilePic")) {
