@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,7 +41,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
-public class ExplorePage extends AppCompatActivity {
+public class ViewMyPost extends AppCompatActivity {
 
     EditText inputSearch;
     RecyclerView recyclerView;
@@ -68,7 +69,10 @@ public class ExplorePage extends AppCompatActivity {
     TextView mName, mDescription, aDescription;
     ImageView mImage, cImage, aImage, menuProfileImage;
 
-    private ImageView imagePostAdd, viewPost;
+    private ImageView imagePostAdd;
+
+    //SHARED PREFERENCES
+    SharedPreferences sa;
 
 
     private FirebaseAuth mAuth;
@@ -88,31 +92,31 @@ public class ExplorePage extends AppCompatActivity {
             case R.id.nav_logout:
                 mAuth.signOut();
                 finish();
-                startActivity(new Intent(ExplorePage.this, RegisterUser.class));
+                startActivity(new Intent(ViewMyPost.this, RegisterUser.class));
                 break;
 
             case R.id.nav_upload_content:
                 finish();
-                startActivity(new Intent(ExplorePage.this, teditsContent.class));
+                startActivity(new Intent(ViewMyPost.this, teditsContent.class));
                 break;
 
             case R.id.nav_content_catalogue:
                 finish();
-                startActivity(new Intent(ExplorePage.this, teditsCatalogue.class));
+                startActivity(new Intent(ViewMyPost.this, teditsCatalogue.class));
                 break;
 
             case R.id.nav_user_catalogue:
                 finish();
-                startActivity(new Intent(ExplorePage.this, teditsUserCatalogue.class));
+                startActivity(new Intent(ViewMyPost.this, teditsUserCatalogue.class));
                 break;
             case R.id.nav_elements_catalogue:
                 finish();
-                startActivity(new Intent(ExplorePage.this, teditsElementCatalogue.class));
+                startActivity(new Intent(ViewMyPost.this, teditsElementCatalogue.class));
                 break;
 
             case R.id.nav_home:
                 finish();
-                startActivity(new Intent(ExplorePage.this, MainActivity.class));
+                startActivity(new Intent(ViewMyPost.this, MainActivity.class));
                 break;
 
 
@@ -120,10 +124,12 @@ public class ExplorePage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_explore_page);
+        setContentView(R.layout.activity_view_my_post);
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -159,34 +165,36 @@ public class ExplorePage extends AppCompatActivity {
                     case R.id.nav_home :
                         Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(ViewMyPost.this, ExplorePage.class));
                         break;
 
                     case R.id.nav_profile :
                         Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ExplorePage.this, teditsUser.class));
+                        startActivity(new Intent(ViewMyPost.this, teditsUser.class));
                         break;
 
                     case R.id.nav_user_catalogue :
                         Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ExplorePage.this, teditsUserCatalogue.class));
+                        startActivity(new Intent(ViewMyPost.this, teditsUserCatalogue.class));
                         break;
 
                     case R.id.nav_control_panel:
                         Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ExplorePage.this, ControlPanel.class));
+                        startActivity(new Intent(ViewMyPost.this, ControlPanel.class));
                         break;
 
                     case R.id.nav_tedits_package:
                         Toast.makeText(getApplicationContext(),"T-Edits Package",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ExplorePage.this, PageOne.class));
+                        startActivity(new Intent(ViewMyPost.this, PageOne.class));
                         break;
 
                     case R.id.tedits_chats :
@@ -198,7 +206,7 @@ public class ExplorePage extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
                         mAuth.signOut();
                         finish();
-                        startActivity(new Intent(ExplorePage.this, MainActivity.class));
+                        startActivity(new Intent(ViewMyPost.this, MainActivity.class));
                         drawerLayout.closeDrawer(GravityCompat.START);
 
                         break;
@@ -209,10 +217,7 @@ public class ExplorePage extends AppCompatActivity {
         });
 
 
-        imagePostAdd = findViewById(R.id.postUpload);
-        viewPost = findViewById(R.id.myPost);
-
-        recyclerView = findViewById(R.id.recyclerExploreView);
+        recyclerView = findViewById(R.id.recyclerMyPostView);
         //Initializing
         DataRef = FirebaseDatabase.getInstance().getReference().child("Content");
 
@@ -226,56 +231,22 @@ public class ExplorePage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setHasFixedSize(true);
 
-        //Edit text box to search the tedits explore page
-        editText = (EditText) findViewById(R.id.searchExploreText);
-        //Create a listener for the edit text
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty())
-                {
-                    search(s.toString());
-                }
-                else {
-                    search("");
-                }
-            }
-        });
-
-        viewPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ViewMyPost.class));
-
-            }
-        });
-
-        //Method to upload photo from phone gallery
-        imagePostAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), teditsPost.class));
-            }
-        });
 
         //Creating a method to load the data into the recycler view
-        LoadData();
+       loadMyData();
+
+        //Creating a method to load the data into the recycler view
+        //filterMyPost();
 
         //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
         loadInformation();
     }
+    private void loadMyData() {
 
-    private void LoadData() {
+        //RETRIEVING THE SHARED PREFERENCE FOR USER ID FROM THE TEDITS POST ACTIVITY
+        SharedPreferences sa = getApplicationContext().getSharedPreferences("DesignerDetails", Context.MODE_PRIVATE);
+        String desID = sa.getString("userid", "");
+
         pContent = new ArrayList<>();
         //Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost").child(FirebaseAuth.getInstance().getUid());
         DataRef = FirebaseDatabase.getInstance().getReference().child("TeditsPost");
@@ -284,34 +255,46 @@ public class ExplorePage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    System.out.println("did not work " + postSnapshot.child("NameOfPost").getValue().toString());
-                    //TContent content = postSnapshot.getValue(TContent.class);
-                    TPost post = new TPost();
+                    String newID = postSnapshot.child("UserID").getValue().toString();
+                    if(newID.equalsIgnoreCase(desID)) {
+                        System.out.println("did not work " + postSnapshot.child("NameOfPost").getValue().toString());
+                        //TContent content = postSnapshot.getValue(TContent.class);
+                        TPost post = new TPost();
+                        System.out.println("WE MADE IT");
 
-                    //Retrieving the the tag values from the realtime database
-                    post.setNameOfPost(postSnapshot.child("NameOfPost").getValue().toString());
-                    post.setCaption(postSnapshot.child("Caption").getValue().toString());
-                    post.setNameOfDesigner(postSnapshot.child("NameofDesigner").getValue().toString());
+                        //Retrieving the the tag values from the realtime database
+                        post.setNameOfPost(postSnapshot.child("NameOfPost").getValue().toString());
+                        post.setCaption(postSnapshot.child("Caption").getValue().toString());
+                        post.setNameOfDesigner(postSnapshot.child("NameofDesigner").getValue().toString());
 
-                    //Retrieving the image from realtime database
-                    post.setImageUri(postSnapshot.child("ImageUri").getValue().toString());
+                        //Retrieving the image from realtime database
+                        post.setImageUri(postSnapshot.child("ImageUri").getValue().toString());
+                        //Adding the retrieved content to the tContent Arraylist
+                        pContent.add(post);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Nothing to see here", Toast.LENGTH_SHORT).show();
+                    }
 
-                    //Adding the retrieved content to the tContent Arraylist
-                    pContent.add(post);
+
+
                 }
 
                 pAdapter = new ImagePostAdapter(getApplicationContext(), pContent);
                 recyclerView.setAdapter(pAdapter);
                 pAdapter.notifyDataSetChanged();
+                //filterMyPost();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ExplorePage.this, error.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(ViewMyPost.this, error.getMessage(), Toast.LENGTH_LONG);
 
             }
         });
     }
+
+
+
 
     private void loadInformation() {
         Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
@@ -354,7 +337,6 @@ public class ExplorePage extends AppCompatActivity {
                     mImage.setVisibility(View.VISIBLE);
                     cImage.setVisibility(View.GONE);
                     aImage.setVisibility(View.GONE);
-                    viewPost.setVisibility(View.VISIBLE);
 
                     //SETTING THE DESCRIPTION TO DESIGNER
                     mDescription.setText(uType);
@@ -390,30 +372,10 @@ public class ExplorePage extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ExplorePage.this, error.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(ViewMyPost.this, error.getMessage(), Toast.LENGTH_LONG);
 
             }
         });
     }
 
-    //Method for searching the arraylist catalogue for the string that matches
-    private void search(String s) {
-        ArrayList<TPost> myList = new ArrayList<>();
-        for (TPost object : pContent) {
-            if (object.getNameOfPost().toLowerCase().contains(s.toLowerCase())) {
-                myList.add(object);
-
-            } else if (object.getCaption().toLowerCase().contains(s.toLowerCase())) {
-                myList.add(object);
-            }
-            if (myList.isEmpty()) {
-                Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
-            } else {
-                pAdapter = new ImagePostAdapter(getApplicationContext(), pContent);
-                pAdapter.filterList(myList);
-                recyclerView.setAdapter(pAdapter);
-                pAdapter.notifyDataSetChanged();
-            }
-        }
-    }
 }

@@ -83,6 +83,7 @@ public class teditsPost extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -96,14 +97,31 @@ public class teditsPost extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mName=(TextView)findViewById(R.id.userNameMenu);
-        mDescription=(TextView)findViewById(R.id.userDescription);
-
+        //InfoLayout=(Layout) findViewById(R.layout.navheader);
         nav=(NavigationView)findViewById(R.id.navimenu);
-        drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
+
+
+        //GETTING THE TEXT VALUES OF THE NAV MENU
+        mName=(TextView)header.findViewById(R.id.userNameMenu);
+        mDescription=(TextView)header.findViewById(R.id.userDescription);
+        aDescription=(TextView)header.findViewById(R.id.adminDescription);
+
+        mImage=(ImageView)header.findViewById(R.id.designerImage);
+        cImage=(ImageView)header.findViewById(R.id.customerImage);
+        aImage=(ImageView)header.findViewById(R.id.adminImage);
+
+        storage = FirebaseStorage.getInstance();
+        Storageref = storage.getReference().child("TeditsPost");
+
 
         profileImage=(ImageView)findViewById(R.id.profile_image);
         menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
+
+        drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -161,6 +179,7 @@ public class teditsPost extends AppCompatActivity {
             }
         });
 
+
         postViewAdd = findViewById(R.id.tpostupload);
 
         namePost = findViewById(R.id.namePostText);
@@ -181,7 +200,8 @@ public class teditsPost extends AppCompatActivity {
 
 
         //INSTANTIATING MY SHARED PREFERENCE
-        sp = getSharedPreferences("DesignerName", Context.MODE_PRIVATE);
+        sp = getSharedPreferences("DesignerDetails", Context.MODE_PRIVATE);
+
 
         //Method to upload photo from phone gallery
         postViewAdd.setOnClickListener(new View.OnClickListener() {
@@ -329,6 +349,12 @@ public class teditsPost extends AppCompatActivity {
 
                         //USER ID LINKED TO POST
                         hashMap.put("UserID", userId);
+
+                        //STORING THE DESIGNER USER ID IN SHARED PREFERENCE
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("userid", userId);
+                        editor.commit();
+
 
 
                         //Push key

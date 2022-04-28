@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer"
     android:background="@color/lighter_teal"
-    tools:openDrawer="start"
+    tools:openDrawer="end"
     tools:context=".PageFour">
 
     <RelativeLayout
@@ -58,40 +58,50 @@
             android:layout_marginStart="20dp"
             android:orientation="horizontal">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radio_apparel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
                 android:checked="true"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="White" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radio_media"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Yellow" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/primaryRed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Red" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/primaryBlue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Blue" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/primaryBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Black" />
         </RadioGroup>
 
@@ -117,26 +127,30 @@
             android:layout_marginStart="20dp"
             android:orientation="horizontal">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/orange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
                 android:text="Orange" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/green"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:checked="true"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Green" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/purple"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Purple" />
         </RadioGroup>
 
@@ -162,26 +176,32 @@
             android:layout_marginStart="20dp"
             android:orientation="horizontal">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/brown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
                 android:checked="true"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Brown" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/beige"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Beige" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Grey" />
         </RadioGroup>
 

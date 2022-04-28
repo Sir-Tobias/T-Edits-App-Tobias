@@ -322,23 +322,6 @@ public class UserPallette extends AppCompatActivity {
         }
     }
 
-//    private void search(String s) {
-//        ArrayList<TPallette> myList = new ArrayList<>();
-//        for (TPallette object : pElement) {
-//            if (object.getPalletteValue().toLowerCase().contains(s.toLowerCase())) {
-//                myList.add(object);
-//            }
-//        }
-//        if (myList.isEmpty()) {
-//            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
-//        } else {
-//            pAdapter = new ImagePalletteAdapter(getApplicationContext(), pElement);
-//            pAdapter.filterList(myList);
-//            recyclerView.setAdapter(pAdapter);
-//            pAdapter.notifyDataSetChanged();
-//        }
-//    }
-
     private void LoadData() {
 
         pElement = new ArrayList<>();

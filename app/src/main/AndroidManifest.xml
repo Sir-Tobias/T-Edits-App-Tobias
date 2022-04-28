@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TEditsAppTobias"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ViewMyPost"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"

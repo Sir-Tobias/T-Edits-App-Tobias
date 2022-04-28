@@ -123,7 +123,7 @@
 
     <RadioGroup
         android:id="@+id/userOption"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -137,13 +137,14 @@
             android:layout_marginLeft="40dp"
             android:src="@drawable/idea" />
 
-        <RadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/radio_designer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:onClick="onRadioButtonClicked"
-            android:checked="true"
+            android:button="@drawable/custom_icon"
+            android:paddingLeft="5dp"
             android:text="Designer" />
 
         <ImageView
@@ -153,12 +154,16 @@
             android:layout_marginLeft="20dp"
             android:src="@drawable/customer" />
 
-        <RadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/radio_customer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:checked="true"
+
             android:onClick="onRadioButtonClicked"
+            android:button="@drawable/custom_icon"
+            android:paddingLeft="5dp"
             android:text="Customer" />
 
     </RadioGroup>

@@ -98,28 +98,32 @@
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radio_children"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:checked="true"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Male" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radio_teenager"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Female" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radio_adults"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="Gender Neutral" />
         </RadioGroup>
 
@@ -146,27 +150,32 @@
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/children"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="15 >" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/teenagers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:checked="true"
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="15 - 45" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/adults"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-
+                android:button="@drawable/custom_icon"
+                android:paddingLeft="5dp"
                 android:text="45 +" />
         </RadioGroup>
 
