@@ -474,24 +474,24 @@ public class PageFour extends AppCompatActivity {
         final String key = Dataref.push().getKey();
 
         HashMap hashMap = new HashMap();
-        hashMap.put("1 Name of logo ", nameLogo);
-        hashMap.put("1*2 Type of logo ", typeLogo);
-        hashMap.put("1*3 Sketch of logo ", imageUri);
+        hashMap.put("1NameOfLogo", nameLogo);
+        hashMap.put("1*2TypeOfLogo", typeLogo);
+        hashMap.put("1*3SketchOfLogo", imageUri);
 
-        hashMap.put("2* Description of brand ", targetAudience);
-        hashMap.put("2*1 Type of Gender audience ", genderAudience);
-        hashMap.put("2*2 Age demographic ", ageDemographic);
+        hashMap.put("2*DescriptionOfBrand", targetAudience);
+        hashMap.put("2*1TypeOGenderAudience", genderAudience);
+        hashMap.put("2*2AgeDemographic", ageDemographic);
 
-        hashMap.put("3* Description of brand industry ", industryDescription);
-        hashMap.put("3*1 Type of Gender audience ", industryType);
+        hashMap.put("3*DescriptionOfBrandIndustry", industryDescription);
+        hashMap.put("3*1TypeOfGenderAudience", industryType);
 
-        hashMap.put("4* Select a primary colour ", primaryColour);
-        hashMap.put("4*1 Select a secondary colour ", secondaryColour);
-        hashMap.put("4*2 Select a neutral colour ", neutralColour);
+        hashMap.put("4*SelectAPrimaryColour", primaryColour);
+        hashMap.put("4*1SelectASecondary colour", secondaryColour);
+        hashMap.put("4*2SelectANeutralColour", neutralColour);
 
-        hashMap.put("Package answer code Value ", packageAnswer);
+        hashMap.put("PackageAnswerCodeValue", packageAnswer);
 
-        Dataref.child("Package Answers").setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Dataref.child("PackageAnswers").setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
 

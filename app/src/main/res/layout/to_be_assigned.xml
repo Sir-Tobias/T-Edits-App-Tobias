@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/to_be_assigned"
+    android:background="@color/darker_blue">
+
+
+    <RadioGroup
+        android:id="@+id/assignedStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/package_image"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/assignedOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:button="@drawable/custom_icon"
+            android:checked="true"
+            android:fontFamily="@font/baloo"
+            android:paddingLeft="5dp"
+            android:text="Not Assigned"
+            android:textColor="@color/light_yellow" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/assignedOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@id/package_image"
+            android:button="@drawable/custom_icon"
+            android:checked="false"
+            android:fontFamily="@font/baloo"
+            android:paddingLeft="5dp"
+            android:text="Assigned"
+            android:textColor="@color/light_yellow" />
+
+    </RadioGroup>
+
+
+    <ImageView
+        android:id="@+id/package_image"
+        android:layout_width="130dp"
+        android:layout_height="148dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+
+        android:scaleType="fitXY"
+        android:src="@drawable/tpackage" />
+
+    <TextView
+        android:id="@+id/packageDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/assignedStatus"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/package_image"
+        android:fontFamily="@font/baloo"
+        android:gravity="left"
+        android:text="T-Edits Package"
+        android:textColor="@color/light_teal"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/fieldOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/packageDescription"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/package_image"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="Name of client"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/fieldTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fieldOne"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@id/package_image"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="Name of logo"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/fieldThree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fieldTwo"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@id/package_image"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="left"
+        android:text="Pallette code number"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
+
+
+    <RadioGroup
+        android:id="@+id/optiondesigner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/package_image"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="2dp"
+        android:padding="5dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_designerone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:button="@drawable/custom_icon"
+            android:checked="true"
+            android:fontFamily="@font/baloo"
+            android:paddingLeft="5dp"
+            android:text="Designer 1"
+            android:textColor="@color/light_teal" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_designertwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:button="@drawable/custom_icon"
+            android:fontFamily="@font/baloo"
+            android:paddingLeft="5dp"
+            android:text="Designer 2"
+            android:textColor="@color/light_teal" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_designerthree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:button="@drawable/custom_icon"
+            android:fontFamily="@font/baloo"
+            android:paddingLeft="5dp"
+            android:text="Designer 3"
+            android:textColor="@color/light_teal" />
+    </RadioGroup>
+
+
+</RelativeLayout>

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.TEditsAppTobias"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ViewOrders"
+            android:exported="true" />
+        <activity
             android:name=".ViewMyPost"
             android:exported="true" />
 

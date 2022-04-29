@@ -48,7 +48,7 @@ public class ViewMyPost extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     FirebaseRecyclerOptions<TPost> options;
     FirebaseRecyclerAdapter<TPost, MyViewHolder> adapter;
-    DatabaseReference DataRef;
+    DatabaseReference DataRef, data;
     StorageReference StorageRef;
 
     EditText editText;
@@ -251,43 +251,67 @@ public class ViewMyPost extends AppCompatActivity {
         //Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost").child(FirebaseAuth.getInstance().getUid());
         DataRef = FirebaseDatabase.getInstance().getReference().child("TeditsPost");
 
-        DataRef.addValueEventListener(new ValueEventListener() {
+        data = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    String newID = postSnapshot.child("UserID").getValue().toString();
-                    if(newID.equalsIgnoreCase(desID)) {
-                        System.out.println("did not work " + postSnapshot.child("NameOfPost").getValue().toString());
-                        //TContent content = postSnapshot.getValue(TContent.class);
-                        TPost post = new TPost();
-                        System.out.println("WE MADE IT");
+                //GETTING THE CURRENT USERS FULLNAME
+                String npost = snapshot.child("fullname").getValue().toString();
+                System.out.println("This is working hello "+ npost);
 
-                        //Retrieving the the tag values from the realtime database
-                        post.setNameOfPost(postSnapshot.child("NameOfPost").getValue().toString());
-                        post.setCaption(postSnapshot.child("Caption").getValue().toString());
-                        post.setNameOfDesigner(postSnapshot.child("NameofDesigner").getValue().toString());
+                //CREATING A METHOD TO RETRIEVE CURRENT USERNAME OF DESIGNER
+                retrievedName(npost);
 
-                        //Retrieving the image from realtime database
-                        post.setImageUri(postSnapshot.child("ImageUri").getValue().toString());
-                        //Adding the retrieved content to the tContent Arraylist
-                        pContent.add(post);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Nothing to see here", Toast.LENGTH_SHORT).show();
+            }
+            //SETTING THE USERNAME TO THE CURRENT USER USERNAMER
+            private void retrievedName(String npost) {
+                DataRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            String newID = postSnapshot.child("UserID").getValue().toString();
+                            if(newID.equalsIgnoreCase(desID)) {
+                                System.out.println("did not work " + postSnapshot.child("NameOfPost").getValue().toString());
+                                //TContent content = postSnapshot.getValue(TContent.class);
+                                TPost post = new TPost();
+                                System.out.println("WE MADE IT");
+
+                                //Retrieving the the tag values from the realtime database
+                                post.setNameOfPost(postSnapshot.child("NameOfPost").getValue().toString());
+                                post.setCaption(postSnapshot.child("Caption").getValue().toString());
+                                //NPOST IS THE CURRENT DESIGNER USERNAME SO WHEN UPDATED IT UPDATES ALL VIEWS
+                                post.setNameOfDesigner(npost);
+
+                                //Retrieving the image from realtime database
+                                post.setImageUri(postSnapshot.child("ImageUri").getValue().toString());
+                                //Adding the retrieved content to the tContent Arraylist
+                                pContent.add(post);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Nothing to see here", Toast.LENGTH_SHORT).show();
+                            }
+
+
+
+                        }
+
+                        pAdapter = new ImagePostAdapter(getApplicationContext(), pContent);
+                        recyclerView.setAdapter(pAdapter);
+                        pAdapter.notifyDataSetChanged();
+                        //filterMyPost();
                     }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(ViewMyPost.this, error.getMessage(), Toast.LENGTH_LONG);
+
+                    }
+                });
 
 
-                }
-
-                pAdapter = new ImagePostAdapter(getApplicationContext(), pContent);
-                recyclerView.setAdapter(pAdapter);
-                pAdapter.notifyDataSetChanged();
-                //filterMyPost();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ViewMyPost.this, error.getMessage(), Toast.LENGTH_LONG);
 
             }
         });

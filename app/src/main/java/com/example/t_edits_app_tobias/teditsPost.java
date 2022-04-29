@@ -63,7 +63,7 @@ public class teditsPost extends AppCompatActivity {
 
     //Firebase Reference
     private CollectionReference rFireStore;
-    private DatabaseReference Dataref, Uref;
+    private DatabaseReference Dataref, Uref, data;
     private StorageReference Storageref;
     private FirebaseStorage storage;
 
@@ -311,81 +311,113 @@ public class teditsPost extends AppCompatActivity {
 
     private void uploadImage(final String nameP, final String cap) {
 
+
+
         progressBarm.setVisibility(View.VISIBLE);
+
+        //RATHER THAN RETRIEVING SHAREDPREFERENCE USER ID I RETRIEVE THE USER ID FROM THE DATABASE DIRECTLY
+        Uref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        System.out.println("THIS IS THE USER ID VALUE BELOW");
+        System.out.println(Uref.getKey());
+        String desID = Uref.getKey();
 
         //final String randomKey = UUID.randomUUID().toString();
 
         //Initializing data reference
         //Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        //Dataref = FirebaseDatabase.getInstance().getReference("TeditsPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("PostDetails");
+        //Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("PostDetails");
         Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost");
-
-        //RETRIEVING THE USER ID VALUE AND SETTING IT TO A STRING TO BE PASSED INTO THE DATABASE
-        Uref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        System.out.println("THIS IS THE USER ID VALUE BELOW");
-        System.out.println(Uref.getKey());
-        String userId = Uref.getKey();
-
-        //Data reference key
-        final String key = Dataref.push().getKey();
-
-        Storageref.child(key+ ".jpg").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        data = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        data.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Storageref.child(key+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String npost = snapshot.child("fullname").getValue().toString();
+                System.out.println("THIS IS THE NAME METHOD IN TPOST "+ snapshot.child("fullname").getValue().toString() );
+                passName(npost);
+            }
+
+            private void passName(String npost) {
+
+                //RETRIEVING THE USER ID VALUE AND SETTING IT TO A STRING TO BE PASSED INTO THE DATABASE
+                Uref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                System.out.println("THIS IS THE USER ID VALUE BELOW");
+                System.out.println(Uref.getKey());
+                String userId = Uref.getKey();
+
+                //Data reference key
+                final String key = Dataref.push().getKey();
+
+                Storageref.child(key+ ".jpg").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(Uri uri) {
-                        HashMap hashMap = new HashMap();
-                        hashMap.put("NameOfPost", nameP);
-                        hashMap.put("Caption", cap);
-
-                        //RETRIVING THE DESIGNER NAME FROM MY SHAREDPREFERENCES IN THE LOADINFORMATIONMETHOD() TO ADD IT TO THE POST
-                        SharedPreferences sa = getApplicationContext().getSharedPreferences("newAnswer", Context.MODE_PRIVATE);
-                        String dName = sa.getString("username", "");
-                        System.out.println("Successfully retrieved the designer name " + dName);
-                        //PUTTING THE DESIGNER NAME INTO THE HASHMAP FOR FIREBASE
-                        hashMap.put("NameofDesigner", dName);
-
-                        hashMap.put("ImageUri", uri.toString());
-
-                        //USER ID LINKED TO POST
-                        hashMap.put("UserID", userId);
-
-                        //STORING THE DESIGNER USER ID IN SHARED PREFERENCE
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("userid", userId);
-                        editor.commit();
-
-
-
-                        //Push key
-                        Dataref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Storageref.child(key+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(teditsPost.this,"Your T-Post has successfully been uploaded", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(teditsPost.this,ExplorePage.class);
-                                startActivity(intent);
+                            public void onSuccess(Uri uri) {
 
+                                HashMap hashMap = new HashMap();
+                                hashMap.put("NameOfPost", nameP);
+                                hashMap.put("Caption", cap);
+
+
+                                //RETRIVING THE DESIGNER NAME FROM MY SHAREDPREFERENCES IN THE LOADINFORMATIONMETHOD() TO ADD IT TO THE POST
+                                SharedPreferences sa = getApplicationContext().getSharedPreferences("newAnswer", Context.MODE_PRIVATE);
+                                String dName = sa.getString("username", "");
+                                System.out.println("Successfully retrieved the designer name " + dName);
+                                //PUTTING THE DESIGNER NAME INTO THE HASHMAP FOR FIREBASE
+                                hashMap.put("NameOfDesigner", npost);
+
+                                hashMap.put("ImageUri", uri.toString());
+
+                                //USER ID LINKED TO POST
+                                hashMap.put("UserID", userId);
+
+                                //STORING THE DESIGNER USER ID IN SHARED PREFERENCE
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("userid", userId);
+                                editor.commit();
+
+
+
+                                //Push key DESIGNER ID WHICHH IS THE USER ID
+                                Dataref.child(desID).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(teditsPost.this,"Your T-Post has successfully been uploaded", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(teditsPost.this,ExplorePage.class);
+                                        startActivity(intent);
+
+                                    }
+                                });
                             }
                         });
                     }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progress = (snapshot.getBytesTransferred()*100)/snapshot.getTotalByteCount();
+                        progressBarm.setProgress((int) progress);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error, Image not uploaded
+                        Toast.makeText(teditsPost.this, "Failed to upload post" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 });
             }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double progress = (snapshot.getBytesTransferred()*100)/snapshot.getTotalByteCount();
-                progressBarm.setProgress((int) progress);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
 
             @Override
-            public void onFailure(@NonNull Exception e) {
-                // Error, Image not uploaded
-                Toast.makeText(teditsPost.this, "Failed to upload post" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
+
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

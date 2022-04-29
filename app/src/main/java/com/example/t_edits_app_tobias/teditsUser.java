@@ -63,7 +63,7 @@ public class teditsUser extends AppCompatActivity {
     //ConstraintSet.Layout InfoLayout;
     Layout InfoLayout;
 
-    private DatabaseReference Dataref, Uref;
+    private DatabaseReference Dataref, Uref, data;
 
     private StorageReference Storageref;
     private FirebaseStorage storage;
@@ -202,6 +202,23 @@ public class teditsUser extends AppCompatActivity {
     private void loadInformation() {
         Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
         //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+
+        data = FirebaseDatabase.getInstance().getReference().child("PostDetails");
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    System.out.println("THIS IS SUPPOSE TO BE NAME" + postSnapshot.child("NameOfDesigner").getValue().toString());
+                    //retrieveIDONE(currentID);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         Dataref.addValueEventListener(new ValueEventListener() {
             @Override
