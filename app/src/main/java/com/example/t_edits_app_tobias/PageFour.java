@@ -469,7 +469,7 @@ public class PageFour extends AppCompatActivity {
 
     }
 
-    //ANSWER PAGE THREE
+    //ANSWER PAGE FOUR
     private void submitFour(String nameLogo, String typeLogo, String imageUri, String targetAudience, String genderAudience, String ageDemographic, String industryDescription, String industryType, String primaryColour, String secondaryColour, String neutralColour, String packageAnswer) {
         final String key = Dataref.push().getKey();
 
@@ -478,12 +478,12 @@ public class PageFour extends AppCompatActivity {
         hashMap.put("1*2TypeOfLogo", typeLogo);
         hashMap.put("1*3SketchOfLogo", imageUri);
 
-        hashMap.put("2*DescriptionOfBrand", targetAudience);
+        hashMap.put("2*DescriptionOfTargetAudience", targetAudience);
         hashMap.put("2*1TypeOGenderAudience", genderAudience);
         hashMap.put("2*2AgeDemographic", ageDemographic);
 
         hashMap.put("3*DescriptionOfBrandIndustry", industryDescription);
-        hashMap.put("3*1TypeOfGenderAudience", industryType);
+        hashMap.put("3*1TypeOfIndustry", industryType);
 
         hashMap.put("4*SelectAPrimaryColour", primaryColour);
         hashMap.put("4*1SelectASecondary colour", secondaryColour);

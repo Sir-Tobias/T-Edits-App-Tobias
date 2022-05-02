@@ -77,7 +77,7 @@ public class ViewMyPost extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    private DatabaseReference Dataref;
+    private DatabaseReference Dataref, Uref;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -247,6 +247,8 @@ public class ViewMyPost extends AppCompatActivity {
         SharedPreferences sa = getApplicationContext().getSharedPreferences("DesignerDetails", Context.MODE_PRIVATE);
         String desID = sa.getString("userid", "");
 
+        Uref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        String userKey = Uref.getKey();
         pContent = new ArrayList<>();
         //Dataref = FirebaseDatabase.getInstance().getReference().child("TeditsPost").child(FirebaseAuth.getInstance().getUid());
         DataRef = FirebaseDatabase.getInstance().getReference().child("TeditsPost");
@@ -256,21 +258,26 @@ public class ViewMyPost extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //GETTING THE CURRENT USERS FULLNAME
-                String npost = snapshot.child("fullname").getValue().toString();
-                System.out.println("This is working hello "+ npost);
+                //String npost = snapshot.child("fullname").getValue().toString();
+                //System.out.println("This is working hello "+ npost);
 
                 //CREATING A METHOD TO RETRIEVE CURRENT USERNAME OF DESIGNER
-                retrievedName(npost);
+                retrievedName();
 
             }
             //SETTING THE USERNAME TO THE CURRENT USER USERNAMER
-            private void retrievedName(String npost) {
+            private void retrievedName() {
                 DataRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                            String newID = postSnapshot.child("UserID").getValue().toString();
-                            if(newID.equalsIgnoreCase(desID)) {
+
+                            System.out.println("THIS IS SUPPOSE TO BE NAME " + postSnapshot.child("NameOfDesigner").getValue().toString());
+                            System.out.println("THIS IS SUPPOSE TO BE KEY " + postSnapshot.getKey());
+                            String idPostKey = postSnapshot.getKey();
+
+                            //String newID = postSnapshot.child("UserID").getValue().toString();
+                            if(userKey.equalsIgnoreCase(idPostKey)) {
                                 System.out.println("did not work " + postSnapshot.child("NameOfPost").getValue().toString());
                                 //TContent content = postSnapshot.getValue(TContent.class);
                                 TPost post = new TPost();
@@ -280,7 +287,7 @@ public class ViewMyPost extends AppCompatActivity {
                                 post.setNameOfPost(postSnapshot.child("NameOfPost").getValue().toString());
                                 post.setCaption(postSnapshot.child("Caption").getValue().toString());
                                 //NPOST IS THE CURRENT DESIGNER USERNAME SO WHEN UPDATED IT UPDATES ALL VIEWS
-                                post.setNameOfDesigner(npost);
+                                //post.setNameOfDesigner(npost);
 
                                 //Retrieving the image from realtime database
                                 post.setImageUri(postSnapshot.child("ImageUri").getValue().toString());

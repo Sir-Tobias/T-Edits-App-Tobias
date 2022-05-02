@@ -42,7 +42,9 @@ public class ThankYou extends AppCompatActivity {
     //IN THIS METHOD I WILL PULL DOWN THE REQUIRED INFORMATION FROM THE CLIENT GENERATED PACKAGE AND VIEW IT FROM THE ADMIN PAGE
     private void uploadToAdmin() {
 
+
         Uref = FirebaseDatabase.getInstance().getReference().child("Orders");
+        final String key = Uref.push().getKey();
 
         data = FirebaseDatabase.getInstance().getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -59,7 +61,6 @@ public class ThankYou extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 System.out.println("PRINTING OUT CHILD VALUES " + snapshot.getValue().toString() );
                 System.out.println("PRINTING OUT CHILD  " + snapshot.child("1NameOfLogo").getValue() );
-                String mName = snapshot.child("1NameOfLogo").getValue().toString();
                 String lName = snapshot.child("1NameOfLogo").getValue().toString();
                 String pCode = snapshot.child("PackageAnswerCodeValue").getValue().toString();
                 packageInfo(lName, pCode);
@@ -83,8 +84,10 @@ public class ThankYou extends AppCompatActivity {
                         hashMap.put("ClientLogoName", lName);
                         hashMap.put("ClientPackageCode", pCode);
                         hashMap.put("ClientName", npost);
+                        hashMap.put("PackageStatus", "Not Complete");
+                        hashMap.put("PackageDesigner", "To be assigned");
 
-                        Uref.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        Uref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
 

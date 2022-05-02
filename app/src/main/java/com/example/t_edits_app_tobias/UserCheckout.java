@@ -156,15 +156,6 @@ public class UserCheckout extends AppCompatActivity {
 
                 System.out.println("This is working hello "+ post);
 
-//                //String post = snapshot.child("fullname").getValue().toString();
-//                mName.setText(post);
-//
-//                String upost = snapshot.child("userType").getValue().toString();
-//                mDescription.setText(upost);
-//
-//                //GETTING ADMIN USER DESCRIPTION
-//                String apost = snapshot.child("userType").getValue().toString();
-//                aDescription.setText(apost);
 
                 //LOADING THE SHARED PREFERENCES FROM PAGE ONE TO GET THE LOGO NAME
                 SharedPreferences sa = getApplicationContext().getSharedPreferences("AnswerOne", Context.MODE_PRIVATE);
@@ -300,18 +291,13 @@ public class UserCheckout extends AppCompatActivity {
 
     private void PaymentFlow() {
 
-//        paymentSheet.presentWithPaymentIntent(paymentSheet.presentWithPaymentIntent(
-//                ClientSecret, new PaymentSheet.Configuration("T-EDITS AI", new PaymentSheet.CustomerConfiguration(customerID, EphericalKey)){};
-        //PaymentSheet.Configuration configuration = new PaymentSheet.Configuration("T-EDITS AI");
-        //configuration.setPrimaryButtonColor(ColorStateList.valueOf(Color.RED));
         paymentSheet.presentWithPaymentIntent(
                 ClientSecret, new PaymentSheet.Configuration("T-EDITS AI", new PaymentSheet.CustomerConfiguration(
                         customerID, EphericalKey
                 ))
                 // new PaymentSheet.Configuration(userEmail).getDefaultBillingDetails().getEmail()
         );
-        //, new PaymentSheet.Configuration().setPrimaryButtonColor(ColorStateList.valueOf(Color.BLUE))
-        //startActivity(new Intent(UserCheckout.this, ThankYou.class));
+
     }
 
     //EXIT BUTTON IF USER ABANDONS BEFORE CHECKING OUT

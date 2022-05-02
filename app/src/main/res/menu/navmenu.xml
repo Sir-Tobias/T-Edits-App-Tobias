@@ -27,6 +27,11 @@
             android:icon="@drawable/teditspackageb"
             android:visible="true"/>
         <item
+            android:id="@+id/nav_tedits_orders"
+            android:title="T-Edits Orders"
+            android:icon="@drawable/clipboard"
+            android:visible="true"/>
+        <item
             android:id="@+id/tedits_chats"
             android:title="T-Chats"
             android:icon="@drawable/chat"/>

@@ -160,6 +160,10 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             User user = new User(fullname, phoneNo, email, userType);
 
+//                            FirebaseDatabase.getInstance().getReference("Users")
+//                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails")
+//                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails")
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

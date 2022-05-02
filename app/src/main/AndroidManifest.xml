@@ -13,6 +13,17 @@
         android:theme="@style/Theme.TEditsAppTobias"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".teditsChatList"
+            android:exported="true" />
+        <activity
+            android:name=".teditsChats"
+            android:exported="true" />
+        <activity
+            android:name=".ScrollingActivity"
+            android:exported="true"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/Theme.TEditsAppTobias.NoActionBar" />
+        <activity
             android:name=".ViewOrders"
             android:exported="true" />
         <activity

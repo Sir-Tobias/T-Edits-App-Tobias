@@ -1,5 +1,7 @@
 package com.example.t_edits_app_tobias;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +50,7 @@ public class teditsUser extends AppCompatActivity {
 
     private static final int REQUEST_CODF_IMAGE = 101;
 
-    private FirebaseAuth mAuth;
+
     private Uri localFileUri, serverFileUri;
     private FirebaseAuth firebaseAuth;
 
@@ -63,7 +66,7 @@ public class teditsUser extends AppCompatActivity {
     //ConstraintSet.Layout InfoLayout;
     Layout InfoLayout;
 
-    private DatabaseReference Dataref, Uref, data;
+    private DatabaseReference Dataref, Uref, data, chatdata;
 
     private StorageReference Storageref;
     private FirebaseStorage storage;
@@ -74,6 +77,7 @@ public class teditsUser extends AppCompatActivity {
     TextView viewNew, mName, mDescription, aDescription;
     ImageView mImage, cImage, aImage, profileImage, menuProfileImage;
 
+    FirebaseAuth mAuth;
     boolean isProfileAdded = false;
 
     //SHARED PREFERENCES
@@ -169,8 +173,9 @@ public class teditsUser extends AppCompatActivity {
                     case R.id.tedits_chats :
                         Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUser.this, teditsChatList.class));
                         break;
-
                     case R.id.nav_logout :
                         Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
                         mAuth.signOut();
@@ -199,7 +204,16 @@ public class teditsUser extends AppCompatActivity {
         loadInformation();
     }
 
+
     private void loadInformation() {
+
+        Uref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        System.out.println("THIS IS THE USER ID VALUE BELOW");
+        System.out.println(Uref.getKey());
+        String userID = Uref.getKey();
+
+        chatdata = FirebaseDatabase.getInstance().getReference("Chat").child("ChatProfiles");
+
         Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
         //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
 
@@ -239,17 +253,26 @@ public class teditsUser extends AppCompatActivity {
                 String phoneDetails = snapshot.child("phoneNo").getValue().toString();
                 phonenoUpdate.setHint(phoneDetails);
 
+                String newEmail = snapshot.child("email").getValue().toString();
+
+                //Checking to see if chat profile already exists if not it will be created
+                //checkForChatProfile(post, newEmail, userID);
+
+
+                chatProfile(post, newEmail, userID);
+
                 //IF PROFILE PIC EXIST ALREADY IN DATABASE RUN THIS CODE
                 if(snapshot.hasChild("profilePic")) {
                     //SETTING THE PROFILE PICTURE FOR THE MENU AND USER PAGE
                     //String link = snapshot.getValue(String.class);
-                    System.out.println("THERE IS NO PROFILE");
+                    //System.out.println("THERE IS NO PROFILE");
                     String link = snapshot.child("profilePic").getValue().toString();
                     Picasso.get().load(link).into(profileImage);
                     Picasso.get().load(link).into(menuProfileImage);
+
+
+
                 }
-
-
 
 
                 //CHECKING THE USER TYPE THAT IS LOGGED IN
@@ -275,9 +298,13 @@ public class teditsUser extends AppCompatActivity {
                     editor.putString("username", post);
                     editor.commit();
 
+                    //Checking to see if chat profile already exists if not it will be created
+                    //checkForChatProfile(post, newEmail, userID);
+
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
@@ -286,6 +313,9 @@ public class teditsUser extends AppCompatActivity {
 
                     //SETTING THE DESCRIPTION TO CUSTOMER
                     mDescription.setText(uType);
+
+                    //Checking to see if chat profile already exists if not it will be created
+                    //checkForChatProfile(post, newEmail, userID);
 
                 } else if(uType.equalsIgnoreCase("Admin")) {
 
@@ -296,7 +326,87 @@ public class teditsUser extends AppCompatActivity {
 
                     //SETTING THE DESCRIPTION TO ADMIN
                     aDescription.setText(uType);
+
+                    //Checking to see if chat profile already exists if not it will be created
+                    //checkForChatProfile(post, newEmail, userID);
                 }
+
+            }
+//
+//            private void checkForChatProfile(String newEmail, String post, String userID) {
+//                //chatdata = FirebaseDatabase.getInstance().getReference("Chat").child("ChatProfiles");
+//                System.out.println("CHECK FOR CHAT DATA WORKED");
+//
+//                //chatProfile(post, newEmail, userID);
+//                chatdata.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        //System.out.println("CHECK FOR CHAT FOR LOOP WORKED " + ver);
+//                        for( DataSnapshot postSnapshot : snapshot.getChildren()) {
+//
+//                            //RETRIEVING THE CHAT ID FROM THE DATABASE
+//                            System.out.println("does work "+ postSnapshot.child("ChatID").getValue().toString());
+//                            String ver = postSnapshot.child("ChatID").getValue().toString();
+//
+//                            //CHECKING IF IT IS EQUAL TO CURRENT USER ID TO DETERMINE IF THE PROFILE ALREADY EXISTS
+//                            if(userID.equalsIgnoreCase(ver)) {
+//                                System.out.println("NOTHING TO ADD");
+//
+//                            } else if(!userID.equalsIgnoreCase(ver)) {
+//                                System.out.println("WORKS AND DOES ITS FUNCTION");
+//                                //chatProfile(post, newEmail, userID);
+//                            }
+//                        }
+//                    }
+//
+//                    private void chatProfile(String post, String newEmail, String userID) {
+//                        //chatdata = FirebaseDatabase.getInstance().getReference("Chat").child("ChatProfiles")
+//                        final String key = chatdata.push().getKey();
+//
+//                        HashMap hashMap = new HashMap();
+//                        hashMap.put("ChatName", post);
+//                        hashMap.put("ChatEmail", newEmail);
+//                        hashMap.put("ChatID", userID);
+//                        hashMap.put("ChatKey", key);
+//
+//                        chatdata.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                Toast.makeText(teditsUser.this,"You have successfully created a chat profile", Toast.LENGTH_LONG).show();
+//                                completedAdding();
+//                            }
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        System.out.println("CHECK FOR CHAT DATA ERROR");
+//                    }
+//                });
+//            }
+
+
+            //I CREATED THIS METHOD TO INHERIT THE VALUES OF THE USER PROFILE RATHER THAN CALLING METHODS DIRECTLY TO IT
+            private void chatProfile(String post, String newEmail, String userID) {
+                //chatdata = FirebaseDatabase.getInstance().getReference("Chat").child("ChatProfiles");
+
+
+                final String key = chatdata.push().getKey();
+
+                HashMap hashMap = new HashMap();
+                hashMap.put("ChatName", post);
+                hashMap.put("ChatEmail", newEmail);
+                hashMap.put("ChatID", userID);
+                hashMap.put("ChatKey", key);
+
+                chatdata.child(userID).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(teditsUser.this,"You have successfully created a chat profile", Toast.LENGTH_LONG).show();
+                        completedAdding();
+                    }
+                });
+
 
             }
 
@@ -306,6 +416,10 @@ public class teditsUser extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void completedAdding() {
+        System.out.println("THE FUNCTION IS COMPLETE");
     }
 
     @Override
