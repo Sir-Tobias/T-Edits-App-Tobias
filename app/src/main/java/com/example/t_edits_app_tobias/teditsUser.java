@@ -348,11 +348,10 @@ public class teditsUser extends AppCompatActivity {
                     //Checking to see if chat profile already exists if not it will be created
                     //checkForChatProfile(post, newEmail, userID);
                 }else if(uType.equalsIgnoreCase("Designer1")) {
-                    //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
                     nav.getMenu().getItem(6).setVisible(false);
-                    nav.getMenu().getItem(7).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);

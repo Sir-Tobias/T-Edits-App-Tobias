@@ -258,7 +258,7 @@ public class TeditorOrder extends AppCompatActivity {
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
                     nav.getMenu().getItem(6).setVisible(false);
-                    nav.getMenu().getItem(7).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
@@ -273,7 +273,7 @@ public class TeditorOrder extends AppCompatActivity {
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
                     nav.getMenu().getItem(6).setVisible(false);
-                    nav.getMenu().getItem(7).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
@@ -288,7 +288,7 @@ public class TeditorOrder extends AppCompatActivity {
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
                     nav.getMenu().getItem(6).setVisible(false);
-                    nav.getMenu().getItem(7).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
