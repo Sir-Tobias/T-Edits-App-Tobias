@@ -7,13 +7,15 @@ public class TOrder {
     private String LogoName;
     private String PalleteNumber;
     private String AssignedDesigner;
+    private String PackageCode;
 
-    public TOrder(String orderStatus, String clientName, String logoName, String palleteNumber, String assignedDesigner) {
+    public TOrder(String orderStatus, String clientName, String logoName, String palleteNumber, String assignedDesigner, String packageCode) {
         OrderStatus = orderStatus;
         ClientName = clientName;
         LogoName = logoName;
         PalleteNumber = palleteNumber;
         AssignedDesigner = assignedDesigner;
+        PackageCode = packageCode;
     }
 
     public TOrder(){
@@ -58,5 +60,13 @@ public class TOrder {
 
     public void setAssignedDesigner(String assignedDesigner) {
         AssignedDesigner = assignedDesigner;
+    }
+
+    public String getPackageCode() {
+        return PackageCode;
+    }
+
+    public void setPackageCode(String packageCode) {
+        PackageCode = packageCode;
     }
 }

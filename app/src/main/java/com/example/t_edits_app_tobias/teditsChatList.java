@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -89,8 +91,6 @@ public class teditsChatList extends AppCompatActivity {
         cImage=(ImageView)header.findViewById(R.id.customerImage);
         aImage=(ImageView)header.findViewById(R.id.adminImage);
 
-        storage = FirebaseStorage.getInstance();
-        Storageref = storage.getReference().child("TeditsPost");
 
         username = (TextView) findViewById(R.id.text2);
 
@@ -116,6 +116,73 @@ public class teditsChatList extends AppCompatActivity {
 
         //INSTANTIATING MY SHARED PREFERENCE
         sp = getSharedPreferences("newAnswer", Context.MODE_PRIVATE);
+
+        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+            {
+                //loadInformation();
+
+                switch (menuItem.getItemId())
+                {
+                    case R.id.nav_home :
+                        Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsChatList.this, ExplorePage.class));
+                        break;
+
+                    case R.id.nav_profile :
+                        Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                    case R.id.nav_user_catalogue :
+                        Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsChatList.this, teditsUserCatalogue.class));
+                        break;
+
+                    case R.id.nav_control_panel:
+                        Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsChatList.this, ControlPanel.class));
+                        break;
+
+                    case R.id.nav_tedits_package:
+                        Toast.makeText(getApplicationContext(),"T-Edits Package",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsChatList.this, PageOne.class));
+                        break;
+
+                    case R.id.tedits_chats :
+                        Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        break;
+
+                    case R.id.nav_tedits_orders :
+                        Toast.makeText(getApplicationContext(),"T-Edits Orders",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsChatList.this, ViewOrders.class));
+                        break;
+
+                    case R.id.nav_logout :
+                        Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
+                        mAuth.signOut();
+                        finish();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        startActivity(new Intent(teditsChatList.this, MainActivity.class));
+                        break;
+                }
+
+                return true;
+            }
+        });
 
         System.out.println("THE CHAT LIST CLASS IS CALLED");
 
@@ -213,6 +280,7 @@ public class teditsChatList extends AppCompatActivity {
                     //IF THE USER IS A DESIGNER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND TEDITS PACKAGE GENERATOR
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
                     System.out.println("Updating the menu works");
 
                     //SETTING ICON AS DESIGNER IF USER TYPE IS DESIGNER
@@ -245,6 +313,44 @@ public class teditsChatList extends AppCompatActivity {
 
                     //SETTING THE DESCRIPTION TO ADMIN
                     aDescription.setText(uType);
+                }else if(uType.equalsIgnoreCase("Designer1")) {
+                    //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                }else if(uType.equalsIgnoreCase("Designer2")) {
+                    //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                }else if(uType.equalsIgnoreCase("Designer3")) {
+                    //IF THE USER IS A DESIGNER 3 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
                 }
 
             }

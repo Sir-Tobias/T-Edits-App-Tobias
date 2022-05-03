@@ -18,6 +18,7 @@
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/drawable/profile_icon.xml" value="0.36256410256410254" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/font/baloo.xml" value="0.2317948717948718" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_control_panel.xml" value="0.22" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_edit_order.xml" value="0.33" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_explore_page.xml" value="0.33" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_homepage_fragment.xml" value="0.18819655521783182" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_main.xml" value="0.4854771784232365" />
@@ -27,6 +28,7 @@
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_page_three.xml" value="0.33" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_page_two.xml" value="0.33" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_register_user.xml" value="0.33" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_teditor_order.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_tedits_catalogue.xml" value="0.2674772036474164" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_tedits_chat_list.xml" value="0.26063829787234044" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/activity_tedits_chats.xml" value="0.2674772036474164" />
@@ -55,6 +57,7 @@
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/item_option.xml" value="0.2674772036474164" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/layouttest.xml" value="0.32083333333333336" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/main_fragment.xml" value="0.317481884057971" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/message_layout.xml" value="0.31927083333333334" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/navheader.xml" value="0.5" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/post_view.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/post_view4.xml" value="0.32395833333333335" />
@@ -62,7 +65,7 @@
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/single_view2.xml" value="0.2753623188405797" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/single_view3.xml" value="0.2644927536231884" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/single_view4.xml" value="0.37182971014492755" />
-        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/to_be_assigned.xml" value="0.33" />
+        <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/to_be_assigned.xml" value="0.18" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/layout/tuser_layout.xml" value="0.31927083333333334" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/menu/menu.xml" value="0.32037037037037036" />
         <entry key="..\:/Users/customer/AndroidStudioProjects/TEditsAppTobias/app/src/main/res/menu/navmenu.xml" value="0.32083333333333336" />

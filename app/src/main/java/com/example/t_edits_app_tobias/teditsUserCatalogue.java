@@ -188,6 +188,15 @@ public class teditsUserCatalogue extends AppCompatActivity {
                     case R.id.tedits_chats :
                         Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUserCatalogue.this, teditsChatList.class));
+                        break;
+
+                    case R.id.nav_tedits_orders :
+                        Toast.makeText(getApplicationContext(),"T-Edits Orders",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUserCatalogue.this, TeditorOrder.class));
                         break;
 
                     case R.id.nav_logout :
@@ -378,6 +387,53 @@ public class teditsUserCatalogue extends AppCompatActivity {
 
                     //SETTING THE DESCRIPTION TO ADMIN
                     aDescription.setText(uType);
+                }else if(uType.equalsIgnoreCase("Designer1")) {
+                    //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                }else if(uType.equalsIgnoreCase("Designer2")) {
+                    //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                }else if(uType.equalsIgnoreCase("Designer3")) {
+                    //IF THE USER IS A DESIGNER 3 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
                 }
 
             }

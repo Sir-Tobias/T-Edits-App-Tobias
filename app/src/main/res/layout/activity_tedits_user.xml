@@ -36,6 +36,7 @@
             android:gravity="right"
             android:text="You have 2 orders"
             android:textColor="@color/light_yellow"
+            android:visibility="gone"
             android:textSize="10dp"
             android:layout_marginRight="20dp"
             app:layout_constraintBaseline_toTopOf="@+id/profile_image"

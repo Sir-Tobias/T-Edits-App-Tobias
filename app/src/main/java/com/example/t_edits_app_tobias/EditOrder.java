@@ -7,7 +7,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -15,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,73 +33,52 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ViewOrders extends AppCompatActivity {
-    EditText inputSearch;
-    RecyclerView recyclerView;
-    FloatingActionButton floatingActionButton;
-    FirebaseRecyclerOptions<TOrder> options;
-    FirebaseRecyclerAdapter<TOrder, MyViewHolder> adapter;
-    DatabaseReference DataRef;
-    StorageReference StorageRef;
+public class EditOrder extends AppCompatActivity {
 
-    //ImageAdapter mAdapter;
-    ImageOrderAdapter oAdapter;
-    ArrayList<TOrder> tOrder;
-    Context uContext;
-
-    EditText editText;
-
-    ArrayList<TOrder> arrayList;
+    TextView fieldone, fieldtwo, fieldthree;
 
     View header;
 
-    SearchView searchView;
-
-    RadioGroup oStatus;
+    private DatabaseReference DataRef, Uref;
 
     NavigationView nav;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
 
-    private DatabaseReference Dataref;
 
     TextView mName, mDescription, aDescription;
     ImageView mImage, cImage, aImage, profileImage, menuProfileImage;
 
-    private FirebaseAuth mAuth;
+    private RadioGroup designStatus, orderStatus;
 
+    Button aButton, bButton;
+
+
+
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_orders);
+        setContentView(R.layout.activity_edit_order);
+
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         nav=(NavigationView)findViewById(R.id.navimenu);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
 
-        nav=(NavigationView)findViewById(R.id.navimenu);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-
         //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
         header = nav.getHeaderView(0);
 
-        oStatus = (RadioGroup) findViewById(R.id.orderStatus);
-
-
-        toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        profileImage=(ImageView)findViewById(R.id.profile_image);
         menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
 
         //GETTING THE TEXT VALUES OF THE NAV MENU
         mName=(TextView)header.findViewById(R.id.userNameMenu);
@@ -109,6 +89,45 @@ public class ViewOrders extends AppCompatActivity {
         cImage=(ImageView)header.findViewById(R.id.customerImage);
         aImage=(ImageView)header.findViewById(R.id.adminImage);
 
+        fieldone = (TextView) findViewById(R.id.efieldOne);
+        fieldtwo = (TextView) findViewById(R.id.fieldTwo);
+        fieldthree = (TextView) findViewById(R.id.fieldThree);
+
+        designStatus = (RadioGroup) findViewById(R.id.optiondesigner);
+
+        orderStatus = (RadioGroup) findViewById(R.id.orderStatus);
+
+        fieldone.setText(getIntent().getStringExtra("ClientName"));
+        fieldtwo.setText(getIntent().getStringExtra("LogoName"));
+        fieldthree.setText(getIntent().getStringExtra("PalleteNumber"));
+
+
+        nav=(NavigationView)findViewById(R.id.navimenu);
+        drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+
+        //GETTING THE HEADER VIEW FROM MY NAVIGATION MENU
+        header = nav.getHeaderView(0);
+
+        menuProfileImage=(ImageView)header.findViewById(R.id.profile_image);
+
+
+
+        //GETTING THE TEXT VALUES OF THE NAV MENU
+        mName=(TextView)header.findViewById(R.id.userNameMenu);
+        mDescription=(TextView)header.findViewById(R.id.userDescription);
+        aDescription=(TextView)header.findViewById(R.id.adminDescription);
+
+        mImage=(ImageView)header.findViewById(R.id.designerImage);
+        cImage=(ImageView)header.findViewById(R.id.customerImage);
+        aImage=(ImageView)header.findViewById(R.id.adminImage);
+
+        aButton = (Button)findViewById(R.id.AdminUpdate);
+        bButton = (Button) findViewById(R.id.DesignerUpdate);
+
+        toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
@@ -118,50 +137,57 @@ public class ViewOrders extends AppCompatActivity {
                     case R.id.nav_home :
                         Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        finish();
-                        startActivity(new Intent(ViewOrders.this, ExplorePage.class));
                         break;
 
                     case R.id.nav_profile :
                         Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, teditsUser.class));
+                        startActivity(new Intent(EditOrder.this, teditsUser.class));
                         break;
 
                     case R.id.nav_user_catalogue :
                         Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, teditsCatalogue.class));
+                        startActivity(new Intent(EditOrder.this, teditsUserCatalogue.class));
                         break;
 
                     case R.id.nav_control_panel:
                         Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, ControlPanel.class));
+                        startActivity(new Intent(EditOrder.this, ControlPanel.class));
+                        break;
+
+                    case R.id.nav_tedits_package:
+                        Toast.makeText(getApplicationContext(),"T-Edits Package",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(EditOrder.this, PageOne.class));
                         break;
 
                     case R.id.tedits_chats :
                         Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, teditsChatList.class));
+                        startActivity(new Intent(EditOrder.this, teditsChatList.class));
                         break;
 
                     case R.id.nav_tedits_orders :
                         Toast.makeText(getApplicationContext(),"T-Edits Orders",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
+                        startActivity(new Intent(EditOrder.this, ViewOrders.class));
                         break;
 
                     case R.id.nav_logout :
                         Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
                         mAuth.signOut();
-                        drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, MainActivity.class));
+                        startActivity(new Intent(EditOrder.this, MainActivity.class));
+                        drawerLayout.closeDrawer(GravityCompat.START);
+
                         break;
                 }
 
@@ -169,45 +195,16 @@ public class ViewOrders extends AppCompatActivity {
             }
         });
 
-        recyclerView = findViewById(R.id.recyclerOrderView);
-        //Initializing
-        DataRef = FirebaseDatabase.getInstance().getReference().child("Orders");
-
-        //recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
-        recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
-        recyclerView.setHasFixedSize(true);
-
-        //Edit text box to search the catalogue
-        SearchView searchView = findViewById(R.id.searchOrders);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                search(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                search(newText);
-                return false;
-            }
-        });
-
-
-        //Creating a method to load the data into the recycler view
-        LoadData();
-
         //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
         loadInformation();
 
     }
 
     private void loadInformation() {
-        Dataref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
+        DataRef = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
         //Dataref = FirebaseDatabase.getInstance().getReference("Users").child("Users").child(mAuth.getInstance().getCurrentUser().getUid()).child("UserDetails");
 
-        Dataref.addValueEventListener(new ValueEventListener() {
+        DataRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //User post = snapshot.getValue(User.class);
@@ -225,6 +222,7 @@ public class ViewOrders extends AppCompatActivity {
                     //String link = snapshot.getValue(String.class);
                     System.out.println("THERE IS NO PROFILE");
                     String link = snapshot.child("profilePic").getValue().toString();
+                    //Picasso.get().load(link).into(profileImage);
                     Picasso.get().load(link).into(menuProfileImage);
                 }
 
@@ -247,7 +245,6 @@ public class ViewOrders extends AppCompatActivity {
                     //SETTING THE DESCRIPTION TO DESIGNER
                     mDescription.setText(uType);
 
-
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
@@ -260,26 +257,33 @@ public class ViewOrders extends AppCompatActivity {
                     //SETTING THE DESCRIPTION TO CUSTOMER
                     mDescription.setText(uType);
 
-                } else if(uType.equalsIgnoreCase("Admin")) {
+
+                }  else if(uType.equalsIgnoreCase("Admin")) {
 
                     //SETTING ICON AS ADMIN IF USER TYPE IS ADMIN
                     mImage.setVisibility(View.GONE);
                     cImage.setVisibility(View.GONE);
                     aImage.setVisibility(View.VISIBLE);
 
+                    bButton.setVisibility(View.GONE);
+
                     //SETTING THE DESCRIPTION TO ADMIN
                     aDescription.setText(uType);
-
                 }else if(uType.equalsIgnoreCase("Designer1")) {
                     //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
                     nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
                     cImage.setVisibility(View.VISIBLE);
                     aImage.setVisibility(View.GONE);
+
+                    designStatus.setVisibility(View.GONE);
+
+                    aButton.setVisibility(View.GONE);
 
                     //SETTING THE DESCRIPTION TO CUSTOMER
                     mDescription.setText(uType);
@@ -287,11 +291,17 @@ public class ViewOrders extends AppCompatActivity {
                 }else if(uType.equalsIgnoreCase("Designer2")) {
                     //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
                     cImage.setVisibility(View.VISIBLE);
                     aImage.setVisibility(View.GONE);
+
+                    aButton.setVisibility(View.GONE);
+                    designStatus.setVisibility(View.GONE);
 
                     //SETTING THE DESCRIPTION TO CUSTOMER
                     mDescription.setText(uType);
@@ -299,99 +309,91 @@ public class ViewOrders extends AppCompatActivity {
                 }else if(uType.equalsIgnoreCase("Designer3")) {
                     //IF THE USER IS A DESIGNER 3 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
                     cImage.setVisibility(View.VISIBLE);
                     aImage.setVisibility(View.GONE);
 
+                    designStatus.setVisibility(View.GONE);
+
                     //SETTING THE DESCRIPTION TO CUSTOMER
                     mDescription.setText(uType);
 
-                }
+                    aButton.setVisibility(View.GONE);
 
+                }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ViewOrders.this, error.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(EditOrder.this, error.getMessage(), Toast.LENGTH_LONG);
 
             }
         });
-
-
     }
 
-    //Method for searching the arraylist catalogue for the string that matches
-    private void search(String s) {
-        ArrayList<TOrder> myList = new ArrayList<>();
-        for(TOrder object : tOrder) {
-            if (object.getClientName().toLowerCase().contains(s.toLowerCase())) {
-                myList.add(object);
+    public void onClick(View view) {
 
-            } else if (object.getLogoName().toLowerCase().contains(s.toLowerCase())) {
-                myList.add(object);
+        int selectedId = designStatus.getCheckedRadioButtonId();
 
-            } else if (object.getPalleteNumber().toLowerCase().contains(s.toLowerCase())) {
-                myList.add(object);
+        int selectedIdTwo = orderStatus.getCheckedRadioButtonId();
 
-            } else if (object.getAssignedDesigner().toLowerCase().contains(s.toLowerCase())) {
-                myList.add(object);
-            }
-        }
-        if (myList.isEmpty()) {
-            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
-        } else {
-            oAdapter = new ImageOrderAdapter(getApplicationContext(), tOrder);
-            oAdapter.filterList(myList);
-            recyclerView.setAdapter(oAdapter);
-            oAdapter.notifyDataSetChanged();
-        }
+        //GETTING THE CURRENT STATUS TEXT VALUES OF THE RADIO BUTTON
+        RadioButton radioButton = (RadioButton) designStatus.findViewById(selectedId);
+        final String dStatus = radioButton.getText().toString();
+
+        RadioButton radioButtonTwo = (RadioButton) orderStatus.findViewById(selectedIdTwo);
+        final String oStatus = radioButtonTwo.getText().toString();
+        updatePackageState(dStatus, oStatus);
     }
 
-    private void LoadData() {
+    //Updating
+    private void updatePackageState(String dStatus, String oStatus) {
+        //Passing the pCode value from the onclick intent to update the value of the
+        String pCode = getIntent().getStringExtra("PackageCode");
+        Uref = FirebaseDatabase.getInstance().getReference().child("Orders").child(pCode);
 
-        tOrder = new ArrayList<>();
-        DataRef = FirebaseDatabase.getInstance().getReference().child("Orders");
-
-//        int selectedId = oStatus.getCheckedRadioButtonId();
-//
-//        RadioButton radioButton = (RadioButton) oStatus.findViewById(selectedId);
-//        Toast.makeText(ViewOrders.this, radioButton.getText(), Toast.LENGTH_LONG).show();
-//        final String orderStatus = radioButton.getText().toString();
-
-        DataRef.addValueEventListener(new ValueEventListener() {
+        Uref.child("PackageDesigner").setValue(dStatus).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    System.out.println("did not work "+ postSnapshot.child("ClientName").getValue().toString());
-                    //TContent content = postSnapshot.getValue(TContent.class);
-                    TOrder order = new TOrder();
-
-                    //Retrieving the the tag values from the realtime database
-                    order.setOrderStatus(postSnapshot.child("PackageStatus").getValue().toString());
-                    order.setClientName(postSnapshot.child("ClientName").getValue().toString());
-                    order.setLogoName(postSnapshot.child("ClientLogoName").getValue().toString());
-                    order.setPalleteNumber(postSnapshot.child("ClientPackageCode").getValue().toString());
-                    order.setPackageCode(postSnapshot.child("PackageID").getValue().toString());
-                    order.setAssignedDesigner("Assigned to: " +postSnapshot.child("PackageDesigner").getValue().toString());
-
-                    //Adding the retrieved content to the tContent Arraylist
-                    tOrder.add(order);
-                }
-
-                oAdapter = new ImageOrderAdapter(getApplicationContext(),tOrder);
-                recyclerView.setAdapter(oAdapter);
-                oAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ViewOrders.this, error.getMessage(), Toast.LENGTH_LONG);
-
+            public void onSuccess(Void unused) {
+                Toast.makeText(EditOrder.this,"Details successfully updated", Toast.LENGTH_LONG).show();
             }
         });
+        Uref.child("PackageStatus").setValue(oStatus).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(EditOrder.this,"Details successfully updated Here", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(EditOrder.this, ViewOrders.class));
+            }
+        });
+    }
 
+    public void onClickDesigner(View view) {
+
+        int selectedIdTwo = orderStatus.getCheckedRadioButtonId();
+
+        RadioButton radioButtonTwo = (RadioButton) orderStatus.findViewById(selectedIdTwo);
+        final String oStatus = radioButtonTwo.getText().toString();
+        updatePackageStateDesigner(oStatus);
+    }
+
+    private void updatePackageStateDesigner(String oStatus) {
+
+        //Passing the pCode value from the onclick intent to update the value of the
+        String pCode = getIntent().getStringExtra("PackageCode");
+        Uref = FirebaseDatabase.getInstance().getReference().child("Orders").child(pCode);
+
+        Uref.child("PackageStatus").setValue(oStatus).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(EditOrder.this,"Details successfully updated Here", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(EditOrder.this, TeditorOrder.class));
+            }
+        });
     }
 }

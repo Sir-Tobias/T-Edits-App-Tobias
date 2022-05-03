@@ -176,6 +176,21 @@ public class teditsUser extends AppCompatActivity {
                         finish();
                         startActivity(new Intent(teditsUser.this, teditsChatList.class));
                         break;
+
+                    case R.id.nav_tedits_orders :
+                        Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUser.this, ViewOrders.class));
+                        break;
+
+                    case R.id.nav_orders :
+                        Toast.makeText(getApplicationContext(),"T-Editor Orders",Toast.LENGTH_LONG).show();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        startActivity(new Intent(teditsUser.this, TeditorOrder.class));
+                        break;
+
                     case R.id.nav_logout :
                         Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_LONG).show();
                         mAuth.signOut();
@@ -282,6 +297,8 @@ public class teditsUser extends AppCompatActivity {
                     //IF THE USER IS A DESIGNER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND TEDITS PACKAGE GENERATOR
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
+
                     System.out.println("Updating the menu works");
 
                     //SETTING ICON AS DESIGNER IF USER TYPE IS DESIGNER
@@ -304,7 +321,8 @@ public class teditsUser extends AppCompatActivity {
                 } else if(uType.equalsIgnoreCase("Customer")) {
                     //IF THE USER IS A CUSTOMER THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
-                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
@@ -329,61 +347,54 @@ public class teditsUser extends AppCompatActivity {
 
                     //Checking to see if chat profile already exists if not it will be created
                     //checkForChatProfile(post, newEmail, userID);
+                }else if(uType.equalsIgnoreCase("Designer1")) {
+                    //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                }else if(uType.equalsIgnoreCase("Designer2")) {
+                    //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
+                }else if(uType.equalsIgnoreCase("Designer3")) {
+                    //IF THE USER IS A DESIGNER 3 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
+                    nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(5).setVisible(false);
+
+                    //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
+                    mImage.setVisibility(View.GONE);
+                    cImage.setVisibility(View.VISIBLE);
+                    aImage.setVisibility(View.GONE);
+
+                    //SETTING THE DESCRIPTION TO CUSTOMER
+                    mDescription.setText(uType);
+
                 }
 
             }
-//
-//            private void checkForChatProfile(String newEmail, String post, String userID) {
-//                //chatdata = FirebaseDatabase.getInstance().getReference("Chat").child("ChatProfiles");
-//                System.out.println("CHECK FOR CHAT DATA WORKED");
-//
-//                //chatProfile(post, newEmail, userID);
-//                chatdata.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        //System.out.println("CHECK FOR CHAT FOR LOOP WORKED " + ver);
-//                        for( DataSnapshot postSnapshot : snapshot.getChildren()) {
-//
-//                            //RETRIEVING THE CHAT ID FROM THE DATABASE
-//                            System.out.println("does work "+ postSnapshot.child("ChatID").getValue().toString());
-//                            String ver = postSnapshot.child("ChatID").getValue().toString();
-//
-//                            //CHECKING IF IT IS EQUAL TO CURRENT USER ID TO DETERMINE IF THE PROFILE ALREADY EXISTS
-//                            if(userID.equalsIgnoreCase(ver)) {
-//                                System.out.println("NOTHING TO ADD");
-//
-//                            } else if(!userID.equalsIgnoreCase(ver)) {
-//                                System.out.println("WORKS AND DOES ITS FUNCTION");
-//                                //chatProfile(post, newEmail, userID);
-//                            }
-//                        }
-//                    }
-//
-//                    private void chatProfile(String post, String newEmail, String userID) {
-//                        //chatdata = FirebaseDatabase.getInstance().getReference("Chat").child("ChatProfiles")
-//                        final String key = chatdata.push().getKey();
-//
-//                        HashMap hashMap = new HashMap();
-//                        hashMap.put("ChatName", post);
-//                        hashMap.put("ChatEmail", newEmail);
-//                        hashMap.put("ChatID", userID);
-//                        hashMap.put("ChatKey", key);
-//
-//                        chatdata.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                Toast.makeText(teditsUser.this,"You have successfully created a chat profile", Toast.LENGTH_LONG).show();
-//                                completedAdding();
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        System.out.println("CHECK FOR CHAT DATA ERROR");
-//                    }
-//                });
-//            }
 
 
             //I CREATED THIS METHOD TO INHERIT THE VALUES OF THE USER PROFILE RATHER THAN CALLING METHODS DIRECTLY TO IT
@@ -402,7 +413,7 @@ public class teditsUser extends AppCompatActivity {
                 chatdata.child(userID).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(teditsUser.this,"You have successfully created a chat profile", Toast.LENGTH_LONG).show();
+                        Toast.makeText(teditsUser.this,"T-Chats is now online", Toast.LENGTH_LONG).show();
                         completedAdding();
                     }
                 });

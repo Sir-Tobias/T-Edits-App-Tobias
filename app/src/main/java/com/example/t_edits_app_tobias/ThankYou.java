@@ -36,7 +36,6 @@ public class ThankYou extends AppCompatActivity {
         setContentView(R.layout.activity_thank_you);
 
 
-        uploadToAdmin();
     }
 
     //IN THIS METHOD I WILL PULL DOWN THE REQUIRED INFORMATION FROM THE CLIENT GENERATED PACKAGE AND VIEW IT FROM THE ADMIN PAGE
@@ -86,19 +85,19 @@ public class ThankYou extends AppCompatActivity {
                         hashMap.put("ClientName", npost);
                         hashMap.put("PackageStatus", "Not Complete");
                         hashMap.put("PackageDesigner", "To be assigned");
+                        hashMap.put("PackageID", key);
 
+                        Toast.makeText(ThankYou.this,"PACKAGE HAS BEEN SENT TO T-EDITOR", Toast.LENGTH_LONG).show();
                         Uref.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-
-                                Toast.makeText(ThankYou.this,"PACKAGE HAS BEEN SENT TO T-EDITOR", Toast.LENGTH_LONG).show();
                                 //setContentView(R.layout.activity_page_four);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 // Error, Image not uploaded
-                                Toast.makeText(ThankYou.this, "PACKAGE DID NOT SEND TO USER" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ThankYou.this, "PACKAGE DID NOT SEND TO T-EDITOR" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -123,6 +122,7 @@ public class ThankYou extends AppCompatActivity {
 
 
     public void backtoMain(View view) {
+        uploadToAdmin();
         startActivity(new Intent(ThankYou.this, teditsUser.class));
     }
 }

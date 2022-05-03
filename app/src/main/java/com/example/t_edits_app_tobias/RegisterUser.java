@@ -145,7 +145,6 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        //2.1 What is the gender audience?
         int selectedId = userOption.getCheckedRadioButtonId();
 
         RadioButton radioButton = (RadioButton) userOption.findViewById(selectedId);

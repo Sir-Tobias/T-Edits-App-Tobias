@@ -1,10 +1,13 @@
 package com.example.t_edits_app_tobias;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,26 +23,29 @@ public class ImageOrderAdapter extends RecyclerView.Adapter<ImageOrderAdapter.im
     //public class ImageAdapter extends RecyclerView.Adapter<com.example.t_edits_app_tobias.ImageAdapter.imageViewHolder> implements Filterable, SearchView.OnQueryTextListener
 
     //Creating Variables for the arraylist and context
-    private Context mContext;
-    private List<TPost> tPost;
-    private ArrayList<TPost> uPost;
-    private ArrayList<TPost> newPost;
+    private Context oContext;
+    private List<TOrder> tOrder;
+    private ArrayList<TOrder> uOrder;
+    private ArrayList<TOrder> newOrder;
     //private ArrayList<TContent> tContent;
+
+    private RadioGroup designerOption;
+
 
 
     //Creating a constructor for my variables
     // first change Public ImageAdapter(Context context, List<TContent> content){
-    public ImageOrderAdapter(Context context, ArrayList<TPost> uPost) {
+    public ImageOrderAdapter(Context context, ArrayList<TOrder> uOrder) {
         //tContent = content;
-        mContext = context;
-        this.uPost = uPost;
+        oContext = context;
+        this.uOrder = uOrder;
         //tContent = content;
     }
     //second change Method for filtering recycler view items
-    public void filterList(ArrayList<TPost> oPost) {
+    public void filterList(ArrayList<TOrder> oOrder) {
         // below line is to add our filtered
         // list in our course array list.
-        uPost = oPost;
+        uOrder = oOrder;
         // below line is to notify our adapter
         // as change in recycler view data.
         notifyDataSetChanged();
@@ -56,44 +62,68 @@ public class ImageOrderAdapter extends RecyclerView.Adapter<ImageOrderAdapter.im
     }
 
     public class imageViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView postname;
-        public TextView postcaption;
-        public TextView desName;
+        public TextView OrderStatus;
+        public TextView ClientName;
+        public TextView LogoName;
+        public TextView PalleteNumber;
+        public TextView AssignedDesigner;
+        public TextView PackageCode;
+        View v;
 
         public imageViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.image_post_view);
-            postname = itemView.findViewById(R.id.nameText);
-            postcaption = itemView.findViewById(R.id.DescriptionText);
-            desName = itemView.findViewById(R.id.designerText);
+            OrderStatus = itemView.findViewById(R.id.Status);
+            ClientName = itemView.findViewById(R.id.fieldOne);
+            LogoName = itemView.findViewById(R.id.fieldTwo);
+            PalleteNumber = itemView.findViewById(R.id.fieldThree);
+            PackageCode = itemView.findViewById(R.id.PackageCode);
+            AssignedDesigner = itemView.findViewById(R.id.Designer);
+
+            v=itemView;
         }
     }
-    public ImageOrderAdapter(ArrayList<TPost> uPost) {
-        this.uPost = uPost;
-        newPost = new ArrayList<>(uPost);
+    public ImageOrderAdapter(ArrayList<TOrder> uOrder) {
+        this.uOrder = uOrder;
+        newOrder = new ArrayList<>(uOrder);
     }
 
     @NonNull
     @Override
-    public imageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.post_view, parent, false);
-        return new imageViewHolder(v);
+    public ImageOrderAdapter.imageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(oContext).inflate(R.layout.to_be_assigned, parent, false);
+        return new ImageOrderAdapter.imageViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull imageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ImageOrderAdapter.imageViewHolder holder, int position) {
         //TContent currentTedits = tContent.get(position);
+        final TOrder temp = uOrder.get(position);
+        holder.OrderStatus.setText(uOrder.get(position).getOrderStatus());
+        holder.ClientName.setText(uOrder.get(position).getClientName());
+        holder.LogoName.setText(uOrder.get(position).getLogoName());
+        holder.PalleteNumber.setText(uOrder.get(position).getPalleteNumber());
+        holder.PackageCode.setText(uOrder.get(position).getPackageCode());
+        holder.AssignedDesigner.setText(uOrder.get(position).getAssignedDesigner());
 
-        holder.desName.setText("Designer ~ "+uPost.get(position).getNameOfDesigner());
-        holder.postname.setText(uPost.get(position).getNameOfPost());
-        holder.postcaption.setText(uPost.get(position).getCaption());
-        Picasso.get().load(uPost.get(position).getImageUri()).fit().centerCrop().into(holder.imageView);
+        holder.v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(oContext,EditOrder.class);
+                intent.putExtra("ClientName", temp.getClientName());
+                intent.putExtra("LogoName", temp.getLogoName());
+                intent.putExtra("PalleteNumber", temp.getPalleteNumber());
+                intent.putExtra("PackageCode", temp.getPackageCode());
+                intent.putExtra("PackageDesigner", temp.getAssignedDesigner());
+                intent.putExtra("OrderStatus", temp.getOrderStatus());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                oContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return uPost.size();
+        return uOrder.size();
     }
 
 }

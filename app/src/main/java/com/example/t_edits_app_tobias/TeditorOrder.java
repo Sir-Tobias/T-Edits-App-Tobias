@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,13 +31,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ViewOrders extends AppCompatActivity {
+public class TeditorOrder extends AppCompatActivity {
+
     EditText inputSearch;
     RecyclerView recyclerView;
     FloatingActionButton floatingActionButton;
@@ -73,11 +72,10 @@ public class ViewOrders extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_orders);
+        setContentView(R.layout.activity_teditor_order);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -119,35 +117,35 @@ public class ViewOrders extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Home Panel is Open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, ExplorePage.class));
+                        startActivity(new Intent(TeditorOrder.this, ExplorePage.class));
                         break;
 
                     case R.id.nav_profile :
                         Toast.makeText(getApplicationContext(),"Profile is open",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, teditsUser.class));
+                        startActivity(new Intent(TeditorOrder.this, teditsUser.class));
                         break;
 
                     case R.id.nav_user_catalogue :
                         Toast.makeText(getApplicationContext(),"Content catalogue",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, teditsCatalogue.class));
+                        startActivity(new Intent(TeditorOrder.this, teditsCatalogue.class));
                         break;
 
                     case R.id.nav_control_panel:
                         Toast.makeText(getApplicationContext(),"Control Panel",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, ControlPanel.class));
+                        startActivity(new Intent(TeditorOrder.this, ControlPanel.class));
                         break;
 
                     case R.id.tedits_chats :
                         Toast.makeText(getApplicationContext(),"T-Edits Chats",Toast.LENGTH_LONG).show();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, teditsChatList.class));
+                        startActivity(new Intent(TeditorOrder.this, teditsChatList.class));
                         break;
 
                     case R.id.nav_tedits_orders :
@@ -161,7 +159,7 @@ public class ViewOrders extends AppCompatActivity {
                         mAuth.signOut();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         finish();
-                        startActivity(new Intent(ViewOrders.this, MainActivity.class));
+                        startActivity(new Intent(TeditorOrder.this, MainActivity.class));
                         break;
                 }
 
@@ -176,27 +174,6 @@ public class ViewOrders extends AppCompatActivity {
         //recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         recyclerView.setHasFixedSize(true);
-
-        //Edit text box to search the catalogue
-        SearchView searchView = findViewById(R.id.searchOrders);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                search(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                search(newText);
-                return false;
-            }
-        });
-
-
-        //Creating a method to load the data into the recycler view
-        LoadData();
 
         //LOAD INFORMATION METHOD WILL GIVE USERS ACCESS TO DIFFERENT CONTROLS IN THE NAVIGATION
         loadInformation();
@@ -214,6 +191,12 @@ public class ViewOrders extends AppCompatActivity {
                 //DataSnapshot post = snapshot.child("userType");
                 String post = snapshot.child("fullname").getValue().toString();
                 System.out.println("This is working hello "+ post);
+
+                //RETRIEVING THE DESIGNER TYPE TO SET IT TO THE DISLAY
+                String atype = snapshot.child("userType").getValue().toString();
+
+                //Creating a method to load the data into the recycler view
+                LoadData(atype);
 
 
                 //SETTING THE NAME OF THE USER IN THE MENU
@@ -275,6 +258,7 @@ public class ViewOrders extends AppCompatActivity {
                     nav.getMenu().getItem(3).setVisible(false);
                     nav.getMenu().getItem(4).setVisible(false);
                     nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
@@ -287,6 +271,9 @@ public class ViewOrders extends AppCompatActivity {
                 }else if(uType.equalsIgnoreCase("Designer2")) {
                     //IF THE USER IS A DESIGNER 2 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
@@ -299,6 +286,9 @@ public class ViewOrders extends AppCompatActivity {
                 }else if(uType.equalsIgnoreCase("Designer3")) {
                     //IF THE USER IS A DESIGNER 3 THEY DO NOT HAVE ACCESS TO THE CONTROL PANEL AND UPLOADING CONTENT TO THE EXPLORE PAGE
                     nav.getMenu().getItem(3).setVisible(false);
+                    nav.getMenu().getItem(4).setVisible(false);
+                    nav.getMenu().getItem(6).setVisible(false);
+                    nav.getMenu().getItem(7).setVisible(false);
 
                     //SETTING ICON AS CUSTOMER IF USER TYPE IS CUSTOMER
                     mImage.setVisibility(View.GONE);
@@ -315,7 +305,7 @@ public class ViewOrders extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ViewOrders.this, error.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(TeditorOrder.this, error.getMessage(), Toast.LENGTH_LONG);
 
             }
         });
@@ -350,7 +340,7 @@ public class ViewOrders extends AppCompatActivity {
         }
     }
 
-    private void LoadData() {
+    private void LoadData(String atype) {
 
         tOrder = new ArrayList<>();
         DataRef = FirebaseDatabase.getInstance().getReference().child("Orders");
@@ -366,32 +356,56 @@ public class ViewOrders extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     System.out.println("did not work "+ postSnapshot.child("ClientName").getValue().toString());
-                    //TContent content = postSnapshot.getValue(TContent.class);
+                    String dName = postSnapshot.child("PackageDesigner").getValue().toString();
                     TOrder order = new TOrder();
 
-                    //Retrieving the the tag values from the realtime database
-                    order.setOrderStatus(postSnapshot.child("PackageStatus").getValue().toString());
-                    order.setClientName(postSnapshot.child("ClientName").getValue().toString());
-                    order.setLogoName(postSnapshot.child("ClientLogoName").getValue().toString());
-                    order.setPalleteNumber(postSnapshot.child("ClientPackageCode").getValue().toString());
-                    order.setPackageCode(postSnapshot.child("PackageID").getValue().toString());
-                    order.setAssignedDesigner("Assigned to: " +postSnapshot.child("PackageDesigner").getValue().toString());
+                    //IF THE CURRENT USER TYPE IS  EQUAL TO THE UDATED ASSIGNED DESIGNER TYPE ADD IT TO THE ARRAY ADAPTER
+                    if(atype.equalsIgnoreCase(dName)) {
+                        //Retrieving the the tag values from the realtime database
+                        order.setOrderStatus(postSnapshot.child("PackageStatus").getValue().toString());
+                        order.setClientName(postSnapshot.child("ClientName").getValue().toString());
+                        order.setLogoName(postSnapshot.child("ClientLogoName").getValue().toString());
+                        order.setPalleteNumber(postSnapshot.child("ClientPackageCode").getValue().toString());
+                        order.setPackageCode(postSnapshot.child("PackageID").getValue().toString());
+                        order.setAssignedDesigner(postSnapshot.child("PackageDesigner").getValue().toString());
 
-                    //Adding the retrieved content to the tContent Arraylist
-                    tOrder.add(order);
+                        //Adding the retrieved content to the tContent Arraylist
+                        tOrder.add(order);
+                    }
+
                 }
 
                 oAdapter = new ImageOrderAdapter(getApplicationContext(),tOrder);
                 recyclerView.setAdapter(oAdapter);
                 oAdapter.notifyDataSetChanged();
+
+                loadAssignedDesigns(atype);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ViewOrders.this, error.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(TeditorOrder.this, error.getMessage(), Toast.LENGTH_LONG);
 
             }
         });
 
+    }
+
+    private void loadAssignedDesigns(String atype) {
+
+        ArrayList<TOrder> myList = new ArrayList<>();
+        for (TOrder object : tOrder) {
+
+            if (object.getAssignedDesigner().equalsIgnoreCase(atype)) {
+                myList.add(object);
+            }
+        }if (myList.isEmpty()) {
+
+        }else {
+            oAdapter = new ImageOrderAdapter(getApplicationContext(),tOrder);
+            oAdapter.filterList(myList);
+            recyclerView.setAdapter(oAdapter);
+            oAdapter.notifyDataSetChanged();
+        }
     }
 }
